@@ -10,6 +10,7 @@
 		22FFC81D1C9733D10028EA61 /* CloudBoost.h in Headers */ = {isa = PBXBuildFile; fileRef = 22FFC81C1C9733D10028EA61 /* CloudBoost.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		22FFC8241C9733D10028EA61 /* CloudBoost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22FFC8191C9733D10028EA61 /* CloudBoost.framework */; };
 		22FFC8291C9733D10028EA61 /* CloudBoostTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8281C9733D10028EA61 /* CloudBoostTests.swift */; };
+		22FFC85C1C97418D0028EA61 /* CloudBoost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC85B1C97418D0028EA61 /* CloudBoost.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		22FFC8231C9733D10028EA61 /* CloudBoostTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CloudBoostTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		22FFC8281C9733D10028EA61 /* CloudBoostTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBoostTests.swift; sourceTree = "<group>"; };
 		22FFC82A1C9733D10028EA61 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		22FFC85B1C97418D0028EA61 /* CloudBoost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudBoost.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			children = (
 				22FFC81C1C9733D10028EA61 /* CloudBoost.h */,
 				22FFC81E1C9733D10028EA61 /* Info.plist */,
+				22FFC85B1C97418D0028EA61 /* CloudBoost.swift */,
 			);
 			path = CloudBoost;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22FFC85C1C97418D0028EA61 /* CloudBoost.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,28 +314,37 @@
 		22FFC82E1C9733D10028EA61 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = CloudBoost/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CloudBoost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		22FFC82F1C9733D10028EA61 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = CloudBoost/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CloudBoost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
