@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class CloudBoost {
+public class People {
     var appID: String?
     var appKey: String?
     

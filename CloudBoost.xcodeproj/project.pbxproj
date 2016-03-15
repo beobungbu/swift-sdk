@@ -6,11 +6,28 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		22FFC8BD1C97B9D50028EA61 /* CloudBoost-Universal */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 22FFC8BE1C97B9D50028EA61 /* Build configuration list for PBXAggregateTarget "CloudBoost-Universal" */;
+			buildPhases = (
+				22FFC8C11C97BA220028EA61 /* Run Script */,
+			);
+			dependencies = (
+			);
+			name = "CloudBoost-Universal";
+			productName = "CloudBoost-Universal";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		22FFC81D1C9733D10028EA61 /* CloudBoost.h in Headers */ = {isa = PBXBuildFile; fileRef = 22FFC81C1C9733D10028EA61 /* CloudBoost.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		22FFC8241C9733D10028EA61 /* CloudBoost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22FFC8191C9733D10028EA61 /* CloudBoost.framework */; };
 		22FFC8291C9733D10028EA61 /* CloudBoostTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8281C9733D10028EA61 /* CloudBoostTests.swift */; };
-		22FFC85C1C97418D0028EA61 /* CloudBoost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC85B1C97418D0028EA61 /* CloudBoost.swift */; };
+		22FFC85C1C97418D0028EA61 /* People.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC85B1C97418D0028EA61 /* People.swift */; };
+		22FFC8B21C97A3E10028EA61 /* CloudApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8B11C97A3E10028EA61 /* CloudApp.swift */; };
+		22FFC8C71C984FE10028EA61 /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8C61C984FE10028EA61 /* ACL.swift */; };
+		22FFC8C91C9852410028EA61 /* CloudTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8C81C9852410028EA61 /* CloudTable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,7 +47,10 @@
 		22FFC8231C9733D10028EA61 /* CloudBoostTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CloudBoostTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		22FFC8281C9733D10028EA61 /* CloudBoostTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBoostTests.swift; sourceTree = "<group>"; };
 		22FFC82A1C9733D10028EA61 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		22FFC85B1C97418D0028EA61 /* CloudBoost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudBoost.swift; sourceTree = "<group>"; };
+		22FFC85B1C97418D0028EA61 /* People.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = People.swift; sourceTree = "<group>"; };
+		22FFC8B11C97A3E10028EA61 /* CloudApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudApp.swift; sourceTree = "<group>"; };
+		22FFC8C61C984FE10028EA61 /* ACL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACL.swift; sourceTree = "<group>"; };
+		22FFC8C81C9852410028EA61 /* CloudTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudTable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +95,10 @@
 			children = (
 				22FFC81C1C9733D10028EA61 /* CloudBoost.h */,
 				22FFC81E1C9733D10028EA61 /* Info.plist */,
-				22FFC85B1C97418D0028EA61 /* CloudBoost.swift */,
+				22FFC85B1C97418D0028EA61 /* People.swift */,
+				22FFC8B11C97A3E10028EA61 /* CloudApp.swift */,
+				22FFC8C61C984FE10028EA61 /* ACL.swift */,
+				22FFC8C81C9852410028EA61 /* CloudTable.swift */,
 			);
 			path = CloudBoost;
 			sourceTree = "<group>";
@@ -157,6 +180,10 @@
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = PUNL286Z26;
 					};
+					22FFC8BD1C97B9D50028EA61 = {
+						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = PUNL286Z26;
+					};
 				};
 			};
 			buildConfigurationList = 22FFC8131C9733D10028EA61 /* Build configuration list for PBXProject "CloudBoost" */;
@@ -173,6 +200,7 @@
 			targets = (
 				22FFC8181C9733D10028EA61 /* CloudBoost */,
 				22FFC8221C9733D10028EA61 /* CloudBoostTests */,
+				22FFC8BD1C97B9D50028EA61 /* CloudBoost-Universal */,
 			);
 		};
 /* End PBXProject section */
@@ -194,12 +222,32 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		22FFC8C11C97BA220028EA61 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "######################\n# Options\n######################\n\nREVEAL_ARCHIVE_IN_FINDER=false\n\nFRAMEWORK_NAME=\"${PROJECT_NAME}\"\n\nSIMULATOR_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_NAME}.framework\"\n\nDEVICE_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_NAME}.framework\"\n\nUNIVERSAL_LIBRARY_DIR=\"${BUILD_DIR}/${CONFIGURATION}-iphoneuniversal\"\n\nFRAMEWORK=\"${UNIVERSAL_LIBRARY_DIR}/${FRAMEWORK_NAME}.framework\"\n\n\n######################\n# Build Frameworks\n######################\n\nxcodebuild -workspace ${PROJECT_NAME}.xcworkspace -scheme ${PROJECT_NAME} -sdk iphonesimulator -configuration ${CONFIGURATION} clean build CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphonesimulator 2>&1\n\nxcodebuild -workspace ${PROJECT_NAME}.xcworkspace -scheme ${PROJECT_NAME} -sdk iphoneos -configuration ${CONFIGURATION} clean build CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos 2>&1\n\n######################\n# Create directory for universal\n######################\n\nrm -rf \"${UNIVERSAL_LIBRARY_DIR}\"\n\nmkdir \"${UNIVERSAL_LIBRARY_DIR}\"\n\nmkdir \"${FRAMEWORK}\"\n\n\n######################\n# Copy files Framework\n######################\n\ncp -r \"${DEVICE_LIBRARY_PATH}/.\" \"${FRAMEWORK}\"\n\n\n######################\n# Make an universal binary\n######################\n\nlipo \"${SIMULATOR_LIBRARY_PATH}/${FRAMEWORK_NAME}\" \"${DEVICE_LIBRARY_PATH}/${FRAMEWORK_NAME}\" -create -output \"${FRAMEWORK}/${FRAMEWORK_NAME}\" | echo\n\n# For Swift framework, Swiftmodule needs to be copied in the universal framework\nif [ -d \"${SIMULATOR_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" ]; then\ncp -f ${SIMULATOR_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/* \"${FRAMEWORK}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" | echo\n                                                                      fi\n                                                                      \n                                                                      if [ -d \"${DEVICE_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" ]; then\n                                                                      cp -f ${DEVICE_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/* \"${FRAMEWORK}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" | echo\n                                                                      fi\n\n\n                                                                      \n                                                                      ######################\n                                                                      # On Release, copy the result to release directory\n                                                                      ######################\n                                                                      OUTPUT_DIR=\"${PROJECT_DIR}/Output/${FRAMEWORK_NAME}-${CONFIGURATION}-iphoneuniversal/\"\n                                                                      \n                                                                      rm -rf \"$OUTPUT_DIR\"\n                                                                      mkdir -p \"$OUTPUT_DIR\"\n                                                                      \n                                                                      cp -r \"${FRAMEWORK}\" \"$OUTPUT_DIR\"\n                                                                      \n                                                                      if [ ${REVEAL_ARCHIVE_IN_FINDER} = true ]; then\n                                                                      open \"${OUTPUT_DIR}/\"\n                                                                      fi\n\n\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		22FFC8141C9733D10028EA61 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22FFC85C1C97418D0028EA61 /* CloudBoost.swift in Sources */,
+				22FFC85C1C97418D0028EA61 /* People.swift in Sources */,
+				22FFC8C71C984FE10028EA61 /* ACL.swift in Sources */,
+				22FFC8C91C9852410028EA61 /* CloudTable.swift in Sources */,
+				22FFC8B21C97A3E10028EA61 /* CloudApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,6 +373,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.CloudBoost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -346,6 +395,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.CloudBoost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -368,6 +418,20 @@
 				INFOPLIST_FILE = CloudBoostTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CloudBoostTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		22FFC8BF1C97B9D50028EA61 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		22FFC8C01C97B9D50028EA61 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -397,6 +461,14 @@
 			buildConfigurations = (
 				22FFC8311C9733D10028EA61 /* Debug */,
 				22FFC8321C9733D10028EA61 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		22FFC8BE1C97B9D50028EA61 /* Build configuration list for PBXAggregateTarget "CloudBoost-Universal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				22FFC8BF1C97B9D50028EA61 /* Debug */,
+				22FFC8C01C97B9D50028EA61 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
