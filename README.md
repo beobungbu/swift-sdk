@@ -4,8 +4,10 @@
 
 Build the framework and add it to your app
 
-    import CloudBoost 
+    import CloudBoost
     
+    
+Using CloudBoost in code
     
     // Creating a new CloudApp with your appID and appKey
     let app = CloudApp(appID: "Your-app-ID", appKey: "Your-app-key")
