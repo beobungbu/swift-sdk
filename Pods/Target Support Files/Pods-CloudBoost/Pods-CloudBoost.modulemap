@@ -1,0 +1,6 @@
+framework module Pods_CloudBoost {
+  umbrella header "Pods-CloudBoost-umbrella.h"
+
+  export *
+  module * { export * }
+}
