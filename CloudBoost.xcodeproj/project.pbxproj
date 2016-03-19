@@ -21,7 +21,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		22B1A8CA1C9C0BD0001D0DBC /* SocketIOClientSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B1A8C91C9C0BD0001D0DBC /* SocketIOClientSwift.framework */; };
 		22F774221C9C1FD100BDEFCB /* CloudObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F774211C9C1FD100BDEFCB /* CloudObject.swift */; };
 		22F774241C9C5E6600BDEFCB /* CloudCommunications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F774231C9C5E6600BDEFCB /* CloudCommunications.swift */; };
 		22F774261C9C788700BDEFCB /* CloudBoostUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F774251C9C788700BDEFCB /* CloudBoostUtilities.swift */; };
@@ -30,7 +29,7 @@
 		22FFC8291C9733D10028EA61 /* CloudBoostTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8281C9733D10028EA61 /* CloudBoostTests.swift */; };
 		22FFC8B21C97A3E10028EA61 /* CloudApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8B11C97A3E10028EA61 /* CloudApp.swift */; };
 		22FFC8C71C984FE10028EA61 /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8C61C984FE10028EA61 /* ACL.swift */; };
-		22FFC8C91C9852410028EA61 /* CloudEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8C81C9852410028EA61 /* CloudEntity.swift */; };
+		22FFC8C91C9852410028EA61 /* CloudTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8C81C9852410028EA61 /* CloudTable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,8 +43,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		046505FCA6FABE5F9D5B75C5 /* Pods-CloudBoostTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudBoostTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CloudBoostTests/Pods-CloudBoostTests.release.xcconfig"; sourceTree = "<group>"; };
-		22B1A8C91C9C0BD0001D0DBC /* SocketIOClientSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SocketIOClientSwift.framework; path = "Pods/../build/Debug-iphoneos/SocketIOClientSwift.framework"; sourceTree = "<group>"; };
 		22F774211C9C1FD100BDEFCB /* CloudObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudObject.swift; sourceTree = "<group>"; };
 		22F774231C9C5E6600BDEFCB /* CloudCommunications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudCommunications.swift; sourceTree = "<group>"; };
 		22F774251C9C788700BDEFCB /* CloudBoostUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudBoostUtilities.swift; sourceTree = "<group>"; };
@@ -57,10 +54,7 @@
 		22FFC82A1C9733D10028EA61 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22FFC8B11C97A3E10028EA61 /* CloudApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudApp.swift; sourceTree = "<group>"; };
 		22FFC8C61C984FE10028EA61 /* ACL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACL.swift; sourceTree = "<group>"; };
-		22FFC8C81C9852410028EA61 /* CloudEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudEntity.swift; sourceTree = "<group>"; };
-		3E80E5104ED36120CC68D590 /* Pods-CloudBoostTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudBoostTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CloudBoostTests/Pods-CloudBoostTests.debug.xcconfig"; sourceTree = "<group>"; };
-		6CF1BD6066849413EEF6AC25 /* Pods-CloudBoost.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudBoost.release.xcconfig"; path = "Pods/Target Support Files/Pods-CloudBoost/Pods-CloudBoost.release.xcconfig"; sourceTree = "<group>"; };
-		794F39975EDED979B49657A3 /* Pods-CloudBoost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudBoost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CloudBoost/Pods-CloudBoost.debug.xcconfig"; sourceTree = "<group>"; };
+		22FFC8C81C9852410028EA61 /* CloudTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudTable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +62,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22B1A8CA1C9C0BD0001D0DBC /* SocketIOClientSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,22 +76,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		16DDA59CE460D9A1B0ADBAB1 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				22B1A8C91C9C0BD0001D0DBC /* SocketIOClientSwift.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		22FFC80F1C9733D10028EA61 = {
 			isa = PBXGroup;
 			children = (
 				22FFC81B1C9733D10028EA61 /* CloudBoost */,
 				22FFC8271C9733D10028EA61 /* CloudBoostTests */,
 				22FFC81A1C9733D10028EA61 /* Products */,
-				A43D42BFE4B6F04DEFC11664 /* Pods */,
-				16DDA59CE460D9A1B0ADBAB1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -118,7 +101,7 @@
 				22FFC81E1C9733D10028EA61 /* Info.plist */,
 				22FFC8B11C97A3E10028EA61 /* CloudApp.swift */,
 				22FFC8C61C984FE10028EA61 /* ACL.swift */,
-				22FFC8C81C9852410028EA61 /* CloudEntity.swift */,
+				22FFC8C81C9852410028EA61 /* CloudTable.swift */,
 				22F774211C9C1FD100BDEFCB /* CloudObject.swift */,
 				22F774231C9C5E6600BDEFCB /* CloudCommunications.swift */,
 				22F774251C9C788700BDEFCB /* CloudBoostUtilities.swift */,
@@ -133,17 +116,6 @@
 				22FFC82A1C9733D10028EA61 /* Info.plist */,
 			);
 			path = CloudBoostTests;
-			sourceTree = "<group>";
-		};
-		A43D42BFE4B6F04DEFC11664 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				794F39975EDED979B49657A3 /* Pods-CloudBoost.debug.xcconfig */,
-				6CF1BD6066849413EEF6AC25 /* Pods-CloudBoost.release.xcconfig */,
-				3E80E5104ED36120CC68D590 /* Pods-CloudBoostTests.debug.xcconfig */,
-				046505FCA6FABE5F9D5B75C5 /* Pods-CloudBoostTests.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,12 +136,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 22FFC82D1C9733D10028EA61 /* Build configuration list for PBXNativeTarget "CloudBoost" */;
 			buildPhases = (
-				0423919ACA8341A3243713EF /* Check Pods Manifest.lock */,
 				22FFC8141C9733D10028EA61 /* Sources */,
 				22FFC8151C9733D10028EA61 /* Frameworks */,
 				22FFC8161C9733D10028EA61 /* Headers */,
 				22FFC8171C9733D10028EA61 /* Resources */,
-				FF0F0CCB72559FEF9AA77901 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -184,12 +154,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 22FFC8301C9733D10028EA61 /* Build configuration list for PBXNativeTarget "CloudBoostTests" */;
 			buildPhases = (
-				0AA717211BF6DFCB744152F9 /* Check Pods Manifest.lock */,
 				22FFC81F1C9733D10028EA61 /* Sources */,
 				22FFC8201C9733D10028EA61 /* Frameworks */,
 				22FFC8211C9733D10028EA61 /* Resources */,
-				2E27AA7E8539A0763AB08C51 /* Embed Pods Frameworks */,
-				BD0F76E8FB3DD4442BD03198 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -262,36 +229,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0423919ACA8341A3243713EF /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		0AA717211BF6DFCB744152F9 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
 		22FFC8C11C97BA220028EA61 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -306,51 +243,6 @@
 			shellPath = /bin/sh;
 			shellScript = "######################\n# Options\n######################\n\nREVEAL_ARCHIVE_IN_FINDER=false\n\nFRAMEWORK_NAME=\"${PROJECT_NAME}\"\n\nSIMULATOR_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_NAME}.framework\"\n\nDEVICE_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_NAME}.framework\"\n\nUNIVERSAL_LIBRARY_DIR=\"${BUILD_DIR}/${CONFIGURATION}-iphoneuniversal\"\n\nFRAMEWORK=\"${UNIVERSAL_LIBRARY_DIR}/${FRAMEWORK_NAME}.framework\"\n\n\n######################\n# Build Frameworks\n######################\n\nxcodebuild -workspace ${PROJECT_NAME}.xcworkspace -scheme ${PROJECT_NAME} -sdk iphonesimulator -configuration ${CONFIGURATION} clean build CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphonesimulator 2>&1\n\nxcodebuild -workspace ${PROJECT_NAME}.xcworkspace -scheme ${PROJECT_NAME} -sdk iphoneos -configuration ${CONFIGURATION} clean build CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos 2>&1\n\n######################\n# Create directory for universal\n######################\n\nrm -rf \"${UNIVERSAL_LIBRARY_DIR}\"\n\nmkdir \"${UNIVERSAL_LIBRARY_DIR}\"\n\nmkdir \"${FRAMEWORK}\"\n\n\n######################\n# Copy files Framework\n######################\n\ncp -r \"${DEVICE_LIBRARY_PATH}/.\" \"${FRAMEWORK}\"\n\n\n######################\n# Make an universal binary\n######################\n\nlipo \"${SIMULATOR_LIBRARY_PATH}/${FRAMEWORK_NAME}\" \"${DEVICE_LIBRARY_PATH}/${FRAMEWORK_NAME}\" -create -output \"${FRAMEWORK}/${FRAMEWORK_NAME}\" | echo\n\n# For Swift framework, Swiftmodule needs to be copied in the universal framework\nif [ -d \"${SIMULATOR_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" ]; then\ncp -f ${SIMULATOR_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/* \"${FRAMEWORK}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" | echo\n                                                                      fi\n                                                                      \n                                                                      if [ -d \"${DEVICE_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" ]; then\n                                                                      cp -f ${DEVICE_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/* \"${FRAMEWORK}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" | echo\n                                                                      fi\n\n\n                                                                      \n                                                                      ######################\n                                                                      # On Release, copy the result to release directory\n                                                                      ######################\n                                                                      OUTPUT_DIR=\"${PROJECT_DIR}/Output/${FRAMEWORK_NAME}-${CONFIGURATION}-iphoneuniversal/\"\n                                                                      \n                                                                      rm -rf \"$OUTPUT_DIR\"\n                                                                      mkdir -p \"$OUTPUT_DIR\"\n                                                                      \n                                                                      cp -r \"${FRAMEWORK}\" \"$OUTPUT_DIR\"\n                                                                      \n                                                                      if [ ${REVEAL_ARCHIVE_IN_FINDER} = true ]; then\n                                                                      open \"${OUTPUT_DIR}/\"\n                                                                      fi\n\n\n\n";
 		};
-		2E27AA7E8539A0763AB08C51 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CloudBoostTests/Pods-CloudBoostTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BD0F76E8FB3DD4442BD03198 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CloudBoostTests/Pods-CloudBoostTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FF0F0CCB72559FEF9AA77901 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CloudBoost/Pods-CloudBoost-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -359,7 +251,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				22FFC8C71C984FE10028EA61 /* ACL.swift in Sources */,
-				22FFC8C91C9852410028EA61 /* CloudEntity.swift in Sources */,
+				22FFC8C91C9852410028EA61 /* CloudTable.swift in Sources */,
 				22F774241C9C5E6600BDEFCB /* CloudCommunications.swift in Sources */,
 				22F774221C9C1FD100BDEFCB /* CloudObject.swift in Sources */,
 				22FFC8B21C97A3E10028EA61 /* CloudApp.swift in Sources */,
@@ -477,7 +369,6 @@
 		};
 		22FFC82E1C9733D10028EA61 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 794F39975EDED979B49657A3 /* Pods-CloudBoost.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -486,10 +377,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = CloudBoost/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
@@ -504,7 +392,6 @@
 		};
 		22FFC82F1C9733D10028EA61 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6CF1BD6066849413EEF6AC25 /* Pods-CloudBoost.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -513,10 +400,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = CloudBoost/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
@@ -530,7 +414,6 @@
 		};
 		22FFC8311C9733D10028EA61 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3E80E5104ED36120CC68D590 /* Pods-CloudBoostTests.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = CloudBoostTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -541,7 +424,6 @@
 		};
 		22FFC8321C9733D10028EA61 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 046505FCA6FABE5F9D5B75C5 /* Pods-CloudBoostTests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = CloudBoostTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

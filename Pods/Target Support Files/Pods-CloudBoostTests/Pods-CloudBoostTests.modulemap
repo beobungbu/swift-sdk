@@ -1,6 +1,0 @@
-framework module Pods_CloudBoostTests {
-  umbrella header "Pods-CloudBoostTests-umbrella.h"
-
-  export *
-  module * { export * }
-}

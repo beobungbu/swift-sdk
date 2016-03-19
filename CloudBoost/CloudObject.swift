@@ -9,12 +9,11 @@
 import Foundation
 
 public class CloudObject{
-    var acl: ACL?
+    var acl = NSMutableDictionary()
     var document = NSMutableDictionary()
     var _modifiedColumns = [String]()
     
     public init(name: String){
-        self.acl = ACL();
         self._modifiedColumns = [String]()
         
         _modifiedColumns.append("createdAt")
@@ -23,6 +22,7 @@ public class CloudObject{
         _modifiedColumns.append("expires")
         
         document["_id"] = ""
+        document["ACL"] = acl
         document["_tableName"] = name
         document["_type"] = "custom"
         document["createdAt"] = ""
@@ -33,16 +33,11 @@ public class CloudObject{
     }
     
     
-//    public addAttribute(name: String, dataType: String){
-//    
-//    }
-    
     public func set(attribute: String, value: String){
         let keywords = ["_tableName", "_type","operator"]
         if(keywords.indexOf(attribute) != nil){
             //Not allowed to chage these values
         }
-    
     }
     
     public func get(attribute: String) -> AnyObject? {
@@ -65,10 +60,17 @@ public class CloudObject{
         print("\n---CloudBoost Object---");
     }
     
-    public func save(callback: (status: Int, message: String) -> Void){
+    public func save(callback: (status: Int, object: String) -> Void){
         let url = CloudApp.serverUrl + "/data/" + CloudApp.appID! + "/"
             + (self.document["_tableName"] as! String);
+        let params = NSMutableDictionary()
+        params["key"] = CloudApp.appKey!
+        params["document"] = document
         
+        CloudCommunications._request("PUT", url: NSURL(string: url)!, params: params, callback:
+            {(status: Int, object: String) -> Void in
+                callback(status: status,object: object)
+        })
         
     }
     

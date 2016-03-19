@@ -10,31 +10,32 @@ import Foundation
 
 public class CloudCommunications {
     
-    public static func _request(method: String, url: NSURL, params: NSMutableDictionary, callback: (status: Int, message: String) -> Void ){
+    public static func _request(method: String, url: NSURL, params: NSMutableDictionary, callback: (status: Int, response: String) -> Void ){
         
         let session = NSURLSession.sharedSession()
-        let request = NSMutableURLRequest(URL: NSURL(string: (CloudApp.serverUrl))!)
+        let request = NSMutableURLRequest(URL: url)
         
-        request.HTTPMethod = "POST"
-        request.addValue("text/plain", forHTTPHeaderField: "Content-Type")
-        request.addValue("iOS SDK", forHTTPHeaderField: "UserAgent")
-        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
-        request.addValue("application/json", forHTTPHeaderField: "sessionID")
+        let payload = try! params.getJSON()
+        print(url)
+        print(NSString(data: payload!,encoding: NSASCIIStringEncoding))
+        request.HTTPMethod = "PUT"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.HTTPBody = payload
         
         //Calling Service to send data and receive response
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             if((error) != nil){
-                callback(status: -1, message: (error?.localizedDescription)!)
+                callback(status: -1, response: (error?.localizedDescription)!)
             } else if(response == nil){
-                callback(status: -1, message: "Failure, Invalid response received")
+                callback(status: -1, response: "Failure, Invalid response received")
             } else if(data == nil){
-                callback(status: -1, message: "\(response) \n Nil Data")
+                callback(status: -1, response: "\(response) \n Nil Data")
             } else {
                 print("Response: \(response)")
                 let strData = NSString(data: data!, encoding: NSUTF8StringEncoding)
                 print("Body: \(strData)")
                 do{
-                    if let jsonResult = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary {
+                    if let jsonResult = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary{
                         print(jsonResult)
                     }else{
                         print("Error parsing the received data!")
