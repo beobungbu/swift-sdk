@@ -11,21 +11,27 @@ import Foundation
 
 public typealias callback = (status: Int, message: String) -> Void
 
-public typealias CloudBoostDictionary = [ String : AnyObject ]
-
+//Types of errors beig thrown by CloudBoost SDK
 enum CloudBoostError: ErrorType {
     case ParsingError
     
 }
 
-func parseToJSON(dictionary: CloudBoostDictionary) throws -> NSData? {
-    do {
-        let jsonData = try NSJSONSerialization.dataWithJSONObject(dictionary, options: NSJSONWritingOptions.PrettyPrinted)
-        return jsonData
-    } catch {
-        throw CloudBoostError.ParsingError
-    }
+
+// CLoudBoost Constans
+enum CloudBoostConstants: String {
+    case ID = "_id"
+    case ACL = "ACL"
+    case _tableName = "_tableName"
+    case _type = "_type"
+    case cretedAt = "createdAt"
+    case updatedAt = "updatedAt"
+    case _modifiedCloumns = "_modifiedColumns"
+    case _isModified = "_isModified"
+    case _isSearchable = "_isSearchable"
+    case expires = "expires"
 }
+
 
 // This will be used to convert a NSDictionary/NSMutableDictionary to JSON data in form of NSData
 extension NSDictionary{

@@ -24,6 +24,9 @@ public class CloudTable {
         document["columns"] = attributes
     }
     
+    public func getDocument(){
+        
+    }
     public func save(){
         print("Yes! Saving " + tableName! + "...")
         let url = CloudApp.serverUrl + "/app/" + CloudApp.appID! + "/" + tableName!
