@@ -17,6 +17,12 @@ enum CloudBoostError: ErrorType {
     
 }
 
+public class CloudBoostResponse {
+    public var success: Bool?
+    public var status: Int?
+    public var message: String?
+    public var object: NSMutableDictionary?
+}
 
 // CLoudBoost Constans
 enum CloudBoostConstants: String {

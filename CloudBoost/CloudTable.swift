@@ -27,19 +27,16 @@ public class CloudTable {
     public func getDocument(){
         
     }
-    public func save(){
+    public func save(callback: (CloudBoostResponse) -> Void){
         print("Yes! Saving " + tableName! + "...")
         let url = CloudApp.serverUrl + "/app/" + CloudApp.appID! + "/" + tableName!
         let params = NSMutableDictionary()
         params["key"] = CloudApp.appKey!
         params["data"] = attributes
         CloudCommunications._request("PUT", url: NSURL(string: url)!, params: params, callback: {
-            (status: Int, message: String) -> Void in
+            (response: CloudBoostResponse) in
             // Callback from _request, route it to save() callback
-            print("Callback from _request")
-            print(status)
-            print(message)
-            //callback(status, message)
+            callback(response)
         })
     }
 }

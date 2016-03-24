@@ -19,7 +19,6 @@ public class CloudObject{
         _modifiedColumns.append("createdAt")
         _modifiedColumns.append("updatedAt")
         _modifiedColumns.append("ACL")
-        _modifiedColumns.append("expires")
         
         document["_id"] = ""
         document["ACL"] = acl
@@ -42,6 +41,8 @@ public class CloudObject{
             return(-1,"Not allowed to change these values")
         }
         document[attribute] = value
+        _modifiedColumns.append(attribute)
+        document["_modifiedColumns"] = _modifiedColumns
         return(1,nil)
     }
     
@@ -53,6 +54,8 @@ public class CloudObject{
             return(-1,"Not allowed to change these values")
         }
         document[attribute] = value
+        _modifiedColumns.append(attribute)
+        document["_modifiedColumns"] = _modifiedColumns
         return(1,nil)
     }
     
@@ -60,6 +63,7 @@ public class CloudObject{
     // Should this object appear in searches
     public func setIsSearchable(value: Bool){
         document["_isSearchable"] = value
+        _modifiedColumns.append("_isSearchable")
     }
     
     // Set expiry time for this cloudobject, after which it will not appear in queries and searches
@@ -145,8 +149,8 @@ public class CloudObject{
     
     // Log this cloud boost object
     public func log() {
-        // Do the necessary
-        
+        print("-- CLoud Object --")
+        print(document)        
     }
     
     
@@ -154,7 +158,7 @@ public class CloudObject{
     
     
     // Save the CloudObject on CLoudBoost.io
-    public func save(callback: (status: Int, object: String) -> Void){
+    public func save(callback: (CloudBoostResponse) -> Void ){
         let url = CloudApp.serverUrl + "/data/" + CloudApp.appID! + "/"
             + (self.document["_tableName"] as! String);
         let params = NSMutableDictionary()
@@ -162,8 +166,9 @@ public class CloudObject{
         params["document"] = document
         
         CloudCommunications._request("PUT", url: NSURL(string: url)!, params: params, callback:
-            {(status: Int, object: String) -> Void in
-                callback(status: status,object: object)
+            {(response: CloudBoostResponse) in
+                print("Received successful callback")
+                callback(response)
         })
     }
     
@@ -175,7 +180,7 @@ public class CloudObject{
         params["document"] = document
         
         CloudCommunications._request("DELETE", url: NSURL(string: url)!, params: params, callback:
-            {(status: Int, object: String) -> Void in
+            {(response: CloudBoostResponse) in
                 //callback(status: status,object: object)
         })
         
