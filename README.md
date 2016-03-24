@@ -12,13 +12,18 @@ Using CloudBoost in code
 ```Swift
 // Creating a new CloudApp with your appID and appKey
 let app = CloudApp(appID: "Your-app-ID", appKey: "Your-app-key")
-    
+/ /Enable Logging, defaults to false
+app.setIsLogging(true)
+
+
 // Create a new table
-app.newTable("Cars", attributes: ["name":"String","yearManifactured":"Int"])
-    
+let obj = CloudObject(name: "Student")
+obj.setString("name", value: "Randhir")
+obj.setInt("marks", value: 99)
+
 // Save the table, with a callback
-app.saveTable("Cars", callback: { (status: Int, message: String) -> Void in
-        //Decide what to do after saving.
-        print(message)
+obj.save({
+    (response: CloudBoostResponse) in
+    response.log()
 })
 ```
