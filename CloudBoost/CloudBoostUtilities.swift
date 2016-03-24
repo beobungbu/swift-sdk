@@ -22,6 +22,13 @@ public class CloudBoostResponse {
     public var status: Int?
     public var message: String?
     public var object: NSMutableDictionary?
+    
+    public func log() {
+        print("Success? \(success)")
+        print("Status: \(status)")
+        print("Message: \(message)")
+        print("Object: \(object)")
+    }
 }
 
 // CLoudBoost Constans

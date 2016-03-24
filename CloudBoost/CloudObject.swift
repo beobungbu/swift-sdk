@@ -167,12 +167,19 @@ public class CloudObject{
         
         CloudCommunications._request("PUT", url: NSURL(string: url)!, params: params, callback:
             {(response: CloudBoostResponse) in
-                print("Received successful callback")
+                if let success = response.success {
+                    if(success){
+                        if let newDocument = response.object {
+                            self.document = newDocument
+                        }
+                    }
+                }
                 callback(response)
         })
     }
     
-    public func deleteAll(){
+    //Deleting all rows
+    public func deleteAll(callback: (CloudBoostResponse) -> Void ){
         let url = CloudApp.serverUrl + "/data/" + CloudApp.appID! + "/"
             + (self.document["_tableName"] as! String);
         let params = NSMutableDictionary()
@@ -181,9 +188,8 @@ public class CloudObject{
         
         CloudCommunications._request("DELETE", url: NSURL(string: url)!, params: params, callback:
             {(response: CloudBoostResponse) in
-                //callback(status: status,object: object)
+                callback(response)
         })
-        
     }
     
 }
