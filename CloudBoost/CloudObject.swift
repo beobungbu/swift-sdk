@@ -9,7 +9,7 @@
 import Foundation
 
 public class CloudObject{
-    var acl = NSMutableDictionary()
+    var acl = ACL()
     var document = NSMutableDictionary()
     var _modifiedColumns = [String]()
     
@@ -21,7 +21,7 @@ public class CloudObject{
         _modifiedColumns.append("ACL")
         
         document["_id"] = ""
-        document["ACL"] = acl
+        document["ACL"] = acl.getACL()
         document["_tableName"] = name
         document["_type"] = "custom"
         document["createdAt"] = ""
@@ -154,7 +154,7 @@ public class CloudObject{
     }
     
     
-    // MARK:- Cloud Operations on CLoudObject
+    // MARK:- Cloud Operations on CloudObject
     
     
     // Save the CloudObject on CLoudBoost.io
@@ -167,19 +167,18 @@ public class CloudObject{
         
         CloudCommunications._request("PUT", url: NSURL(string: url)!, params: params, callback:
             {(response: CloudBoostResponse) in
-                if let success = response.success {
-                    if(success){
-                        if let newDocument = response.object {
-                            self.document = newDocument
-                        }
+                if(response.success){
+                    if let newDocument = response.object {
+                        self.document = newDocument
                     }
                 }
                 callback(response)
         })
     }
     
+    
     //Deleting all rows
-    public func deleteAll(callback: (CloudBoostResponse) -> Void ){
+    public func delete( callback: (CloudBoostResponse) -> Void ){
         let url = CloudApp.serverUrl + "/data/" + CloudApp.appID! + "/"
             + (self.document["_tableName"] as! String);
         let params = NSMutableDictionary()
@@ -191,5 +190,73 @@ public class CloudObject{
                 callback(response)
         })
     }
+    
+    
+    
+    
+    // Save an array of CloudObject
+    public static func saveAll(array: [CloudObject], callback: (CloudBoostResponse)->Void) {
+        
+        // Ready the response
+        let resp = CloudBoostResponse()
+        resp.success = true
+        var count = 0
+        
+        // Iterate through the array
+        for object in array {
+            let url = CloudApp.serverUrl + "/data/" + CloudApp.appID! + "/"
+                + (object.document["_tableName"] as! String);
+            let params = NSMutableDictionary()
+            params["key"] = CloudApp.appKey!
+            params["document"] = object.document
+            
+            CloudCommunications._request("PUT", url: NSURL(string: url)!, params: params, callback:
+                {(response: CloudBoostResponse) in
+                    count += 1
+                    if(response.success){
+                        if let newDocument = response.object {
+                            object.document = newDocument
+                        }
+                    }else{
+                        resp.success = false
+                        resp.message = "one or more objects were not saved"
+                    }
+                    if(count == array.count){
+                        callback(resp)
+                    }
+            })
+        }
+    }
+
+    // Delete an array of CloudObject
+    public static func deleteAll(array: [CloudObject], callback: (CloudBoostResponse)->Void) {
+        
+        // Ready the response
+        let resp = CloudBoostResponse()
+        resp.success = true
+        var count = 0
+        
+        // Iterate through the array
+        for object in array {
+            let url = CloudApp.serverUrl + "/data/" + CloudApp.appID! + "/"
+                + (object.document["_tableName"] as! String);
+            let params = NSMutableDictionary()
+            params["key"] = CloudApp.appKey!
+            params["document"] = object.document
+            
+            CloudCommunications._request("DELETE", url: NSURL(string: url)!, params: params, callback:
+                {(response: CloudBoostResponse) in
+                    count += 1
+                    if(!response.success){
+                        resp.success = false
+                        resp.message = "one or more objects were not deleted"
+                    }
+                    if(count == array.count){
+                        callback(resp)
+                    }
+            })
+        }
+    }
+
     
 }

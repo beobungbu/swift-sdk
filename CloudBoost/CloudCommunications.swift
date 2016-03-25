@@ -10,18 +10,18 @@ import Foundation
 
 public class CloudCommunications {
     
-    public static func _request(method: String, url: NSURL, params: NSMutableDictionary, callback: (response: CloudBoostResponse) -> Void ){
+    public static func _request(var method: String, url: NSURL, params: NSMutableDictionary, callback: (response: CloudBoostResponse) -> Void ){
         
         //Check for logging
         let isLogging = CloudApp.isLogging()
         
         //Ready the calback response
         let cloudBoostResponse = CloudBoostResponse()
-        cloudBoostResponse.success = false
         
         //Handling DELETE request by fitting a parameter
         if(method == "DELETE"){
             params["method"] = "DELETE"
+            method = "PUT"
         }
         
         //Ready the session
@@ -36,7 +36,7 @@ public class CloudCommunications {
         
         //Ready the payload by converting it to JSON
         let payload = try! params.getJSON()
-        request.HTTPMethod = "PUT"
+        request.HTTPMethod = method
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.HTTPBody = payload
         
@@ -62,9 +62,13 @@ public class CloudCommunications {
                 
                 //Converting to proper format and returning
                 do{
+                    if let httpResponse = response as? NSHTTPURLResponse {
+                        cloudBoostResponse.status = httpResponse.statusCode
+                        if(httpResponse.statusCode == 200){
+                            cloudBoostResponse.success = true
+                        }
+                    }
                     if let jsonResult = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as? NSMutableDictionary{
-                        cloudBoostResponse.success = true
-                        cloudBoostResponse.message = "Saved"
                         cloudBoostResponse.object = jsonResult
                         callback(response: cloudBoostResponse)
                     }else{

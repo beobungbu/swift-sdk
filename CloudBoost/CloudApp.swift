@@ -13,6 +13,7 @@ public class CloudApp: NSObject {
     
     public static var appID: String?
     public static var appKey: String?
+    public static var masterKey: String?
     //public var socket: SocketIOClient?
     
     //detarmines if the API Logs, defaults to false
@@ -38,9 +39,17 @@ public class CloudApp: NSObject {
         print("App ID: " + CloudApp.appID! + "\nApp Key: " + CloudApp.appKey!)
     }
     
+    // MARK:- Setter functions
+    
     public func setIsLogging(value: Bool){
         CloudApp.log = value
     }
+    
+    public func setMasterKey(value: String){
+        CloudApp.masterKey = value
+    }
+    
+    // MARK:- Getter functions
     
     public static func isLogging() -> Bool {
         return CloudApp.log
