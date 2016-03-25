@@ -32,17 +32,21 @@ public class CloudBoostResponse {
 }
 
 // CLoudBoost Constans
-enum CloudBoostConstants: String {
-    case ID = "_id"
-    case ACL = "ACL"
-    case _tableName = "_tableName"
-    case _type = "_type"
-    case cretedAt = "createdAt"
-    case updatedAt = "updatedAt"
-    case _modifiedCloumns = "_modifiedColumns"
-    case _isModified = "_isModified"
-    case _isSearchable = "_isSearchable"
-    case expires = "expires"
+public enum CloudBoostDataType: String {
+    case Text = "Text"
+    case Email = "Email"
+    case URL = "URL"
+    case Number = "Number"
+    case Boolean = "Boolean"
+    case DateTime = "DateTime"
+    case GeoPoint = "GeoPoint"
+    case File = "File"
+    case List = "List"
+    case Relation = "Relation"
+    case Object = "Object"
+    case Id = "Id"
+    case EncryptedText = "EncryptedText"
+    case ACl = "ACL"
 }
 
 

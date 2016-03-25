@@ -11,7 +11,7 @@ import Foundation
 public class CloudTable {
     
     public var tableName: String?
-    private var columns = [String]()
+    private var columns = [NSMutableDictionary]()
     private var document = NSMutableDictionary()
     
     public init(tableName: String){
@@ -24,11 +24,9 @@ public class CloudTable {
     }
     
     // MARK:- Setter functions
-    public func setColumn(columnName: String){
-        if(columns.indexOf(columnName) != -1){
-            columns.append(columnName)
-            document["columns"] = columns
-        }
+    public func setColumn(columnName: Column){
+        columns.append(columnName.document)
+        document["columns"] = columns
     }
     
     // MARK:- Getter functions

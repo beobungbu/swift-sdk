@@ -38,8 +38,8 @@ class CloudTableTest: XCTestCase {
     func testCloudTableCreate(){
         let expectation1 = expectationWithDescription("testCreateTable")
         let teachers = CloudTable(tableName: "Teachers")
-        teachers.setColumn("name")
-        teachers.setColumn("age")
+        teachers.setColumn(Column(name: "name", dataType: CloudBoostDataType.Text))
+        teachers.setColumn(Column(name: "age", dataType: CloudBoostDataType.Number))
         teachers.save({
             (response: CloudBoostResponse) in
             response.log()

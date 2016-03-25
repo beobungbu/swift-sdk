@@ -31,7 +31,7 @@ public class CloudCommunications {
         //Check params
         if(isLogging){
             print("Sending the following Object: ")
-            print(params)
+            print(NSString(data: try! params.getJSON()!, encoding: NSUTF8StringEncoding))
         }
         
         //Ready the payload by converting it to JSON
