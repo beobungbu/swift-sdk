@@ -66,6 +66,8 @@ public class CloudCommunications {
                         cloudBoostResponse.status = httpResponse.statusCode
                         if(httpResponse.statusCode == 200){
                             cloudBoostResponse.success = true
+                        } else {
+                            cloudBoostResponse.message = NSString(data: data!, encoding: NSUTF8StringEncoding) as? String
                         }
                     }
                     if let jsonResult = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as? NSMutableDictionary{
@@ -75,14 +77,12 @@ public class CloudCommunications {
                         if(isLogging){
                             print("Could not convert the response to NSMutalbeDictionary")
                         }
-                        cloudBoostResponse.message = "Error while converting to NSMutableDictionary"
                         callback(response: cloudBoostResponse)
                     }
                 }catch let parseError {
                     if(isLogging){
                         print(parseError)
                     }
-                    cloudBoostResponse.message = "Failed while parsing the received data"
                     callback(response: cloudBoostResponse)
                 }
             }

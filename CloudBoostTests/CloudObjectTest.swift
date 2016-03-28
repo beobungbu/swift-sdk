@@ -13,8 +13,9 @@ class CloudObjectTest: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        let app = CloudApp.init(appID: "dirtubjnmgsa", appKey: "849b842c-3ff0-4456-80b2-ee5337d4ce86")
+        let app = CloudApp.init(appID: "xckzjbmtsbfb", appKey: "345f3324-c73c-4b15-94b5-9e89356c1b4e")
         app.setIsLogging(true)
+        app.setMasterKey("f5cc5cb3-ba0d-446d-9e51-e09be23c540d")
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
@@ -22,6 +23,198 @@ class CloudObjectTest: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
+    
+    
+    // MARK:- Test
+    
+    
+    // Testing false date in custom date field
+    func testFalseDateField(){
+        let expectaion = expectationWithDescription("Should not save data incorrect date")
+        let obj = CloudObject(name: "Student")
+        obj.setString("dob", value: "yesterday")
+        obj.save({
+            (resp: CloudBoostResponse) in
+            if(resp.success){
+                XCTAssert(false)
+            }
+            expectaion.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+
+    }
+    
+    // Saving data in custom date field
+    func testCustomDateField(){
+        let expectaion = expectationWithDescription("Should save data in custom date field")
+        let obj = CloudObject(name: "Student")
+        obj.setDate("dob", value: NSDate())
+        obj.save({
+            (resp: CloudBoostResponse) in
+            print(obj.getDate("dob"))
+            expectaion.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Should not save data in email field with an incorrect email ( saving an invalid email, the test passes if the data is not saved"
+    func testFalseEmailField(){
+        let expectaion = expectationWithDescription("Should not save incorrect email")
+        let obj = CloudObject(name: "Student")
+        obj.setString("email", value: "randhir")
+        obj.save({
+            (resp: CloudBoostResponse) in
+            if(resp.success){
+                XCTAssert(false)
+            }
+            expectaion.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Should save data in email field
+    func testEmailField(){
+        let expectaion = expectationWithDescription("Should save correct email")
+        let obj = CloudObject(name: "Student")
+        obj.setString("email", value: "randhir@gmail.com")
+        obj.save({
+            (resp: CloudBoostResponse) in
+            if(resp.success == false){
+                XCTAssert(false)
+            }
+            expectaion.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Should not save data in URL with incorrect url
+    func testFalseURLField(){
+        let expectaion = expectationWithDescription("Should not save incorrect URL")
+        let obj = CloudObject(name: "Student")
+        obj.setString("url", value: "google")
+        obj.save({
+            (resp: CloudBoostResponse) in
+            if(resp.success){
+                XCTAssert(false)
+            }
+            expectaion.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Should save data in URL with correct url
+    func testURLField(){
+        let expectation = expectationWithDescription("Should save correct URL")
+        let obj = CloudObject(name: "Student")
+        obj.setString("url", value: "http://google.com")
+        obj.save({
+            (resp: CloudBoostResponse) in
+            resp.log()
+            if(resp.success == false){
+                XCTAssert(false)
+            }
+            expectation.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    func testSaveJSON(){
+        let expectation = expectationWithDescription("save a JSON object in a column")
+        let obj = CloudObject(name: "Student")
+        obj.set("parent", value: ["name":"ABC", "age":23])
+        obj.save({
+            (resp: CloudBoostResponse) in
+            resp.log()
+            if(resp.success == false){
+                XCTAssert(false)
+            }
+            expectation.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Save a list of numbers
+    func testSaveList(){
+        let expectation = expectationWithDescription("save a list of numbers in a column")
+        let obj = CloudObject(name: "Student")
+        obj.set("list", value: [22, 34, 54, 2, 12, 56, 78])
+        obj.save({
+            (resp: CloudBoostResponse) in
+            resp.log()
+            if(resp.success == false){
+                XCTAssert(false)
+            }
+            expectation.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    
+    // Save the reslation
+    func testSaveRelation(){
+        let expectation = expectationWithDescription("save a list of numbers in a column")
+        let obj = CloudObject(name: "Student")
+        obj.set("name", value: "randhir")
+        obj.save({
+            (resp: CloudBoostResponse) in
+            resp.log()
+            let obj2 = CloudObject(name: "Student")
+            obj2.set("name", value: "Prabanjan")
+            obj2.set("friend", value: obj.getId()!)
+            obj2.save({
+                (resp2: CloudBoostResponse) in
+                resp.log()
+                XCTAssert(resp2.success)
+                expectation.fulfill()
+            })
+        })
+        waitForExpectationsWithTimeout(60, handler: nil)
+    }
+
+    // Correct message to be displayed while saving a string in a integer
+    func testSaveStringInInteger(){
+        let expectation = expectationWithDescription("save a list of numbers in a column")
+        let obj = CloudObject(name: "Student")
+        obj.set("marks", value: 34)
+        obj.save({
+            (resp: CloudBoostResponse) in
+            resp.log()
+            if(resp.success == false){
+                XCTAssert(false)
+            }
+            expectation.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Delete an object with its ID
+    func testDeleteObject(){
+        let expectation = expectationWithDescription("delete object with ID")
+        let obj = CloudObject(name: "Student")
+        obj.setString("name", value: "Randhir Singh")
+        obj.setInt("marks", value: 54)
+        obj.save({
+            (response: CloudBoostResponse) in
+            response.log()
+            obj.delete({
+                (response: CloudBoostResponse) in
+                response.log()
+                if (response.success) {
+                    obj.delete({
+                        (resp: CloudBoostResponse) in
+                        resp.log()
+                        expectation.fulfill()
+                    })
+                }
+            })
+        })
+        waitForExpectationsWithTimeout(60, handler: nil)
+
+    }
+    
+    //
+    
+    // MARK:- Bulk test
     
     func testSaveArray() {
         let expectation1 = expectationWithDescription("testSaveArray")

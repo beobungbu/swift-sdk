@@ -14,7 +14,10 @@ public typealias callback = (status: Int, message: String) -> Void
 //Types of errors beig thrown by CloudBoost SDK
 enum CloudBoostError: ErrorType {
     case ParsingError
-    
+    case AppIdNotSet
+    case UsernameNotSet
+    case PasswordNotSet
+    case EmailNotSet
 }
 
 public class CloudBoostResponse {
@@ -62,3 +65,35 @@ extension NSDictionary{
         }
     }
 }
+
+public class CloudBoostDateFormatter{
+    public static func getISOFormatter() -> NSDateFormatter {
+        let formatter = NSDateFormatter()
+        formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)
+        formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSX"
+        return formatter
+    }
+}
+
+
+public class CloudBoostCache {
+    
+    public static func _createCookie(){
+        
+    }
+    
+    public static func _deleteCookie(){
+        
+    }
+    
+    public static func _getCookie(){
+        
+    }
+}
+
+
+
+
+

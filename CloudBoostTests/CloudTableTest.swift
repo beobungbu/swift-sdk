@@ -13,9 +13,9 @@ class CloudTableTest: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        let app = CloudApp.init(appID: "dirtubjnmgsa", appKey: "849b842c-3ff0-4456-80b2-ee5337d4ce86")
+        let app = CloudApp.init(appID: "xckzjbmtsbfb", appKey: "345f3324-c73c-4b15-94b5-9e89356c1b4e")
         app.setIsLogging(true)
-        app.setMasterKey("46ee5286-d4f6-4113-b7b4-f2845fda6f14")
+        app.setMasterKey("f5cc5cb3-ba0d-446d-9e51-e09be23c540d")
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     

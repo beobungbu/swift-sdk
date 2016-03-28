@@ -13,17 +13,22 @@ public class CloudObject{
     var document = NSMutableDictionary()
     var _modifiedColumns = [String]()
     
-    public init(name: String){
+    public init(tableName: String){
         self._modifiedColumns = [String]()
         
         _modifiedColumns.append("createdAt")
         _modifiedColumns.append("updatedAt")
         _modifiedColumns.append("ACL")
+        _modifiedColumns.append("expires")
         
         document["_id"] = ""
         document["ACL"] = acl.getACL()
-        document["_tableName"] = name
-        document["_type"] = "custom"
+        document["_tableName"] = tableName
+        if(tableName == "Role"){
+            document["_type"] = "role"
+        }else if (tableName == "user"){
+            document["_type"] = "user"            
+        }
         document["createdAt"] = ""
         document["updatedAt"] = ""
         document["_modifiedColumns"] = _modifiedColumns
@@ -32,6 +37,19 @@ public class CloudObject{
     }
     
     // MARK:- Setter Functions
+    
+    // Set an object(assument that it can be serialised
+    public func set(attribute: String, value: AnyObject) -> (Int, String?) {
+        let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
+        if(keywords.indexOf(attribute) != nil){
+            //Not allowed to chage these values
+            return(-1,"Not allowed to change these values")
+        }
+        document[attribute] = value
+        _modifiedColumns.append(attribute)
+        document["_modifiedColumns"] = _modifiedColumns
+        return(1,nil)
+    }
     
     // Set a string  value in the CloudObject
     public func setString(attribute: String, value: String) -> (Int, String?){
@@ -54,6 +72,20 @@ public class CloudObject{
             return(-1,"Not allowed to change these values")
         }
         document[attribute] = value
+        _modifiedColumns.append(attribute)
+        document["_modifiedColumns"] = _modifiedColumns
+        return(1,nil)
+    }
+    
+    // Set a date value
+    public func setDate(attribute: String, value: NSDate) -> (Int, String?) {
+        let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
+        if(keywords.indexOf(attribute) != nil){
+            //Not allowed to chage these values
+            return(-1,"Not allowed to change these values")
+        }
+        // Converting the date to a standard date string format
+        document[attribute] = CloudBoostDateFormatter.getISOFormatter().stringFromDate(value)
         _modifiedColumns.append(attribute)
         document["_modifiedColumns"] = _modifiedColumns
         return(1,nil)
@@ -147,6 +179,14 @@ public class CloudObject{
         return document[attribute] as? Bool
     }
     
+    // Get a date attribute
+    public func getDate(attribute: String) -> NSDate? {
+        if let attribute = document[attribute] as? String {
+                return CloudBoostDateFormatter.getISOFormatter().dateFromString(attribute)
+        }
+        return nil
+    }
+    
     // Log this cloud boost object
     public func log() {
         print("-- CLoud Object --")
@@ -160,7 +200,7 @@ public class CloudObject{
     // Save the CloudObject on CLoudBoost.io
     public func save(callback: (CloudBoostResponse) -> Void ){
         let url = CloudApp.serverUrl + "/data/" + CloudApp.appID! + "/"
-            + (self.document["_tableName"] as! String);
+            + (self.document["_tableName"] as! String)
         let params = NSMutableDictionary()
         params["key"] = CloudApp.appKey!
         params["document"] = document
