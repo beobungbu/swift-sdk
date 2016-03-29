@@ -23,6 +23,8 @@
 /* Begin PBXBuildFile section */
 		224C2A571CA80B3100D05F27 /* CloudRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C2A561CA80B3100D05F27 /* CloudRole.swift */; };
 		224C2A591CA80CDB00D05F27 /* CloudUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C2A581CA80CDB00D05F27 /* CloudUser.swift */; };
+		224C2A5B1CA91E0400D05F27 /* CloudUserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C2A5A1CA91E0400D05F27 /* CloudUserTest.swift */; };
+		224C2A5D1CAAAC6000D05F27 /* CloudGeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C2A5C1CAAAC6000D05F27 /* CloudGeoPoint.swift */; };
 		2260557E1CA5014700F0357C /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2260557D1CA5014700F0357C /* Column.swift */; };
 		2277C66B1CA4250E006E9981 /* CloudTableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2277C66A1CA4250E006E9981 /* CloudTableTest.swift */; };
 		2277C66D1CA42524006E9981 /* CloudObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2277C66C1CA42524006E9981 /* CloudObjectTest.swift */; };
@@ -50,6 +52,8 @@
 /* Begin PBXFileReference section */
 		224C2A561CA80B3100D05F27 /* CloudRole.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudRole.swift; sourceTree = "<group>"; };
 		224C2A581CA80CDB00D05F27 /* CloudUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudUser.swift; sourceTree = "<group>"; };
+		224C2A5A1CA91E0400D05F27 /* CloudUserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudUserTest.swift; sourceTree = "<group>"; };
+		224C2A5C1CAAAC6000D05F27 /* CloudGeoPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudGeoPoint.swift; sourceTree = "<group>"; };
 		2260557D1CA5014700F0357C /* Column.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
 		2277C66A1CA4250E006E9981 /* CloudTableTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudTableTest.swift; sourceTree = "<group>"; };
 		2277C66C1CA42524006E9981 /* CloudObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudObjectTest.swift; sourceTree = "<group>"; };
@@ -118,6 +122,7 @@
 				2260557D1CA5014700F0357C /* Column.swift */,
 				224C2A561CA80B3100D05F27 /* CloudRole.swift */,
 				224C2A581CA80CDB00D05F27 /* CloudUser.swift */,
+				224C2A5C1CAAAC6000D05F27 /* CloudGeoPoint.swift */,
 			);
 			path = CloudBoost;
 			sourceTree = "<group>";
@@ -129,6 +134,7 @@
 				22FFC82A1C9733D10028EA61 /* Info.plist */,
 				2277C66A1CA4250E006E9981 /* CloudTableTest.swift */,
 				2277C66C1CA42524006E9981 /* CloudObjectTest.swift */,
+				224C2A5A1CA91E0400D05F27 /* CloudUserTest.swift */,
 			);
 			path = CloudBoostTests;
 			sourceTree = "<group>";
@@ -267,6 +273,7 @@
 			files = (
 				22FFC8C71C984FE10028EA61 /* ACL.swift in Sources */,
 				22FFC8C91C9852410028EA61 /* CloudTable.swift in Sources */,
+				224C2A5D1CAAAC6000D05F27 /* CloudGeoPoint.swift in Sources */,
 				22F774241C9C5E6600BDEFCB /* CloudCommunications.swift in Sources */,
 				224C2A591CA80CDB00D05F27 /* CloudUser.swift in Sources */,
 				224C2A571CA80B3100D05F27 /* CloudRole.swift in Sources */,
@@ -281,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				224C2A5B1CA91E0400D05F27 /* CloudUserTest.swift in Sources */,
 				2277C66B1CA4250E006E9981 /* CloudTableTest.swift in Sources */,
 				2277C66D1CA42524006E9981 /* CloudObjectTest.swift in Sources */,
 				22FFC8291C9733D10028EA61 /* CloudBoostTests.swift in Sources */,

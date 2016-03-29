@@ -26,7 +26,7 @@ public class CloudObject{
         document["_tableName"] = tableName
         if(tableName == "Role"){
             document["_type"] = "role"
-        }else if (tableName == "user"){
+        }else if (tableName == "User"){
             document["_type"] = "user"            
         }
         document["createdAt"] = ""

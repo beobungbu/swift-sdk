@@ -18,6 +18,7 @@ enum CloudBoostError: ErrorType {
     case UsernameNotSet
     case PasswordNotSet
     case EmailNotSet
+    case InvalidGeoPoint
 }
 
 public class CloudBoostResponse {

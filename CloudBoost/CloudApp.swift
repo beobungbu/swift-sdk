@@ -22,6 +22,7 @@ public class CloudApp: NSObject {
     public static let serverUrl = "https://api.cloudboost.io"
     public static let serviceUrl = "https://service.cloudboost.io"
     public static let appUrl = serverUrl + "/api"
+    public static let apiUrl = serverUrl
     public static let socketIoUrl = "https://realtime.cloudboost.io"
     
     public static var SESSION_ID: String?
@@ -53,6 +54,34 @@ public class CloudApp: NSObject {
     
     public static func isLogging() -> Bool {
         return CloudApp.log
+    }
+    
+    public static func getAppId() -> String? {
+        return appID
+    }
+    
+    public static func getAppKey() -> String? {
+        return appKey
+    }
+    
+    public static func getAppUrl() -> String {
+        return appUrl
+    }
+    
+    public static func getApiUrl() -> String {
+        return apiUrl
+    }
+    
+    public static func getServerUrl() -> String {
+        return serverUrl
+    }
+    
+    public static func getServiceUrl() -> String {
+        return serviceUrl
+    }
+    
+    public static func getSocketUrl() -> String {
+        return socketIoUrl
     }
     
     
