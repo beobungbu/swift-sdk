@@ -70,8 +70,13 @@ public class CloudCommunications {
                             cloudBoostResponse.message = NSString(data: data!, encoding: NSUTF8StringEncoding) as? String
                         }
                     }
-                    if let jsonResult = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as? NSMutableDictionary{
-                        cloudBoostResponse.object = jsonResult
+                    
+                    let serialisedData = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)
+                    if let jsonObjectReult = serialisedData as? NSMutableDictionary {
+                        cloudBoostResponse.object = jsonObjectReult
+                        callback(response: cloudBoostResponse)
+                    }else if let  jsonArrayResult = serialisedData as? [NSDictionary] {
+                        cloudBoostResponse.object = jsonArrayResult
                         callback(response: cloudBoostResponse)
                     }else{
                         if(isLogging){
@@ -79,6 +84,7 @@ public class CloudCommunications {
                         }
                         callback(response: cloudBoostResponse)
                     }
+                    
                 }catch let parseError {
                     if(isLogging){
                         print(parseError)

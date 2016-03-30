@@ -72,13 +72,18 @@ class CloudUserTest: XCTestCase {
     func testLoggedInPasswordChange(){
         let expectation = expectationWithDescription(("dont change password when logged in"))
         
-        let user = CloudUser(username: "randhirsingh", password: "")
-        user.set("password", value: passwd().pw_change)
-        user.setEmail("randhirsingh051@gmail.com")
+        let user = CloudUser(username: Util.makeString(10), password: "")
+        user.set("password", value: "password")
+        user.setEmail("rick.rox10@gmail.com")
         try! user.signup({
             (response: CloudBoostResponse) in
-            response.log()
-            expectation.fulfill()
+            if(response.success){
+                CloudUser.resetPassword(user.getEmail()!, callback: {
+                    (reponse: CloudBoostResponse) in
+                    response.log()
+                    expectation.fulfill()
+                })
+            }
         })
         waitForExpectationsWithTimeout(30, handler: nil)
         

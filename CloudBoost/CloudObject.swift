@@ -28,6 +28,8 @@ public class CloudObject{
             document["_type"] = "role"
         }else if (tableName == "User"){
             document["_type"] = "user"            
+        }else{
+            document["_type"] = "custom"            
         }
         document["createdAt"] = ""
         document["updatedAt"] = ""
@@ -209,7 +211,7 @@ public class CloudObject{
             {(response: CloudBoostResponse) in
                 if(response.success){
                     if let newDocument = response.object {
-                        self.document = newDocument
+                        self.document = newDocument as! NSMutableDictionary
                     }
                 }
                 callback(response)
@@ -255,7 +257,7 @@ public class CloudObject{
                     count += 1
                     if(response.success){
                         if let newDocument = response.object {
-                            object.document = newDocument
+                            object.document = newDocument as! NSMutableDictionary
                         }
                     }else{
                         resp.success = false

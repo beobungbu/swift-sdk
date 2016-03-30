@@ -51,7 +51,7 @@ public class CloudRole: CloudObject {
             {(response: CloudBoostResponse) in
                 if(response.success){
                     if let newDocument = response.object {
-                        self.document = newDocument
+                        self.document = newDocument as! NSMutableDictionary
                     }
                 }
                 callback(response)

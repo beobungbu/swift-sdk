@@ -27,14 +27,20 @@ public class CloudUser: CloudObject {
     
     public func setEmail(email: String) {
         document["email"] = email
+        _modifiedColumns.append("email")
+        document["_modifiedColumns"] = _modifiedColumns
     }
     
     public func setUsername(username: String){
         document["username"] = username
+        _modifiedColumns.append("username")
+        document["_modifiedColumns"] = _modifiedColumns
     }
     
     public func setPassword(password: String){
         document["password"] = password
+        _modifiedColumns.append("password")
+        document["_modifiedColumns"] = _modifiedColumns
     }
     
     // MARK: Getters
@@ -80,6 +86,9 @@ public class CloudUser: CloudObject {
                 response.log()
             }
             // Save the user if he has been successfully logged in
+            if(response.status == 200){
+                self.document = response.object! as! NSMutableDictionary
+            }
             callback(response: response)
         })
     }

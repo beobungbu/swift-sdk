@@ -19,13 +19,15 @@ enum CloudBoostError: ErrorType {
     case PasswordNotSet
     case EmailNotSet
     case InvalidGeoPoint
+    case InvalidArgument
+    case InvalidDataType
 }
 
 public class CloudBoostResponse {
     public var success = false
     public var status: Int?
     public var message: String?
-    public var object: NSMutableDictionary?
+    public var object: AnyObject?
     
     public func log() {
         print("Success? \(success)")
@@ -76,6 +78,27 @@ public class CloudBoostDateFormatter{
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSX"
         return formatter
     }
+}
+
+// Utility class
+
+public class Util {
+    
+    public static func makeString(len: Int) -> String {
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        let randomString : NSMutableString = NSMutableString(capacity: len)
+        for (var i=0; i < len; i++){
+            let length = UInt32 (letters.length)
+            let rand = arc4random_uniform(length)
+            randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
+        }
+        return randomString as String
+    }
+    
+    public static func makeEmail() -> String{
+        return self.makeString(12) + "@sample.com"
+    }
+    
 }
 
 
