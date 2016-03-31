@@ -28,6 +28,7 @@
 		224C2A5B1CA91E0400D05F27 /* CloudUserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C2A5A1CA91E0400D05F27 /* CloudUserTest.swift */; };
 		224C2A5D1CAAAC6000D05F27 /* CloudGeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C2A5C1CAAAC6000D05F27 /* CloudGeoPoint.swift */; };
 		2260557E1CA5014700F0357C /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2260557D1CA5014700F0357C /* Column.swift */; };
+		227506661CAD549C00F430A2 /* CloudFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227506651CAD549C00F430A2 /* CloudFile.swift */; };
 		2277C66B1CA4250E006E9981 /* CloudTableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2277C66A1CA4250E006E9981 /* CloudTableTest.swift */; };
 		2277C66D1CA42524006E9981 /* CloudObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2277C66C1CA42524006E9981 /* CloudObjectTest.swift */; };
 		22F774221C9C1FD100BDEFCB /* CloudObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F774211C9C1FD100BDEFCB /* CloudObject.swift */; };
@@ -59,6 +60,7 @@
 		224C2A5A1CA91E0400D05F27 /* CloudUserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudUserTest.swift; sourceTree = "<group>"; };
 		224C2A5C1CAAAC6000D05F27 /* CloudGeoPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudGeoPoint.swift; sourceTree = "<group>"; };
 		2260557D1CA5014700F0357C /* Column.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
+		227506651CAD549C00F430A2 /* CloudFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudFile.swift; sourceTree = "<group>"; };
 		2277C66A1CA4250E006E9981 /* CloudTableTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudTableTest.swift; sourceTree = "<group>"; };
 		2277C66C1CA42524006E9981 /* CloudObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudObjectTest.swift; sourceTree = "<group>"; };
 		22F774211C9C1FD100BDEFCB /* CloudObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudObject.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				224C2A581CA80CDB00D05F27 /* CloudUser.swift */,
 				224C2A5C1CAAAC6000D05F27 /* CloudGeoPoint.swift */,
 				2249AC511CAB9F790088AFBF /* CloudQuery.swift */,
+				227506651CAD549C00F430A2 /* CloudFile.swift */,
 			);
 			path = CloudBoost;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				224C2A571CA80B3100D05F27 /* CloudRole.swift in Sources */,
 				2260557E1CA5014700F0357C /* Column.swift in Sources */,
 				22F774221C9C1FD100BDEFCB /* CloudObject.swift in Sources */,
+				227506661CAD549C00F430A2 /* CloudFile.swift in Sources */,
 				22FFC8B21C97A3E10028EA61 /* CloudApp.swift in Sources */,
 				22F774261C9C788700BDEFCB /* CloudBoostUtilities.swift in Sources */,
 			);

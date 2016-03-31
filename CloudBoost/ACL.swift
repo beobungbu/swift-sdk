@@ -55,6 +55,10 @@ public class ACL {
         acl["read"] = read
         acl["write"] = write
     }
+    
+    public init(acl: NSMutableDictionary){
+        self.acl = acl
+    }
 
     
     public func getACL() -> NSMutableDictionary {
