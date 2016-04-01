@@ -10,12 +10,12 @@ import Foundation
 
 public class CLoudFile {
     var document = NSMutableDictionary()
-    var data: NSData?
+    private var data: String?
     
     
     public init(name: String, data: NSData, contentType: String){
         
-        self.data = data
+        self.data = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
         
         document["_id"] = nil
         document["_type"] = "file"
@@ -85,6 +85,7 @@ public class CLoudFile {
         
         CloudCommunications._request("POST", url: NSURL(string: url)!, params: params, callback: {
             (response: CloudBoostResponse) in
+            self.document = (response.object as? NSMutableDictionary)!
             callback(response: response)
         })
     }

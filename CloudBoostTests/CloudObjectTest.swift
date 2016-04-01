@@ -443,5 +443,122 @@ class CloudObjectTest: XCTestCase {
         waitForExpectationsWithTimeout(30, handler: nil)
     }
     
+    // File
+    
+    
+    func testSaveFileInObject(){
+        let exp = expectationWithDescription("save a file object in CloudObject")
+        let fileContent = "<a id=\"a\"><b id=\"b\">hey!</b></a>"
+        guard let data  = fileContent.dataUsingEncoding(NSUTF8StringEncoding) else{
+            XCTAssert(false)
+            return
+        }
+        let file = CLoudFile(name: "aTag", data: data, contentType: "text/html")
+        file.save({
+            (response: CloudBoostResponse) in
+            response.log()
+            
+            let obj = CloudObject(tableName: "Student")
+            obj.set("name", value: "Randhir")
+            obj.set("marks", value: 68)
+            obj.set("file", value: file.document)
+            obj.save({
+                (response: CloudBoostResponse) in
+                XCTAssert(response.success)
+                exp.fulfill()
+            })
+        })
+        waitForExpectationsWithTimeout(60, handler: nil)
+    }
+    
+    // should save a file inside of an object and can update the CloudObject
+    func testFileSaveAndUpdate() {
+        let exp = expectationWithDescription("save file in CLoudObject and update CloudObject")
+        let fileContent = "<a id=\"a\"><b id=\"b\">hey!</b></a>"
+        guard let data  = fileContent.dataUsingEncoding(NSUTF8StringEncoding) else{
+            XCTAssert(false)
+            return
+        }
+        let file = CLoudFile(name: "aTag", data: data, contentType: "text/html")
+        file.save({
+            (response: CloudBoostResponse) in
+            response.log()
+            
+            let obj = CloudObject(tableName: "Student")
+            obj.set("name", value: "Name 1")
+            obj.set("marks", value: 68)
+            obj.set("file", value: file.document)
+            obj.save({
+                (response: CloudBoostResponse) in
+                guard let file = obj.get("file") as? NSDictionary else{
+                    XCTAssert(false)
+                    exp.fulfill()
+                    return
+                }
+                guard (file["_id"] as? String) != nil else {
+                    XCTAssert(false)
+                    exp.fulfill()
+                    return
+                }
+                obj.set("name", value: "Name 2")
+                obj.save({
+                    (response: CloudBoostResponse) in
+                    response.log()
+                    XCTAssert(response.success)
+                    exp.fulfill()
+                })
+            })
+        })
+        waitForExpectationsWithTimeout(90, handler: nil)
+
+    }
+    
+    // should save an array of file
+    
+    func testSavingArrayOfFiles(){
+        let exp = expectationWithDescription("save file in CLoudObject and update CloudObject")
+        let fileContent = "<a id=\"a\"><b id=\"b\">hey!</b></a>"
+        guard let data  = fileContent.dataUsingEncoding(NSUTF8StringEncoding) else{
+            XCTAssert(false)
+            return
+        }
+        let file = CLoudFile(name: "aTag", data: data, contentType: "text/html")
+        file.save({
+            (response: CloudBoostResponse) in
+            response.log()
+            let file2Content = "<a id=\"c\"><b id=\"d\">hey!</b></a>"
+            guard let data  = file2Content.dataUsingEncoding(NSUTF8StringEncoding) else{
+                XCTAssert(false)
+                return
+            }
+            let file2 = CLoudFile(name: "aTag", data: data, contentType: "text/html")
+            file2.save({
+                (response: CloudBoostResponse) in
+                
+                let obj = CloudObject(tableName: "Student")
+                obj.set("name", value: "Name 1")
+                obj.set("marks", value: 68)
+                obj.set("fileList", value: [file.document, file2.document])
+                obj.save({
+                    (response: CloudBoostResponse) in
+                    response.log()
+                    guard let file = obj.get("fileList") as? [NSDictionary] else{
+                        XCTAssert(false)
+                        exp.fulfill()
+                        return
+                    }
+                    guard (file[0]["_id"] as? String) != nil && (file[1]["_id"] as? String) != nil else {
+                        XCTAssert(false)
+                        exp.fulfill()
+                        return
+                    }
+                    XCTAssert(response.success)
+                    exp.fulfill()
+                })
+            })
+        })
+        waitForExpectationsWithTimeout(90, handler: nil)
+    }
+    
     
 }
