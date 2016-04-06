@@ -10,7 +10,9 @@ import Foundation
 
 public class CloudCommunications {
     
-    public static func _request(var method: String, url: NSURL, params: NSMutableDictionary, callback: (response: CloudBoostResponse) -> Void ){
+    public static func _request( method: String, url: NSURL, params: NSMutableDictionary, callback: (response: CloudBoostResponse) -> Void ){
+        
+        var _method = method
         
         //Check for logging
         let isLogging = CloudApp.isLogging()
@@ -19,9 +21,9 @@ public class CloudCommunications {
         let cloudBoostResponse = CloudBoostResponse()
         
         //Handling DELETE request by fitting a parameter
-        if(method == "DELETE"){
+        if(_method == "DELETE"){
             params["method"] = "DELETE"
-            method = "PUT"
+            _method = "PUT"
         }
         
         //Ready the session
@@ -36,7 +38,7 @@ public class CloudCommunications {
         
         //Ready the payload by converting it to JSON
         let payload = try! params.getJSON()
-        request.HTTPMethod = method
+        request.HTTPMethod = _method
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.HTTPBody = payload
         
@@ -86,6 +88,9 @@ public class CloudCommunications {
                     }
                     
                 }catch let parseError {
+                    if let intVal = Int((NSString(data: data!, encoding: NSUTF8StringEncoding) as? String)!)  {
+                        cloudBoostResponse.object = intVal
+                    }
                     if(isLogging){
                         print(parseError)
                     }

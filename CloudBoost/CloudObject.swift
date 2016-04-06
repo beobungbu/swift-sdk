@@ -47,9 +47,27 @@ public class CloudObject{
             //Not allowed to chage these values
             return(-1,"Not allowed to change these values")
         }
-        document[attribute] = value
-        _modifiedColumns.append(attribute)
-        document["_modifiedColumns"] = _modifiedColumns
+        if let obj = value as? CloudObject {
+            document[attribute] = obj.document
+            _modifiedColumns.append(attribute)
+            document["_modifiedColumns"] = _modifiedColumns
+        } else if let obj = value as? [CloudObject] {
+            var res = [NSMutableDictionary]()
+            for o in obj {
+                res.append(o.document)
+            }
+            document[attribute] = res
+            _modifiedColumns.append(attribute)
+            document["_modifiedColumns"] = _modifiedColumns
+        } else if let obj = value as? NSDate {
+            document[attribute] = CloudBoostDateFormatter.getISOFormatter().stringFromDate(obj)
+            _modifiedColumns.append(attribute)
+            document["_modifiedColumns"] = _modifiedColumns
+        } else {
+            document[attribute] = value
+            _modifiedColumns.append(attribute)
+            document["_modifiedColumns"] = _modifiedColumns
+        }
         return(1,nil)
     }
     
@@ -264,6 +282,7 @@ public class CloudObject{
                         resp.message = "one or more objects were not saved"
                     }
                     if(count == array.count){
+                        resp.object = count
                         callback(resp)
                     }
             })

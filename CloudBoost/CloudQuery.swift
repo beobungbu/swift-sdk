@@ -12,16 +12,16 @@ public class CloudQuery{
 
     var tableName: String?
 
-    var query = NSMutableDictionary()
-    var select = NSMutableDictionary()
-    var sort = NSMutableDictionary()
-    let body = NSMutableDictionary()
+    private var query = NSMutableDictionary()
+    private var select = NSMutableDictionary()
+    private var sort = NSMutableDictionary()
+    private let body = NSMutableDictionary()
     
-    var include = [String]()
-    var includeList = [String]()
+    private var include = [String]()
+    private var includeList = [String]()
 
-    var _include = [String]()
-    var _includeList = [String]()
+    private var _include = [String]()
+    private var _includeList = [String]()
     
     var skip = 0
     var limit = 10
@@ -104,6 +104,22 @@ public class CloudQuery{
         self.query = query
     }
     
+    // MARK: query elements
+    
+    public func selectColumn(column: String){
+        if self.select.count == 0 {
+            select["_id"] = 1
+            select["createdAt"] = 1
+            select["updatedAt"] = 1
+            select["ACL"] = 1
+            select["_type"] = 1
+            select["_tableName"] = 1
+        }
+        
+        select[column] = 1
+        
+    }
+    
     public func or(object1: CloudQuery, object2: CloudQuery) throws {
         
         guard let tableName1 = object1.getTableName() else{
@@ -126,25 +142,72 @@ public class CloudQuery{
     }
     
     
-    public func equalTo(var columnName: String, obj: AnyObject) throws {
+    public func equalTo(columnName: String, obj: AnyObject) throws {
+        var _columnName = columnName
         if(columnName == "id"){
-            columnName = "_id"
+            _columnName = "_id"
         }
-        query[columnName] = obj
+        query[_columnName] = obj
         guard let _ = try query.getJSON() else{
             throw CloudBoostError.InvalidArgument
         }
     }
     
-    public func lessThan(var columnName: String, obj: AnyObject) throws {
+    public func notEqualTo(columnName: String, obj: AnyObject) throws {
+        var _columnName = columnName
         if(columnName == "id"){
-            columnName = "_id"
+            _columnName = "_id"
         }
-        query[columnName] = ["$lt":obj]
+        query[_columnName] = [ "$ne" : obj ]
         guard let _ = try query.getJSON() else{
             throw CloudBoostError.InvalidArgument
         }
     }
+    
+    public func lessThan(columnName: String, obj: AnyObject) throws {
+        var _columnName = columnName
+        if(columnName == "id"){
+            _columnName = "_id"
+        }
+        query[_columnName] = ["$lt":obj]
+        guard let _ = try query.getJSON() else{
+            throw CloudBoostError.InvalidArgument
+        }
+    }
+    
+    public func substring(columnName: String, subStr: String) throws {
+        var _columnName = columnName
+        if(columnName == "id"){
+            _columnName = "_id"
+        }
+        query[_columnName] = ["$regex": ".*" + subStr + ".*"]
+        guard let _ = try query.getJSON() else{
+            throw CloudBoostError.InvalidArgument
+        }
+    }
+    
+//    public func substring(columnName: String, subStrs: [String]) throws {
+//        var _columnName = columnName
+//        if(columnName == "id"){
+//            _columnName = "_id"
+//        }
+////        var exp = [NSMutableDictionary]()
+//        for str in subStrs {
+//            let tempQ = CloudQuery(tableName: self.getTableName()!)
+//            try! tempQ.substring(columnName, subStr: str)
+////            tempQ.query[_columnName] = ["$regex" : ".*" + str + ".*" ]
+//            do {
+//                try or(self, object2: tempQ)
+//            } catch {
+//                throw CloudBoostError.InvalidArgument
+//            }
+//            
+//        }
+////        query[_columnName] = exp
+//        guard let _ = try query.getJSON() else{
+//            throw CloudBoostError.InvalidArgument
+//        }
+//    }
     
     
     public func find(callbak: (response: CloudBoostResponse)->Void) throws {
@@ -158,6 +221,23 @@ public class CloudQuery{
         
         var url = CloudApp.getApiUrl() + "/data/" + CloudApp.getAppId()!
         url = url + "/" + tableName! + "/find"
+        CloudCommunications._request("POST", url: NSURL(string: url)!, params: params, callback: {
+            (response: CloudBoostResponse) in
+            callbak(response: response)
+        })
+        
+    }
+    
+    public func findOne(callbak: (response: CloudBoostResponse)->Void) throws {
+        let params = NSMutableDictionary()
+        params["query"] = query
+        params["select"] = select
+        params["skip"] = skip
+        params["sort"] = sort
+        params["key"] = CloudApp.getAppKey()
+        
+        var url = CloudApp.getApiUrl() + "/data/" + CloudApp.getAppId()!
+        url = url + "/" + tableName! + "/findOne"
         CloudCommunications._request("POST", url: NSURL(string: url)!, params: params, callback: {
             (response: CloudBoostResponse) in
             callbak(response: response)
@@ -183,6 +263,44 @@ public class CloudQuery{
         })
     }
 
+    public func distinct(key: String, callbak: (response: CloudBoostResponse) -> Void ){
+        
+        var _key = key
+        if(key == "id") {
+            _key = "_id"
+        }
+        let params = NSMutableDictionary()
+        params["onKey"] = _key
+        params["query"] = query
+        params["select"] = select
+        params["limit"] = 1
+        params["skip"] = 0
+        params["sort"] = sort
+        params["key"] = CloudApp.getAppKey()
+        
+        var url = CloudApp.getApiUrl() + "/data/" + CloudApp.getAppId()!
+        url = url + "/" + tableName! + "/distinct"
+        CloudCommunications._request("POST", url: NSURL(string: url)!, params: params, callback: {
+            (response: CloudBoostResponse) in
+            callbak(response: response)
+        })
+    }
+    
+    public func count( callbak: (response: CloudBoostResponse) -> Void ){
+        
+        let params = NSMutableDictionary()
+        params["query"] = query
+        params["limit"] = self.limit
+        params["skip"] = 0
+        params["key"] = CloudApp.getAppKey()
+        
+        var url = CloudApp.getApiUrl() + "/data/" + CloudApp.getAppId()!
+        url = url + "/" + tableName! + "/count"
+        CloudCommunications._request("POST", url: NSURL(string: url)!, params: params, callback: {
+            (response: CloudBoostResponse) in
+            callbak(response: response)
+        })
+    }
 
 
     

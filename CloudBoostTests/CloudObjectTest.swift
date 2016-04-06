@@ -334,11 +334,15 @@ class CloudObjectTest: XCTestCase {
         obj.setEmail(Util.makeEmail())
         obj.save({
             (response: CloudBoostResponse) in
-            if(response.object!["password"] as! String == "password"){
-                print("Failed to encrypt")
+            if let doc = response.object as? NSMutableDictionary {
+                if doc["password"] as! String == "password" {
+                    print("Failed to encrypt")
+                    XCTAssert(false)
+                }
+                exp.fulfill()
+            }else{
                 XCTAssert(false)
             }
-            exp.fulfill()
         })
         waitForExpectationsWithTimeout(30, handler: nil)
     }
@@ -558,6 +562,194 @@ class CloudObjectTest: XCTestCase {
             })
         })
         waitForExpectationsWithTimeout(90, handler: nil)
+    }
+    
+    // Should save GeoPoint
+    func testSaveGeoPoint(){
+        let exp = expectationWithDescription("save Geo point")
+        
+        let obj = CloudObject(tableName: "Custom2")
+        try! obj.set("location", value: CloudGeoPoint(latitude: 80, longitude: 80).document)
+        obj.save({
+            (response: CloudBoostResponse) in
+            response.log()
+            XCTAssert(response.success)
+            exp.fulfill()
+        })
+        
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Should save a list of Geo points
+    func testSaveArrayOfGeoPoint() {
+        let exp = expectationWithDescription("save Geo point")
+        
+        let point1 = try! CloudGeoPoint(latitude: 80, longitude: 80)
+        let point2 = try! CloudGeoPoint(latitude: 40, longitude: 40)
+        let obj = CloudObject(tableName: "Custom2")
+        obj.set("ListGeoPoint", value: [point1.document,point2.document])
+        obj.save({
+            (response: CloudBoostResponse) in
+            response.log()
+            XCTAssert(response.success)
+            exp.fulfill()
+        })
+        
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Version
+    
+    //should set modified array
+    func testCheckModifiedArray(){
+        let exp = expectationWithDescription("should set modified array")
+        let obj = CloudObject(tableName: "Student")
+        obj.set("name", value: "Randhir")
+        obj.set("marks", value: 40)
+        obj.save({
+            (response: CloudBoostResponse) in
+            response.log()
+            if let doc = response.object as? NSMutableDictionary {
+                let modifiedCol = doc["_modifiedColumns"] as? NSArray
+                if(modifiedCol?.count > 0){
+                    XCTAssert(false)
+                }
+                exp.fulfill()
+            }
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    //should save.
+    func testShouldSave(){
+        let exp = expectationWithDescription("should save")
+        let obj = CloudObject(tableName: "Student")
+        obj.set("name", value: "Randhir")
+        obj.set("marks", value: 40)
+        obj.save({
+            (response: CloudBoostResponse) in
+            response.log()
+            if let doc = response.object as? NSMutableDictionary {
+                let name = doc["name"] as? String
+                if(name != "Randhir"){
+                    XCTAssert(false)
+                }
+                exp.fulfill()
+            }
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // should get the saved CO with version number
+    func testGetObjectWithVersion() {
+        let exp = expectationWithDescription("should get object with version")
+        let obj = CloudObject(tableName: "Student")
+        obj.set("name", value: "Randhir")
+        obj.set("marks", value: 40)
+        obj.save({
+            (response: CloudBoostResponse) in
+            response.log()
+            
+            CloudQuery(tableName: "Student").findById(obj.getId()!, callbak: {
+                (response: CloudBoostResponse) in
+                if let doc = response.object as? NSMutableDictionary {
+                    let version = doc["_version"] as? Int
+                    if(version >= 0){
+                        XCTAssert(true)
+                    }
+                    exp.fulfill()
+                }else {
+                    XCTAssert(false)
+                }
+            })
+        })
+        waitForExpectationsWithTimeout(60, handler: nil)
+    }
+    
+    //Should update the version of the saved object
+    func testUpdateVersion() {
+        let exp = expectationWithDescription("update the version of the object")
+        let obj = CloudObject(tableName: "Student")
+        obj.set("name", value: "Randhir")
+        obj.set("marks", value: 40)
+        obj.save({
+            (response: CloudBoostResponse) in
+            response.log()
+            obj.set("name", value: "Randhir Singh")
+            obj.save({
+                (response: CloudBoostResponse) in
+                response.log()
+                if let doc = response.object as? NSMutableDictionary {
+                    let version = doc["_version"] as? Int
+                    if(version >= 1){
+                        XCTAssert(true)
+                    }
+                    exp.fulfill()
+                }else {
+                    XCTAssert(false)
+                }
+            })
+            
+        })
+        waitForExpectationsWithTimeout(60, handler: nil)
+    }
+    
+    //creating a user wih version
+    func testUserWIthVersion() {
+        let exp = expectationWithDescription("Save user with version" )
+        let username = Util.makeString(10)
+        let user = CloudUser(username: username, password: Util.makeString(10))
+        user.setEmail(Util.makeEmail())
+        try! user.signup({
+            (response: CloudBoostResponse) in
+            response.log()
+            if let doc = response.object as? NSMutableDictionary {
+                let ver = doc["_version"] as! Int
+                let uname = doc["username"] as! String
+                if( uname == username && ver >= 0){
+                    XCTAssert(true)
+                }else{
+                    XCTAssert(false)
+                }
+                exp.fulfill()
+            }
+        })
+    }
+    
+    //should create a role with specified version
+    func testSaveRoleWithVersion() {
+        let exp = expectationWithDescription("should save role with version")
+        let roleName = Util.makeString(10)
+        let role = CloudRole(roleName: roleName)
+        role.save({
+            (response: CloudBoostResponse) in
+            if let doc = response.object as? NSMutableDictionary {
+                let ver = doc["_version"] as! Int
+                if(ver >= 0){
+                    XCTAssert(true)
+                }else{
+                    XCTAssert(false)
+                }
+                exp.fulfill()
+            }
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // save a relation with specified version number
+    func  testSaveRelationWithVersion(){
+        let exp = expectationWithDescription("save relation with a version number")
+        let student1 = CloudObject(tableName: "Student")
+        let friend = CloudObject(tableName: "Student")
+        student1.set("name", value: "Randhir")
+        friend.set("name", value: "Sumit")
+        student1.set("friend", value: student1.document)
+        student1.save({
+            (resp: CloudBoostResponse) in
+            resp.log()
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(60, handler: nil)
     }
     
     
