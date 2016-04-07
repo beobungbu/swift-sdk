@@ -536,5 +536,314 @@ class CloudQueryTest: XCTestCase {
         waitForExpectationsWithTimeout(60, handler: nil)
     }
     
-    // find
+    // find one query
+    func testFindOne() {
+        let exp = expectationWithDescription("find one query")
+        
+        let obj = CloudObject(tableName: "Student")
+        obj.set("name", value: "Vipul")
+        obj.set("marks", value: 107)
+        obj.save({
+            (response: CloudBoostResponse) in
+            let query = CloudQuery(tableName: "Student")
+//            try! query.equalTo("id", obj: (response.object as! NSMutableDictionary)["_id"] as! String)
+            try! query.equalTo("name", obj: "Vipul")
+            try! query.findOne({
+                (response: CloudBoostResponse) in
+                guard let res = response.object as? NSDictionary else{
+                    XCTAssert(false)
+                    exp.fulfill()
+                    return
+                }
+                if res["name"] as! String != "Vipul" {
+                    XCTAssert(false)
+                }
+                exp.fulfill()
+            })
+            
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // testing containsAll
+    func testRetrieveDataWithParticularValue() {
+        let exp = expectationWithDescription("testing contains all")
+        let obj = CloudObject(tableName: "Student")
+        obj.set("name", value: "Sumit")
+        obj.set("subjects", value: ["math","science"])
+        obj.save({
+            (response: CloudBoostResponse) in
+            let query = CloudQuery(tableName: "Student")
+            query.containsAll("sibjects", obj: ["math","science"])
+            try! query.find({
+                (response: CloudBoostResponse) in
+                response.log()
+                guard let resArray = response.object as? [NSDictionary] else{
+                    XCTAssert(false)
+                    exp.fulfill()
+                    return
+                }
+                if resArray.count == 0 {
+                    XCTAssert(false)
+                }
+                exp.fulfill()
+            })
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // should retrieve data where column starts with a given string
+    func testStartsWith() {
+        let exp = expectationWithDescription("testing strts with")
+        let query = CloudQuery(tableName: "Student")
+        query.startsWith("name", str: "Ran")
+        try! query.find({
+            (response: CloudBoostResponse) in
+            guard let resArray = response.object as? [NSDictionary] else{
+                XCTAssert(false)
+                exp.fulfill()
+                return
+            }
+            if resArray.count == 0 {
+                XCTAssert(false)
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // should not retrieve data with a particular value
+    func testNotEqualTo() {
+        let exp = expectationWithDescription("testing not equal to")
+        let query = CloudQuery(tableName: "Student")
+        try! query.notEqualTo("name", obj: "Randhir")
+        try! query.find({
+            (response: CloudBoostResponse) in
+            guard let resArray = response.object as? [NSDictionary] else{
+                XCTAssert(false)
+                exp.fulfill()
+                return
+            }
+            if resArray.count == 0 {
+                XCTAssert(false)
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    
+    // testing not contained in
+    func testNotContainedIn() {
+        let exp = expectationWithDescription("testing not contained in")
+        let query = CloudQuery(tableName: "Student")
+        query.notContainedIn("subjects", obj: ["math","science"])
+        try! query.find({
+            (response: CloudBoostResponse) in
+            response.log()
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(50, handler: nil)
+    }
+    
+    // retrienve data that is greater than a particular value
+    func testGreaterThan() {
+        let exp = expectationWithDescription("testing greater than")
+        let query = CloudQuery(tableName: "Student")
+        try! query.greaterThan("marks", obj: 90)
+        try! query.find({
+            (response: CloudBoostResponse) in
+            guard let resArray = response.object as? [NSDictionary] else{
+                XCTAssert(false)
+                exp.fulfill()
+                return
+            }
+            for res in  resArray{
+                if (res["marks"] as! Int) <= 90 {
+                    XCTAssert(false)
+                }
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(50, handler: nil)
+    }
+    
+    // retrieve data that is greater than or equal to a particular value
+    func testGreaterThanEqualTo() {
+        let exp = expectationWithDescription("test greater than equal to")
+        let query = CloudQuery(tableName: "Student")
+        try! query.greaterThanEqualTo("marks", obj: 90)
+        try! query.find({
+            (response: CloudBoostResponse) in
+            guard let resArray = response.object as? [NSDictionary] else{
+                XCTAssert(false)
+                exp.fulfill()
+                return
+            }
+            for res in  resArray{
+                if (res["marks"] as! Int) < 90 {
+                    XCTAssert(false)
+                }
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(50, handler: nil)
+    }
+    
+    // retrieve data that less than a particular value
+    func testLessThan() {
+        let exp = expectationWithDescription("test less than")
+        let query = CloudQuery(tableName: "Student")
+        try! query.lessThan("marks", obj: 90)
+        try! query.find({
+            (response: CloudBoostResponse) in
+            guard let resArray = response.object as? [NSDictionary] else{
+                XCTAssert(false)
+                exp.fulfill()
+                return
+            }
+            for res in  resArray{
+                if (res["marks"] as! Int) >= 90 {
+                    XCTAssert(false)
+                }
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(50, handler: nil)
+    }
+    
+    // retrieve data that is less than or equal to a particular value
+    func testLessThanEqualTo() {
+        let exp = expectationWithDescription("test less than equal to")
+        let query = CloudQuery(tableName: "Student")
+        try! query.lessThanEqualTo("marks", obj: 90)
+        try! query.find({
+            (response: CloudBoostResponse) in
+            guard let resArray = response.object as? [NSDictionary] else{
+                XCTAssert(false)
+                exp.fulfill()
+                return
+            }
+            for res in  resArray{
+                if (res["marks"] as! Int) > 90 {
+                    XCTAssert(false)
+                }
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(50, handler: nil)
+    }
+    
+    // should retrieve data that is equal to a particular value
+    func testEqualTo() {
+        let exp = expectationWithDescription("testing equal to")
+        let query = CloudQuery(tableName: "Student")
+        try! query.equalTo("marks", obj: 90)
+        try! query.find({
+            (response: CloudBoostResponse) in
+            guard let resArray = response.object as? [NSDictionary] else{
+                XCTAssert(false)
+                exp.fulfill()
+                return
+            }
+            for res in  resArray{
+                if (res["marks"] as! Int) != 90 {
+                    XCTAssert(false)
+                }
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(50, handler: nil)
+    }
+    
+    // retrieve ascending sorted data
+    func testSortAscending() {
+        let exp = expectationWithDescription("testing ascending order")
+        let query = CloudQuery(tableName: "Student")
+        query.sortAscendingBy("marks")
+        try! query.find({
+            (response: CloudBoostResponse) in
+            guard let resArray = response.object as? [NSDictionary] else{
+                XCTAssert(false)
+                exp.fulfill()
+                return
+            }
+            if( resArray.count > 1 ){
+                // loop until the second last element
+                for i in  0...resArray.count-2 {
+                    if (resArray[i]["marks"] as! Int) > (resArray[i+1]["marks"] as! Int) {
+                        XCTAssert(false)
+                    }
+                }
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(50, handler: nil)
+
+    }
+    
+    // retrieve descending sorted data
+    func testSortDescending() {
+        let exp = expectationWithDescription("testing descending order")
+        let query = CloudQuery(tableName: "Student")
+        query.sortAscendingBy("marks")
+        try! query.find({
+            (response: CloudBoostResponse) in
+            guard let resArray = response.object as? [NSDictionary] else{
+                XCTAssert(false)
+                exp.fulfill()
+                return
+            }
+            if( resArray.count > 1 ){
+                // loop until the second last element
+                for i in  0...resArray.count-2 {
+                    if (resArray[i]["marks"] as! Int) < (resArray[i+1]["marks"] as! Int) {
+                        XCTAssert(false)
+                    }
+                }
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(50, handler: nil)
+        
+    }
+
+    // shoudl limit the number of data items received
+    func testLimit(){
+        let exp = expectationWithDescription("limit the number of items")
+        let query = CloudQuery(tableName: "Student")
+        query.limit = 5
+        try! query.find({
+            (response: CloudBoostResponse) in
+            guard let resArray = response.object as? [NSDictionary] else{
+                XCTAssert(false)
+                exp.fulfill()
+                return
+            }
+            if resArray.count > 5 {
+                XCTAssert(false)
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(40, handler: nil)
+    }
+    
+    // testing exists
+    func testExists() {
+        let exp = expectationWithDescription("testing exists")
+        let query = CloudQuery(tableName: "Student")
+        query.doesNotExists("marks")
+        try! query.find({
+            (response: CloudBoostResponse) in
+            response.log()
+            XCTAssert(response.success)
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    
+    
+    
+    
 }

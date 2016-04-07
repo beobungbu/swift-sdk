@@ -175,15 +175,104 @@ public class CloudQuery{
         }
     }
     
-    public func substring(columnName: String, subStr: String) throws {
+    public func lessThanEqualTo(columnName: String, obj: AnyObject) throws {
+        var _columnName = columnName
+        if(columnName == "id"){
+            _columnName = "_id"
+        }
+        query[_columnName] = ["$lte":obj]
+        guard let _ = try query.getJSON() else{
+            throw CloudBoostError.InvalidArgument
+        }
+    }
+    
+    public func greaterThan(columnName: String, obj: AnyObject) throws {
+        var _columnName = columnName
+        if(columnName == "id"){
+            _columnName = "_id"
+        }
+        query[_columnName] = ["$gt":obj]
+        guard let _ = try query.getJSON() else{
+            throw CloudBoostError.InvalidArgument
+        }
+
+    }
+    
+    public func greaterThanEqualTo(columnName: String, obj: AnyObject) throws {
+        var _columnName = columnName
+        if(columnName == "id"){
+            _columnName = "_id"
+        }
+        query[_columnName] = ["$gte":obj]
+        guard let _ = try query.getJSON() else{
+            throw CloudBoostError.InvalidArgument
+        }
+        
+    }
+
+    
+    public func substring(columnName: String, subStr: String) {
         var _columnName = columnName
         if(columnName == "id"){
             _columnName = "_id"
         }
         query[_columnName] = ["$regex": ".*" + subStr + ".*"]
-        guard let _ = try query.getJSON() else{
-            throw CloudBoostError.InvalidArgument
+    }
+    
+    public func startsWith(columnName: String, str: String) {
+        var _columnName = columnName
+        if(columnName == "id"){
+            _columnName = "_id"
         }
+        query[_columnName] = ["$regex": "^" + str]
+    }
+    
+    public func containsAll(columnName: String, obj: [String]) {
+        var _columnName = columnName
+        if(columnName == "id"){
+            _columnName = "_id"
+        }
+        query[_columnName] = ["$all":obj]
+    }
+    
+    public func notContainedIn(columnName: String, obj: [String]) {
+        var _columnName = columnName
+        if(columnName == "id"){
+            _columnName = "_id"
+        }
+        query[_columnName] = ["$nin":obj]
+    }
+    
+    public func exists(columnName: String) {
+        var _columnName = columnName
+        if(columnName == "id"){
+            _columnName = "_id"
+        }
+        query[_columnName] = ["$exists":true]
+    }
+    
+    public func doesNotExists(columnName: String) {
+        var _columnName = columnName
+        if(columnName == "id"){
+            _columnName = "_id"
+        }
+        query[_columnName] = ["$exists":false]
+    }
+
+    public func sortAscendingBy(columnName: String) {
+        var _columnName = columnName
+        if(columnName == "id"){
+        _columnName = "_id"
+        }
+        sort[_columnName] = 1
+    }
+    
+    public func sortDescendingBy(columnName: String) {
+        var _columnName = columnName
+        if(columnName == "id"){
+            _columnName = "_id"
+        }
+        sort[_columnName] = 1
     }
     
 //    public func substring(columnName: String, subStrs: [String]) throws {
