@@ -57,5 +57,8 @@ public class CloudGeoPoint {
         return document["latitude"] as? Double
     }
     
+    public func getCoordinates() -> [Double] {
+        return coordinates
+    }
     
 }

@@ -246,6 +246,19 @@ public class CloudObject{
         return nil
     }
     
+    // Get a GeoPoint
+    public func getGeoPoint(attribute: String) -> CloudGeoPoint? {
+        if let geoPoint = document[attribute] as? NSDictionary {
+            do {
+                let geoPointObj = try CloudGeoPoint(latitude: geoPoint["latitude"] as! Double, longitude: geoPoint["longitude"] as! Double)
+                return geoPointObj
+            } catch {
+                return nil
+            }
+        }
+        return nil
+    }
+    
     // Log this cloud boost object
     public func log() {
         print("-- CLoud Object --")

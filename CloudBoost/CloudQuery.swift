@@ -275,6 +275,32 @@ public class CloudQuery{
         sort[_columnName] = 1
     }
     
+    public func near(columnName: String, geoPoint: CloudGeoPoint, maxDistance: Double, minDistance: Double){
+        query[columnName] = nil
+        query[columnName] = [ "$near" : [   "$geometry": [ "coordinates" : geoPoint.getCoordinates(), "type" : "Point"],
+                                            "$maxDistance" : maxDistance,
+                                            "$minDistance" : minDistance
+                                        ]
+                            ]
+    }
+    
+    // query GeoPoint within an arrangement of Geo points
+    public func geoWithin(columnName: String, geoPoints: [CloudGeoPoint]){
+        query[columnName] = nil
+        var coordinateList = [[Double]]()
+        for geoPoint in geoPoints {
+            coordinateList.append(geoPoint.getCoordinates())
+        }
+        coordinateList.append(geoPoints[0].getCoordinates())
+        query[columnName] = [ "$geoWithin" : [ "$geometry": [ "coordinates" : [coordinateList], "type" : "Polygon"] ] ]
+    }
+    
+    // within radius of a geo point
+    public func geoWithin(columnName: String, geoPoint: CloudGeoPoint, radius: Double) {
+        query[columnName] = nil
+        query[columnName] = [ "$geoWithin" : [ "$centerSphere": [ geoPoint.getCoordinates(), radius/3963.2] ] ]
+    }
+    
 //    public func substring(columnName: String, subStrs: [String]) throws {
 //        var _columnName = columnName
 //        if(columnName == "id"){
