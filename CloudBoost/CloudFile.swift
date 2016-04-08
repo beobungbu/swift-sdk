@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class CLoudFile {
+public class CloudFile {
     var document = NSMutableDictionary()
     private var data: String?
     

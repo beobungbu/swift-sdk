@@ -160,7 +160,7 @@ class CloudObjectTest: XCTestCase {
             resp.log()
             let obj2 = CloudObject(tableName: "Student")
             obj2.set("name", value: "Prabanjan")
-            obj2.set("friend", value: obj.document)
+            obj2.set("friend", value: obj)
             obj2.save({
                 (resp2: CloudBoostResponse) in
                 resp2.log()
@@ -288,7 +288,7 @@ class CloudObjectTest: XCTestCase {
         obj.set("newColumn1", value: "Course");
         let obj3 = CloudObject(tableName: "Custom3");
         obj3.set("address",value: "progress");
-        obj.set("newColumn2",value: obj3.document);
+        obj.set("newColumn2",value: obj3);
         
         CloudObject.saveAll([obj,obj3], callback: {
             (response: CloudBoostResponse) in
@@ -457,7 +457,7 @@ class CloudObjectTest: XCTestCase {
             XCTAssert(false)
             return
         }
-        let file = CLoudFile(name: "aTag", data: data, contentType: "text/html")
+        let file = CloudFile(name: "aTag", data: data, contentType: "text/html")
         file.save({
             (response: CloudBoostResponse) in
             response.log()
@@ -465,7 +465,7 @@ class CloudObjectTest: XCTestCase {
             let obj = CloudObject(tableName: "Student")
             obj.set("name", value: "Randhir")
             obj.set("marks", value: 68)
-            obj.set("file", value: file.document)
+            obj.set("file", value: file)
             obj.save({
                 (response: CloudBoostResponse) in
                 XCTAssert(response.success)
@@ -483,7 +483,7 @@ class CloudObjectTest: XCTestCase {
             XCTAssert(false)
             return
         }
-        let file = CLoudFile(name: "aTag", data: data, contentType: "text/html")
+        let file = CloudFile(name: "aTag", data: data, contentType: "text/html")
         file.save({
             (response: CloudBoostResponse) in
             response.log()
@@ -491,7 +491,7 @@ class CloudObjectTest: XCTestCase {
             let obj = CloudObject(tableName: "Student")
             obj.set("name", value: "Name 1")
             obj.set("marks", value: 68)
-            obj.set("file", value: file.document)
+            obj.set("file", value: file)
             obj.save({
                 (response: CloudBoostResponse) in
                 guard let file = obj.get("file") as? NSDictionary else{
@@ -526,7 +526,7 @@ class CloudObjectTest: XCTestCase {
             XCTAssert(false)
             return
         }
-        let file = CLoudFile(name: "aTag", data: data, contentType: "text/html")
+        let file = CloudFile(name: "aTag", data: data, contentType: "text/html")
         file.save({
             (response: CloudBoostResponse) in
             response.log()
@@ -535,14 +535,14 @@ class CloudObjectTest: XCTestCase {
                 XCTAssert(false)
                 return
             }
-            let file2 = CLoudFile(name: "aTag", data: data, contentType: "text/html")
+            let file2 = CloudFile(name: "aTag", data: data, contentType: "text/html")
             file2.save({
                 (response: CloudBoostResponse) in
                 
                 let obj = CloudObject(tableName: "Student")
                 obj.set("name", value: "Name 1")
                 obj.set("marks", value: 68)
-                obj.set("fileList", value: [file.document, file2.document])
+                obj.set("fileList", value: [file, file2])
                 obj.save({
                     (response: CloudBoostResponse) in
                     response.log()
@@ -587,7 +587,7 @@ class CloudObjectTest: XCTestCase {
         let point1 = try! CloudGeoPoint(latitude: 80, longitude: 80)
         let point2 = try! CloudGeoPoint(latitude: 40, longitude: 40)
         let obj = CloudObject(tableName: "Custom2")
-        obj.set("ListGeoPoint", value: [point1.document,point2.document])
+        obj.set("ListGeoPoint", value: [point1,point2])
         obj.save({
             (response: CloudBoostResponse) in
             response.log()
@@ -743,7 +743,7 @@ class CloudObjectTest: XCTestCase {
         let friend = CloudObject(tableName: "Student")
         student1.set("name", value: "Randhir")
         friend.set("name", value: "Sumit")
-        student1.set("friend", value: student1.document)
+        student1.set("friend", value: friend)
         student1.save({
             (resp: CloudBoostResponse) in
             resp.log()
