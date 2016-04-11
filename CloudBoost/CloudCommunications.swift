@@ -86,6 +86,9 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
                         cloudBoostResponse.object = jsonArrayResult
                         callback(response: cloudBoostResponse)
                     }else{
+                        if let intVal = Int((NSString(data: data!, encoding: NSUTF8StringEncoding) as? String)!)  {
+                            cloudBoostResponse.object = intVal
+                        }
                         if(isLogging){
                             print("Could not convert the response to NSMutalbeDictionary")
                         }

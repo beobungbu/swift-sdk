@@ -832,7 +832,7 @@ class CloudQueryTest: XCTestCase {
     func testExists() {
         let exp = expectationWithDescription("testing exists")
         let query = CloudQuery(tableName: "Student")
-        query.doesNotExists("marks")
+        query.exists("marks")
         try! query.find({
             (response: CloudBoostResponse) in
             response.log()
@@ -842,8 +842,82 @@ class CloudQueryTest: XCTestCase {
         waitForExpectationsWithTimeout(30, handler: nil)
     }
     
+    // should give distinct elements
+    func testGiveDistinctElements() {
+        let exp = expectationWithDescription("should give distinct elements")
+        let query = CloudQuery(tableName: "Student")
+        query.limit = 100
+        // uncomment this to make failcounts zero,
+        // query.exists("marks")
+        query.distinct("marks", callbak: {
+            response in
+            guard let objArr = response.object as? [NSDictionary] else{
+                XCTAssert(false)
+                exp.fulfill()
+                return
+            }
+            var marksArr = [Int]()
+            var failCount = 0
+            for obj in objArr {
+                if let marks = obj["marks"]as? Int {
+                    if marksArr.indexOf(marks) >= 0 {
+                        XCTAssert(false)
+                        print("Not a distinct array")
+                        exp.fulfill()
+                        return
+                    }
+                    marksArr.append(marks)
+                } else {
+                    failCount += 1
+                }
+            }
+            // is at max 1. because a 'distinct' nil is encountered
+            print("fail counts: \(failCount)")
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(60, handler: nil)
+    }
     
     
+    // Should paginate with all params (return list of limited objects,count and totalpages)
+    func testPaginateItems(){
+        let exp = expectationWithDescription("save paginate")
+        
+        let obj1 = CloudObject(tableName: "QueryPaginate")
+        obj1.set("name", value: "Randhir")
+        
+        let obj2 = CloudObject(tableName: "QueryPaginate")
+        obj2.set("name", value: "Sumit")
+        
+        let obj3 = CloudObject(tableName: "QueryPaginate")
+        obj3.set("name", value: "Anurag")
+        
+        let obj4 = CloudObject(tableName: "QueryPaginate")
+        obj4.set("name", value: "Rajat")
+        
+        CloudObject.saveAll([obj1, obj2, obj3, obj4], callback: {
+            response in
+            if response.success {
+                let query1 = CloudQuery(tableName: "QueryPaginate")
+                let pageNum = 1
+                let totalItemsInPage = 2
+                query1.paginate(pageNum, totalItemsInPage: totalItemsInPage, callback: {
+                    object, count, totalPages in
+                    if object != nil && object?.count > totalItemsInPage {
+                        print("received number of items are greater than the required value")
+                        XCTAssert(false)
+                    }else if Int(ceil(Double(count!)/Double(totalItemsInPage))) != totalPages {
+                        print("totalpages is not recieved as expected")                        
+                    }
+                    exp.fulfill()
+                })
+            }
+        })
+        
+        waitForExpectationsWithTimeout(60, handler: nil)
+        
+    }
     
+    // cannot paginate with null parameters. API does not allow fiddling with parameters
     
 }

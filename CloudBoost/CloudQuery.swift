@@ -36,6 +36,25 @@ public class CloudQuery{
         
     }
     
+    // getter and setters for limit
+    public func getLimit() -> Int {
+        return limit
+    }
+    
+    public func setLimit(limit: Int) {
+        self.limit = limit
+    }
+    
+    // getter and setters for skip
+    public func getSkip() -> Int {
+        return skip
+    }
+    
+    public func setSkip(skip: Int) {
+        self.skip = skip
+    }
+    
+    // getter and setters for tableName
     public func getTableName() -> String?{
         return tableName
     }
@@ -44,6 +63,7 @@ public class CloudQuery{
         self.tableName = tableName
     }
     
+    // Getter and setters for select statements
     public func getSelect() -> NSMutableDictionary {
         return select
     }
@@ -388,7 +408,7 @@ public class CloudQuery{
         params["onKey"] = _key
         params["query"] = query
         params["select"] = select
-        params["limit"] = 1
+        params["limit"] = limit
         params["skip"] = 0
         params["sort"] = sort
         params["key"] = CloudApp.getAppKey()
@@ -418,6 +438,37 @@ public class CloudQuery{
     }
 
 
-    
+    public func paginate(pageNo: Int, totalItemsInPage: Int, callback: (objectsList: [NSDictionary]?, count: Int?, totalPages: Int?)->Void) {
+        if pageNo > 0 && totalItemsInPage > 0 {
+            let skip = pageNo*totalItemsInPage - totalItemsInPage
+            self.setSkip(skip)
+            self.setLimit(totalItemsInPage)
+        } else if totalItemsInPage > 0 {
+            self.setLimit(totalItemsInPage)
+        }
+        do {
+            try self.find({
+                response in
+                if response.success {
+                    self.setLimit(99999999)
+                    self.setSkip(0)
+                    let list = response.object as? [NSDictionary]
+                    self.count({
+                        response in
+                        if response.success {
+                            if let count = response.object as? Int {
+                               callback(objectsList: list, count: count, totalPages: Int(ceil(Double(count)/Double(self.limit))) )
+                            }
+                        }
+                        callback(objectsList: list, count: nil, totalPages: nil)
+                    })
+                } else {
+                    callback(objectsList: nil,count: nil,totalPages: nil)
+                }
+            })
+        } catch {
+            callback(objectsList: nil,count: nil,totalPages: nil)
+        }
+    }
 
 }
