@@ -10,12 +10,14 @@ import Foundation
 
 public class CloudFile {
     var document = NSMutableDictionary()
-    private var data: String?
+    private var data: NSData?
+    private var strEncodedData: String?
     
     
     public init(name: String, data: NSData, contentType: String){
         
-        self.data = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+        self.data = data
+        self.strEncodedData = data.base64EncodedStringWithOptions([])
         
         document["_id"] = nil
         document["_type"] = "file"
@@ -52,6 +54,10 @@ public class CloudFile {
         return nil
     }
     
+    public func getData() -> NSData? {
+        return data
+    }
+    
     // MARK: Setters
     
     public func setId(id: String){
@@ -74,21 +80,65 @@ public class CloudFile {
         document["ACL"] = acl.getACL()
     }
     
+    public func setDate(data: NSData) {
+        self.data = data
+        self.strEncodedData = data.base64EncodedStringWithOptions([])
+    }
+    
     
     // Save a CloudFile object
     public func save(callback: (response: CloudBoostResponse) -> Void){
         let params = NSMutableDictionary()
         params["key"] = CloudApp.getAppKey()!
         params["fileObj"] = self.document
-        params["data"] = self.data
+        params["data"] = self.strEncodedData
         let url = CloudApp.getApiUrl() + "/file/" + CloudApp.getAppId()!
         
         CloudCommunications._request("POST", url: NSURL(string: url)!, params: params, callback: {
             (response: CloudBoostResponse) in
-            self.document = (response.object as? NSMutableDictionary)!
+            if(response.success) {
+                self.document = (response.object as? NSMutableDictionary)!                
+            }
             callback(response: response)
         })
     }
+    
+    
+    // Save an array of CloudFile
+    public static func saveAll(array: [CloudFile], callback: (CloudBoostResponse)->Void) {
+        
+        // Ready the response
+        let resp = CloudBoostResponse()
+        resp.success = true
+        var count = 0
+        
+        // Iterate through the array
+        for object in array {
+            let url = CloudApp.serverUrl + "/file/" + CloudApp.appID!
+            let params = NSMutableDictionary()
+            params["key"] = CloudApp.appKey!
+            params["fileObj"] = object.document
+            params["data"] = object.strEncodedData
+            
+            CloudCommunications._request("POST", url: NSURL(string: url)!, params: params, callback:
+                {(response: CloudBoostResponse) in
+                    count += 1
+                    if(response.success){
+                        if let newDocument = response.object {
+                            object.document = newDocument as! NSMutableDictionary
+                        }
+                    }else{
+                        resp.success = false
+                        resp.message = "one or more objects were not saved"
+                    }
+                    if(count == array.count){
+                        resp.object = count
+                        callback(resp)
+                    }
+            })
+        }
+    }
+
     
     // delete a CloudFile
     public func delete(callback: (response: CloudBoostResponse) -> Void) throws {
@@ -108,7 +158,49 @@ public class CloudFile {
         
     }
     
+    public static func getFileFromUrl(url: NSURL, callback: (response: CloudBoostResponse)->Void){
+        let cbResponse = CloudBoostResponse()
+        cbResponse.success = false
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "GET"
+        NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: {
+            data, response, error -> Void in
+            guard let httpRes = response as? NSHTTPURLResponse else {
+                cbResponse.message = "Proper response not received"
+                callback(response: cbResponse)
+                return
+            }
+            cbResponse.status = httpRes.statusCode
+            if( httpRes.statusCode == 200){
+                guard let strEncodedData = NSString(data: data!, encoding: NSUTF8StringEncoding) as? String else {
+                    cbResponse.message = "Error in encoding/decoding"
+                    callback(response: cbResponse)
+                    return
+                }
+                let nsData = NSData(base64EncodedString: strEncodedData, options: [])
+                cbResponse.success = true
+                cbResponse.object = nsData
+                callback(response: cbResponse)
+            } else {
+                cbResponse.message = "\(httpRes.statusCode) error"
+            }
+            
+        }).resume()
+
+    }
     
+    public func uploadSave(progressCallback : (response: CloudBoostProgressResponse)->Void){
+        let params = NSMutableDictionary()
+        params["key"] = CloudApp.getAppKey()!
+        params["fileObj"] = self.document
+        params["data"] = self.strEncodedData
+        let url = CloudApp.getApiUrl() + "/file/" + CloudApp.getAppId()!
+        
+        CloudCommunications()._requestFile("POST", url: NSURL(string: url)!, params: params, data: data, uploadCallback: {
+            uploadResponse in
+            progressCallback(response: uploadResponse)
+        })
+    }
     
     
     

@@ -8,7 +8,12 @@
 
 import Foundation
 
-public class CloudCommunications {
+public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate {
+    
+    private var progressCallback: ((progressCallback: CloudBoostProgressResponse) -> Void)?
+    private var response = CloudBoostProgressResponse()
+    
+    public override init(){}
     
     public static func _request( method: String, url: NSURL, params: NSMutableDictionary, callback: (response: CloudBoostResponse) -> Void ){
         
@@ -102,5 +107,77 @@ public class CloudCommunications {
         task.resume()
         
     }
+    
+    
+    // Experimental function
+    public func _requestFile( method: String, url: NSURL, params: NSMutableDictionary, data: NSData?, uploadCallback: (progressResponse: CloudBoostProgressResponse) -> Void ){
+        
+        // set the callback function
+        progressCallback = uploadCallback
+        
+        //Check for logging
+        let isLogging = CloudApp.isLogging()        
+        
+        //Ready the session
+        let request = NSMutableURLRequest(URL: url)
+        
+        //Check params
+        if(isLogging){
+            print("Sending the following Object: ")
+            print(NSString(data: try! params.getJSON()!, encoding: NSUTF8StringEncoding))
+        }
+        
+        //Ready the payload by converting it to JSON
+        let payload = try! params.getJSON()
+        request.HTTPMethod = method
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")        
+        
+        
+        let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
+        let session = NSURLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
+        
+        let uploadTask = session.uploadTaskWithRequest(request, fromData: payload!)
+        
+        uploadTask.resume()
+        
+    }
+
+    public func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
+        print("did complete")
+        print(error)
+    }
+    
+    public func URLSession(session: NSURLSession, task: NSURLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
+        print("did send")
+        response.progress = Double(totalBytesSent)/Double(totalBytesExpectedToSend)
+        progressCallback!(progressCallback: response)
+    }
+    
+    public func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
+        print("something received")
+        print(response)
+        if let httpResp = response as? NSHTTPURLResponse {
+            let statusCode = httpResp.statusCode
+            if statusCode >= 200 && statusCode < 300 {
+                completionHandler(NSURLSessionResponseDisposition.Allow)
+            } else {
+                self.response.message = "Upload failed, status code = \(statusCode)"
+                progressCallback!(progressCallback: self.response)
+            }
+        }
+    }
+    
+    
+    public func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
+        do {
+            let serialisedData = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)
+            response.complete = true
+            response.object = serialisedData
+        } catch {
+            response.message = "Error in parsing resceived response"
+        }
+        progressCallback!(progressCallback: self.response)
+    }
+
 
 }

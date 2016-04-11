@@ -37,6 +37,19 @@ public class CloudBoostResponse {
     }
 }
 
+public class CloudBoostProgressResponse {
+    public var progress: Double?
+    public var complete = false
+    public var object: AnyObject?
+    public var message: String?
+    
+    public func log() {
+        print("progress \(progress)")
+        print("completed?: \(complete)")
+        print("Object: \(object)")
+    }
+}
+
 // CLoudBoost Constans
 public enum CloudBoostDataType: String {
     case Text = "Text"
