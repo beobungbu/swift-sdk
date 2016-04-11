@@ -153,6 +153,9 @@ public class CloudFile {
         let url = CloudApp.getApiUrl() + "/file/" + CloudApp.getAppId()! + "/" + self.getId()!
         CloudCommunications._request("DELETE", url: NSURL(string: url)!, params: params, callback: {
             (response: CloudBoostResponse) in
+            if response.success && (response.status >= 200 || response.status < 300) {
+                self.document = [:]
+            }
             callback(response: response)
         })
         
@@ -179,11 +182,11 @@ public class CloudFile {
                 }
                 let nsData = NSData(base64EncodedString: strEncodedData, options: [])
                 cbResponse.success = true
-                cbResponse.object = nsData
-                callback(response: cbResponse)
+                cbResponse.object = nsData                
             } else {
                 cbResponse.message = "\(httpRes.statusCode) error"
             }
+            callback(response: cbResponse)
             
         }).resume()
 

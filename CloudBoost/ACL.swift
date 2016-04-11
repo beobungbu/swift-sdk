@@ -35,7 +35,10 @@ public class ACL {
     public init(){
         allowedReadUser.append("all")
         allowedWriteUser.append("all")
-        
+        setupACL()
+    }
+    
+    private func setupACL(){
         allowRead["user"] = allowedReadUser
         allowRead["role"] = allowedReadRole
         allowWrite["user"] = allowedWriteUser
@@ -76,4 +79,27 @@ public class ACL {
             return nil
         }
     }
+    
+    public func setPublicReadAccess(value: Bool) {
+        if value {
+            self.allowedReadUser = ["all"]
+        } else {
+            self.allowedReadUser = []
+        }
+        setupACL()
+    }
+    
+    public func setPublicWriteAccess(value: Bool){
+        if value {
+            self.allowedWriteUser = ["all"]
+        } else {
+            self.allowedWriteUser = []
+        }
+        setupACL()
+    }
+    
+    
+    
+    
+    
 }

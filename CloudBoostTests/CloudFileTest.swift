@@ -206,10 +206,61 @@ class CloudFileTest: XCTestCase {
                 XCTAssert(response.success)
                 exp.fulfill()
             })
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    
+    // should save a new file
+    func testSaveNewFile(){
+        let exp = expectationWithDescription("Should save file")
+        
+        let data = "<a id=\"a\"><b id=\"b\">hey!</b></a>"
+        let name = "htmlfile.html"
+        let type = "text/html"
+        
+        let nsData = data.dataUsingEncoding(NSUTF8StringEncoding)
+        let fileObj = CloudFile(name: name, data: nsData!, contentType: type)
+        fileObj.save({
+            (response) in
+            if let url = fileObj.getFileUrl() {
+                print("saved with url: \(url)")
+            }else{
+                XCTAssert(false)
+            }
             exp.fulfill()
         })
         waitForExpectationsWithTimeout(30, handler: nil)
     }
+    
+    // should delete a file
+    func testDeleteNewFile(){
+        let exp = expectationWithDescription("Should save file")
+        
+        let data = "<a id=\"a\"><b id=\"b\">hey!</b></a>"
+        let name = "htmlfile.html"
+        let type = "text/html"
+        
+        let nsData = data.dataUsingEncoding(NSUTF8StringEncoding)
+        let fileObj = CloudFile(name: name, data: nsData!, contentType: type)
+        fileObj.save({
+            (response) in
+            try! fileObj.delete({
+                response in
+                XCTAssert(response.success)
+                if let url = fileObj.getFileUrl() {
+                    print("could not delete file, url: \(url)")
+                }else{
+                    print("deleted!!")
+                }
+                exp.fulfill()
+            })
+            
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+
+    
     
     // should save the file and get it's contents later
     func testSaveFileGetContent()  {
@@ -239,6 +290,71 @@ class CloudFileTest: XCTestCase {
                 })
             }
             exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // MARK: ACL test
+    
+    // Should Save a file with file data and name
+    func testSaveFileNoReadAccess(){
+        let exp = expectationWithDescription("Should save file with no read access")
+        
+        let data = "ABCDEFGHIJKLMNOP"
+        let name = "abc.txt"
+        let type = "txt"
+        
+        let nsData = data.dataUsingEncoding(NSUTF8StringEncoding)
+        let fileObj = CloudFile(name: name, data: nsData!, contentType: type)
+        let customACL = ACL()
+        customACL.setPublicReadAccess(false)
+        fileObj.setACL(customACL)
+        fileObj.save({
+            (response: CloudBoostResponse) in
+            if (response.success) {
+                CloudFile.getFileFromUrl(NSURL(string: fileObj.getFileUrl()!)!, callback: {
+                    (response: CloudBoostResponse) in
+                    response.log()
+                    // check if unauthorized
+                    if response.status == 500 {
+                        XCTAssert(true)
+                    }else{
+                        XCTAssert(false)
+                    }
+                    exp.fulfill()
+                })
+            } else {
+                XCTAssert(false)
+            }
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // should not delete file with no write access
+    func testShouldNotDeleteWithoutWrite(){
+        let exp = expectationWithDescription("attempt to delete a saved file with no write access")
+        
+        let data = "ABCDEFGHIJKLMNOP"
+        let name = "abc.txt"
+        let type = "txt"
+        
+        let nsData = data.dataUsingEncoding(NSUTF8StringEncoding)
+        let fileObj = CloudFile(name: name, data: nsData!, contentType: type)
+        let customACL = ACL()
+        customACL.setPublicWriteAccess(false)
+        fileObj.setACL(customACL)
+        fileObj.save({
+            (response: CloudBoostResponse) in
+            try! fileObj.delete({
+                response in
+                // check if unauthorized
+                if response.status == 500 {
+                    XCTAssert(true)
+                }else{
+                    XCTAssert(false)
+                }
+                exp.fulfill()
+            })
         })
         waitForExpectationsWithTimeout(30, handler: nil)
     }
