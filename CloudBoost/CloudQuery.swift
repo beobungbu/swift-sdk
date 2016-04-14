@@ -438,7 +438,19 @@ public class CloudQuery{
     }
 
 
-    public func paginate(pageNo: Int, totalItemsInPage: Int, callback: (objectsList: [NSDictionary]?, count: Int?, totalPages: Int?)->Void) {
+    public func paginate(_pageNo: Int?, _totalItemsInPage: Int?, callback: (objectsList: [NSDictionary]?, count: Int?, totalPages: Int?)->Void) {
+        var pageNo: Int
+        var totalItemsInPage: Int
+        if let pno = _pageNo {
+            pageNo = pno
+        }else{
+            pageNo = 1
+        }
+        if let total = _totalItemsInPage {
+            totalItemsInPage = total
+        }else{
+            totalItemsInPage = limit
+        }
         if pageNo > 0 && totalItemsInPage > 0 {
             let skip = pageNo*totalItemsInPage - totalItemsInPage
             self.setSkip(skip)

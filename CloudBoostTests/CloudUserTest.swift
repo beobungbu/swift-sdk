@@ -28,14 +28,14 @@ class CloudUserTest: XCTestCase {
     // Should sign up  a user
     func testUserSignup(){
         let expectation = expectationWithDescription("signup a user on the app")
-        let user = CloudUser(username: "randhirsingh", password: "abcdef")
-        user.setEmail("randhirsingh051@gmail.com")
+        let username = Util.makeString(10)
+        let email = Util.makeEmail()
+        let user = CloudUser(username: username, password: "abcdef")
+        user.setEmail(email)
         do{
             try user.signup({
-                (resp: CloudBoostResponse) in
-                if(!resp.success){
-                    XCTAssert(false)
-                }
+                response in
+                XCTAssert(response.success)
                 expectation.fulfill()
             })
         } catch let error as CloudBoostError {
@@ -53,11 +53,10 @@ class CloudUserTest: XCTestCase {
         let user = CloudUser(username: "randhirsingh", password: "abcdef")
         user.setEmail("randhirsingh051@gmail.com")
         do{
-            try user.signup({
-                (resp: CloudBoostResponse) in
-                if(!resp.success){
-                    XCTAssert(false)
-                }
+            try user.login({
+                resp in
+                XCTAssert(resp.success)
+                print("user logged in: \(user.getId())")
                 expectation.fulfill()
             })
         } catch let error as CloudBoostError {
@@ -109,9 +108,97 @@ class CloudUserTest: XCTestCase {
     
     // Should logout the user
     func testLogoutUser(){
-        let expectaion = expectationWithDescription("logout user")
-        
+        let exp = expectationWithDescription("logout user")
+        let user = CloudUser(username: "randhirsingh", password: "abcdef")
+        user.setEmail("randhirsingh051@gmail.com")
+        do{
+            try user.login({
+                resp in
+                XCTAssert(resp.success)
+                print("user logged in: \(user.getId())")
+                try! user.logout({
+                    response in
+                    XCTAssert(response.success)
+                    exp.fulfill()
+                })
+            })
+        } catch let error as CloudBoostError {
+            print(error)
+        } catch {
+            print("Could not catch!")
+        }
+        waitForExpectationsWithTimeout(30, handler: nil)
     }
+    
+    // Should create a user and get version
+    func testCreateUserVersion(){
+        let exp = expectationWithDescription("create user and get the version")
+        let username = Util.makeString(10)
+        let email = Util.makeEmail()
+        
+        let user = CloudUser(username: username, password: "abcdef")
+        user.setEmail(email)
+        try! user.signup({
+            resp in
+            XCTAssert(resp.success)
+            if user.getUsername()! == username && Int(user.getVersion()!) >= 0 {
+                exp.fulfill()
+            }
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // sshould do a query on user
+    func testQueryUser() {
+        let exp = expectationWithDescription("query on user")
+        let username = Util.makeString(10)
+        let email = Util.makeEmail()
+        
+        let user = CloudUser(username: username, password: "abcdef")
+        user.setEmail(email)
+        user.setEmail(email)
+        try! user.signup({
+            response in
+            let query = CloudQuery(tableName: "User")
+            query.findById(user.getId()!, callbak: {
+                resp in
+                XCTAssert(resp.success)
+                resp.log()
+                exp.fulfill()
+            })
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // should assign a role to the user
+    func testAssignRole(){
+        let exp = expectationWithDescription("ASsign role to a user")
+        let roleName = "normal"
+        let role = CloudRole(roleName: roleName)
+//        role.save({
+//            resp in
+//            if resp.success {
+                let user = CloudUser(username: "randhirsingh", password: "abcdef")
+                user.setEmail("randhirsingh051@gmail.com")
+                try! user.login({
+                    resp in
+                    if resp.success {
+                        try! user.addToRole(role, callback: {
+                            response in
+                            response.log()
+                            XCTAssert(response.success)
+                            exp.fulfill()
+                        })
+                    }
+                })
+//            } else {
+//                XCTAssert(false)
+//                exp.fulfill()
+//            }
+//        })
+        waitForExpectationsWithTimeout(60, handler: nil)
+    }
+    
     
 
 }

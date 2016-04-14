@@ -901,7 +901,7 @@ class CloudQueryTest: XCTestCase {
                 let query1 = CloudQuery(tableName: "QueryPaginate")
                 let pageNum = 1
                 let totalItemsInPage = 2
-                query1.paginate(pageNum, totalItemsInPage: totalItemsInPage, callback: {
+                query1.paginate(pageNum, _totalItemsInPage: totalItemsInPage, callback: {
                     object, count, totalPages in
                     if object != nil && object?.count > totalItemsInPage {
                         print("received number of items are greater than the required value")
@@ -918,6 +918,116 @@ class CloudQueryTest: XCTestCase {
         
     }
     
-    // cannot paginate with null parameters. API does not allow fiddling with parameters
+    // Should paginate with pageNo as nil
+    func testPaginateItemsNilPage(){
+        let exp = expectationWithDescription("save paginate")
+        
+        let obj1 = CloudObject(tableName: "QueryPaginate")
+        obj1.set("name", value: "Randhir")
+        
+        let obj2 = CloudObject(tableName: "QueryPaginate")
+        obj2.set("name", value: "Sumit")
+        
+        let obj3 = CloudObject(tableName: "QueryPaginate")
+        obj3.set("name", value: "Anurag")
+        
+        let obj4 = CloudObject(tableName: "QueryPaginate")
+        obj4.set("name", value: "Rajat")
+        
+        CloudObject.saveAll([obj1, obj2, obj3, obj4], callback: {
+            response in
+            if response.success {
+                let query1 = CloudQuery(tableName: "QueryPaginate")
+                let totalItemsInPage = 2
+                query1.paginate(nil, _totalItemsInPage: totalItemsInPage, callback: {
+                    object, count, totalPages in
+                    if object != nil && object?.count > totalItemsInPage {
+                        print("received number of items are greater than the required value")
+                        XCTAssert(false)
+                    }else if Int(ceil(Double(count!)/Double(totalItemsInPage))) != totalPages {
+                        print("totalpages is not recieved as expected")
+                    }
+                    exp.fulfill()
+                })
+            }
+        })
+        
+        waitForExpectationsWithTimeout(60, handler: nil)
+        
+    }
+    // Should paginate with all params (return list of limited objects,count and totalpages)
+    func testPaginateItemsNilTotal(){
+        let exp = expectationWithDescription("save paginate")
+        
+        let obj1 = CloudObject(tableName: "QueryPaginate")
+        obj1.set("name", value: "Randhir")
+        
+        let obj2 = CloudObject(tableName: "QueryPaginate")
+        obj2.set("name", value: "Sumit")
+        
+        let obj3 = CloudObject(tableName: "QueryPaginate")
+        obj3.set("name", value: "Anurag")
+        
+        let obj4 = CloudObject(tableName: "QueryPaginate")
+        obj4.set("name", value: "Rajat")
+        
+        CloudObject.saveAll([obj1, obj2, obj3, obj4], callback: {
+            response in
+            if response.success {
+                let query1 = CloudQuery(tableName: "QueryPaginate")
+                let pageNum = 1
+                query1.paginate(pageNum, _totalItemsInPage: nil, callback: {
+                    object, count, totalPages in
+                    if object != nil && object?.count > query1.limit {
+                        print("received number of items are greater than the required value")
+                        XCTAssert(false)
+                    }else if Int(ceil(Double(count!)/Double(query1.limit))) != totalPages {
+                        print("totalpages is not recieved as expected")
+                    }
+                    exp.fulfill()
+                })
+            }
+        })
+        
+        waitForExpectationsWithTimeout(60, handler: nil)
+        
+    }
+    // Should paginate with all params (return list of limited objects,count and totalpages)
+    func testPaginateItemsBothNil(){
+        let exp = expectationWithDescription("save paginate")
+        
+        let obj1 = CloudObject(tableName: "QueryPaginate")
+        obj1.set("name", value: "Randhir")
+        
+        let obj2 = CloudObject(tableName: "QueryPaginate")
+        obj2.set("name", value: "Sumit")
+        
+        let obj3 = CloudObject(tableName: "QueryPaginate")
+        obj3.set("name", value: "Anurag")
+        
+        let obj4 = CloudObject(tableName: "QueryPaginate")
+        obj4.set("name", value: "Rajat")
+        
+        CloudObject.saveAll([obj1, obj2, obj3, obj4], callback: {
+            response in
+            if response.success {
+                let query1 = CloudQuery(tableName: "QueryPaginate")
+                query1.paginate(nil, _totalItemsInPage: nil, callback: {
+                    object, count, totalPages in
+                    if object != nil && object?.count > query1.limit {
+                        print("received number of items are greater than the required value")
+                        XCTAssert(false)
+                    }else if Int(ceil(Double(count!)/Double(query1.limit))) != totalPages {
+                        print("totalpages is not recieved as expected")
+                    }
+                    exp.fulfill()
+                })
+            }
+        })
+        
+        waitForExpectationsWithTimeout(60, handler: nil)
+        
+    }
+
     
 }

@@ -57,6 +57,10 @@ public class CloudUser: CloudObject {
         return document["password"] as? String
     }
     
+    public func getVersion() -> String?{
+        return document["_version"] as? String
+    }
+    
     // MARK: Cloud operations on CloudUser
     
     
@@ -115,12 +119,45 @@ public class CloudUser: CloudObject {
         let url = CloudApp.getApiUrl() + "/user/" + CloudApp.getAppId()! + "/login"
         CloudCommunications._request("POST", url: NSURL(string: url)!, params: data, callback: {
             (response: CloudBoostResponse) in
-            if(CloudApp.isLogging()){
-                response.log()
+            if response.success {
+                if let doc = response.object as? NSMutableDictionary {
+                    self.document = doc
+                }
             }
             // Save the user if he has been successfully logged in
             callback(response: response)
         })
+    }
+    
+    // logout the user
+    func logout(callback: (response: CloudBoostResponse)->Void) throws{
+        if(CloudApp.appID == nil){
+            throw CloudBoostError.AppIdNotSet
+        }
+        if(document["username"] == nil){
+            throw CloudBoostError.UsernameNotSet
+        }
+        if(document["password"] == nil){
+            throw CloudBoostError.PasswordNotSet
+        }
+        
+        // Setting the payload
+        let data = NSMutableDictionary()
+        data["document"] = document
+        data["key"] = CloudApp.appKey
+        let url = CloudApp.getApiUrl() + "/user/" + CloudApp.getAppId()! + "/logout"
+        CloudCommunications._request("POST", url: NSURL(string: url)!, params: data, callback: {
+            (response: CloudBoostResponse) in
+            // save the response body into the current user
+            if response.success {
+                if let doc = response.object as? NSMutableDictionary {
+                    self.document = doc
+                }
+            }
+            // return callback
+            callback(response: response)
+        })
+
     }
     
     // Reset password
@@ -137,6 +174,41 @@ public class CloudUser: CloudObject {
             // Save the user if he has been successfully logged in
             callback(reponse: response)
         })
+    }
+    
+    // add user to a role
+    public func addToRole(role: CloudRole, callback: (response: CloudBoostResponse)-> Void) throws{
+        if role.getName() == nil {
+            throw CloudBoostError.InvalidArgument
+        }
+        let params = NSMutableDictionary()
+        params["user"] = self.document
+        params["role"] = role.document
+        params["key"] = CloudApp.getAppKey()
+        
+        let url = CloudApp.getApiUrl() + "/user/" + CloudApp.getAppId()! + "/addToRole"
+        CloudCommunications._request("PUT", url: NSURL(string: url)!, params: params, callback: {
+            response in
+            callback(response: response)
+        })
+    }
+    
+    //remove a user from role
+    public func removeFromRole(role: CloudRole, callback: (response: CloudBoostResponse)->Void) throws{
+        if role.getName() == nil {
+            throw CloudBoostError.InvalidArgument
+        }
+        let params = NSMutableDictionary()
+        params["user"] = self.document
+        params["role"] = role.document
+        params["key"] = CloudApp.getAppKey()
+        
+        let url = CloudApp.getApiUrl() + "/user/" + CloudApp.getAppId()! + "/removeFromRole"
+        CloudCommunications._request("PUT", url: NSURL(string: url)!, params: params, callback: {
+            response in
+            callback(response: response)
+        })
+
     }
     
     
