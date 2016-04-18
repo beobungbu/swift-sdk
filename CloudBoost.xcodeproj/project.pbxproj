@@ -32,6 +32,8 @@
 		2277C66B1CA4250E006E9981 /* CloudTableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2277C66A1CA4250E006E9981 /* CloudTableTest.swift */; };
 		2277C66D1CA42524006E9981 /* CloudObjectTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2277C66C1CA42524006E9981 /* CloudObjectTest.swift */; };
 		22BFD71C1CB8D91A00784E31 /* CloudFileTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22BFD71B1CB8D91A00784E31 /* CloudFileTest.swift */; };
+		22E02D241CC4CE4A003C06FF /* CloudCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E02D231CC4CE4A003C06FF /* CloudCache.swift */; };
+		22E02D261CC4F7E8003C06FF /* CloudCacheTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E02D251CC4F7E8003C06FF /* CloudCacheTest.swift */; };
 		22EF16261CB788F700A68AF9 /* CloudGeoPointTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EF16251CB788F700A68AF9 /* CloudGeoPointTest.swift */; };
 		22F29E321CB7673D001CABC0 /* CloudRoleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F29E311CB7673D001CABC0 /* CloudRoleTest.swift */; };
 		22F774221C9C1FD100BDEFCB /* CloudObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F774211C9C1FD100BDEFCB /* CloudObject.swift */; };
@@ -67,6 +69,8 @@
 		2277C66A1CA4250E006E9981 /* CloudTableTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudTableTest.swift; sourceTree = "<group>"; };
 		2277C66C1CA42524006E9981 /* CloudObjectTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudObjectTest.swift; sourceTree = "<group>"; };
 		22BFD71B1CB8D91A00784E31 /* CloudFileTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudFileTest.swift; sourceTree = "<group>"; };
+		22E02D231CC4CE4A003C06FF /* CloudCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudCache.swift; sourceTree = "<group>"; };
+		22E02D251CC4F7E8003C06FF /* CloudCacheTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudCacheTest.swift; sourceTree = "<group>"; };
 		22EF16251CB788F700A68AF9 /* CloudGeoPointTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudGeoPointTest.swift; sourceTree = "<group>"; };
 		22F29E311CB7673D001CABC0 /* CloudRoleTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudRoleTest.swift; sourceTree = "<group>"; };
 		22F774211C9C1FD100BDEFCB /* CloudObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudObject.swift; sourceTree = "<group>"; };
@@ -135,6 +139,7 @@
 				224C2A561CA80B3100D05F27 /* CloudRole.swift */,
 				224C2A581CA80CDB00D05F27 /* CloudUser.swift */,
 				224C2A5C1CAAAC6000D05F27 /* CloudGeoPoint.swift */,
+				22E02D231CC4CE4A003C06FF /* CloudCache.swift */,
 				2249AC511CAB9F790088AFBF /* CloudQuery.swift */,
 				227506651CAD549C00F430A2 /* CloudFile.swift */,
 			);
@@ -153,6 +158,7 @@
 				22EF16251CB788F700A68AF9 /* CloudGeoPointTest.swift */,
 				22F29E311CB7673D001CABC0 /* CloudRoleTest.swift */,
 				22BFD71B1CB8D91A00784E31 /* CloudFileTest.swift */,
+				22E02D251CC4F7E8003C06FF /* CloudCacheTest.swift */,
 			);
 			path = CloudBoostTests;
 			sourceTree = "<group>";
@@ -293,6 +299,7 @@
 				22FFC8C91C9852410028EA61 /* CloudTable.swift in Sources */,
 				224C2A5D1CAAAC6000D05F27 /* CloudGeoPoint.swift in Sources */,
 				22F774241C9C5E6600BDEFCB /* CloudCommunications.swift in Sources */,
+				22E02D241CC4CE4A003C06FF /* CloudCache.swift in Sources */,
 				224C2A591CA80CDB00D05F27 /* CloudUser.swift in Sources */,
 				2249AC521CAB9F790088AFBF /* CloudQuery.swift in Sources */,
 				224C2A571CA80B3100D05F27 /* CloudRole.swift in Sources */,
@@ -308,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22E02D261CC4F7E8003C06FF /* CloudCacheTest.swift in Sources */,
 				224C2A5B1CA91E0400D05F27 /* CloudUserTest.swift in Sources */,
 				2249AC541CABC5A40088AFBF /* CloudQueryTest.swift in Sources */,
 				22EF16261CB788F700A68AF9 /* CloudGeoPointTest.swift in Sources */,

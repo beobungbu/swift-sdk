@@ -51,6 +51,7 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
         let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             if((error) != nil){
                 cloudBoostResponse.message = "Error occured while reaching out to server"
+                cloudBoostResponse.object = error
                 callback(response: cloudBoostResponse)
             } else if(response == nil){
                 cloudBoostResponse.message = "Nil response"
@@ -98,6 +99,8 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
                 }catch let parseError {
                     if let intVal = Int((NSString(data: data!, encoding: NSUTF8StringEncoding) as? String)!)  {
                         cloudBoostResponse.object = intVal
+                    } else if let strData = NSString(data: data!, encoding: NSUTF8StringEncoding) as? String {
+                        cloudBoostResponse.object = strData
                     }
                     if(isLogging){
                         print(parseError)
