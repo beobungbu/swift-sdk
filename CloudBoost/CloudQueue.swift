@@ -35,7 +35,7 @@ public class CloudQueue{
         document["ACL"] = acl.getACL()
         document["expires"] = nil
         if queueType == nil {
-            document["queueType"] = "null"
+            document["queueType"] = self.queueType
         } else {
             document["queueType"] = queueType
         }
@@ -85,6 +85,29 @@ public class CloudQueue{
         return nil
     }
     
+    public func getCreatedAt() -> NSDate? {
+        if let strDate = document["createdAt"] as? String {
+            let date = CloudBoostDateFormatter.getISOFormatter().dateFromString(strDate)
+            return date
+        }
+        return nil
+    }
+
+    public func setUpdatedAt(date: NSDate){
+        setAttribute("updatedAt", val: CloudBoostDateFormatter.getISOFormatter().stringFromDate(date))
+    }
+    
+    public func getUpdatedAt() -> NSDate? {
+        if let strDate = document["updatedAt"] as? String {
+            let date = CloudBoostDateFormatter.getISOFormatter().dateFromString(strDate)
+            return date
+        }
+        return nil
+    }
+
+    
+    
+    
     public func getDocument() -> NSMutableDictionary{
         return self.document
     }
@@ -129,7 +152,34 @@ public class CloudQueue{
         data["count"] = count
         CloudCommunications._request("POST", url: NSURL(string: url)!, params: data, callback: {
             response in
-            callback(response)
+            if response.status == 200 {
+                if let doc = response.object as? [NSMutableDictionary] {
+                    var msgArr = [QueueMessage]()
+                    for el in doc {
+                        let msg = QueueMessage()
+                        msg.setDocument(el)
+                        msgArr.append(msg)
+                    }
+                    let resp = CloudBoostResponse()
+                    resp.success = response.success
+                    resp.object = msgArr
+                    resp.status = response.status
+                    callback(resp)
+                } else if let doc = response.object as? NSMutableDictionary {
+                    let msg = QueueMessage()
+                    msg.setDocument(doc)
+                    let resp = CloudBoostResponse()
+                    resp.success = response.success
+                    resp.object = msg
+                    resp.status = response.status
+                    callback(resp)
+                } else {
+                    callback(response)
+                }
+            } else {
+                callback(response)
+            }
+
         })
     }
     
@@ -140,29 +190,89 @@ public class CloudQueue{
         data["count"] = count
         CloudCommunications._request("POST", url: NSURL(string: url)!, params: data, callback: {
             response in
-            callback(response)
+            if response.status == 200 {
+                if let doc = response.object as? [NSMutableDictionary] {
+                    var msgArr = [QueueMessage]()
+                    for el in doc {
+                        let msg = QueueMessage()
+                        msg.setDocument(el)
+                        msgArr.append(msg)
+                    }
+                    let resp = CloudBoostResponse()
+                    resp.success = response.success
+                    resp.object = msgArr
+                    resp.status = response.status
+                    callback(resp)
+                } else if let doc = response.object as? NSMutableDictionary {
+                    let msg = QueueMessage()
+                    msg.setDocument(doc)
+                    let resp = CloudBoostResponse()
+                    resp.success = response.success
+                    resp.object = msg
+                    resp.status = response.status
+                    callback(resp)
+                } else {
+                    callback(response)
+                }
+            } else {
+                callback(response)
+            }
+
         })
     }
     
     
-    public func getMessage(count: Int, callback: (CloudBoostResponse)->Void) {
+    public func getMessage(count: Int?, callback: (CloudBoostResponse)->Void) {
         let data = NSMutableDictionary()
         let url = CloudApp.getApiUrl() + "/queue/" + CloudApp.getAppId()! + "/\(self.name!)/getMessage"
         data["key"] = CloudApp.getAppKey()
-        data["count"] = count
+        if count == nil {
+            data["count"] = 1
+        }else{
+            data["count"] = count
+        }
         CloudCommunications._request("POST", url: NSURL(string: url)!, params: data, callback: {
             response in
-            callback(response)
+            if response.status == 200 {
+                if let doc = response.object as? NSMutableDictionary {
+                    let msg = QueueMessage()
+                    msg.setDocument(doc)
+                    let resp = CloudBoostResponse()
+                    resp.success = response.success
+                    resp.object = msg
+                    resp.status = response.status
+                    callback(resp)
+                } else {
+                    callback(response)
+                }
+            } else {
+                callback(response)
+            }
         })
     }
-    
+
     public func deleteMessage(id: String, callback: (CloudBoostResponse)->Void) {
         let data = NSMutableDictionary()
         let url = CloudApp.getApiUrl() + "/queue/" + CloudApp.getAppId()! + "/\(self.name!)/message/\(id)"
         data["key"] = CloudApp.getAppKey()
         CloudCommunications._request("DELETE", url: NSURL(string: url)!, params: data, callback: {
             response in
-            callback(response)
+            if response.status == 200 {
+                if let doc = response.object as? NSMutableDictionary {
+                    let msg = QueueMessage()
+                    msg.setDocument(doc)
+                    let resp = CloudBoostResponse()
+                    resp.success = response.success
+                    resp.object = msg
+                    resp.status = response.status
+                    callback(resp)
+                } else {
+                    callback(response)
+                }
+            } else {
+                callback(response)
+            }
+
         })
     }
     
@@ -172,9 +282,25 @@ public class CloudQueue{
         data["key"] = CloudApp.getAppKey()
         CloudCommunications._request("DELETE", url: NSURL(string: url)!, params: data, callback: {
             response in
-            callback(response)
+            if response.status == 200 {
+                if let doc = response.object as? NSMutableDictionary {
+                    let msg = QueueMessage()
+                    msg.setDocument(doc)
+                    let resp = CloudBoostResponse()
+                    resp.success = response.success
+                    resp.object = msg
+                    resp.status = response.status
+                    callback(resp)
+                } else {
+                    callback(response)
+                }
+            } else {
+                callback(response)
+            }
+            
         })
     }
+
     
     public func getMessageById(id: String, callback: (CloudBoostResponse)->Void) {
         let data = NSMutableDictionary()
@@ -182,7 +308,21 @@ public class CloudQueue{
         data["key"] = CloudApp.getAppKey()
         CloudCommunications._request("POST", url: NSURL(string: url)!, params: data, callback: {
             response in
-            callback(response)
+            if response.status == 200 {
+                if let doc = response.object as? NSMutableDictionary {
+                    let msg = QueueMessage()
+                    msg.setDocument(doc)
+                    let resp = CloudBoostResponse()
+                    resp.success = response.success
+                    resp.object = msg
+                    resp.status = response.status
+                    callback(resp)
+                } else {
+                    callback(response)
+                }
+            } else {
+                callback(response)
+            }
         })
     }
     
@@ -296,7 +436,33 @@ public class CloudQueue{
         
         CloudCommunications._request("PUT", url: NSURL(string: url)!, params: data, callback: {
             response in
-            callback(response)
+            if response.status == 200 {
+                if let doc = response.object as? [NSMutableDictionary] {
+                    var msgArr = [QueueMessage]()
+                    for el in doc {
+                        let msg = QueueMessage()
+                        msg.setDocument(el)
+                        msgArr.append(msg)
+                    }
+                    let resp = CloudBoostResponse()
+                    resp.success = response.success
+                    resp.object = msgArr
+                    resp.status = response.status
+                    callback(resp)
+                } else if let doc = response.object as? NSMutableDictionary {
+                    let msg = QueueMessage()
+                    msg.setDocument(doc)
+                    let resp = CloudBoostResponse()
+                    resp.success = response.success
+                    resp.object = msg
+                    resp.status = response.status
+                    callback(resp)
+                } else {
+                    callback(response)
+                }
+            } else {
+                callback(response)
+            }
         })
     }
     
@@ -446,9 +612,9 @@ public class CloudQueue{
             response in
             if response.status == 200 {
                 if let doc = response.object as? [NSMutableDictionary] {
-                    var queueArr = [CloudQueue]()
+                    var queueArr = [QueueMessage]()
                     for el in doc {
-                        let queEl = CloudQueue(queueName: nil,queueType: nil)
+                        let queEl = QueueMessage()
                         queEl.setDocument(el)
                         queueArr.append(queEl)
                     }
@@ -482,7 +648,10 @@ public class CloudQueue{
         })
     }
 
-    public func create(callback: (CloudBoostResponse) -> Void){
+    public func create(callback: (CloudBoostResponse) -> Void) throws{
+        if self.name == nil {
+            throw CloudBoostError.InvalidArgument
+        }
         let data = NSMutableDictionary()
         data["document"] = self.document
         data["key"] = CloudApp.getAppKey()
@@ -498,7 +667,7 @@ public class CloudQueue{
         })
     }
     
-    public func getAll(callback: (CloudBoostResponse) -> Void){
+    public static func getAll(callback: (CloudBoostResponse) -> Void){
         let data = NSMutableDictionary()
         data["key"] = CloudApp.getAppKey()
         let url = CloudApp.getApiUrl() + "/queue/" + CloudApp.getAppId()! + "/"

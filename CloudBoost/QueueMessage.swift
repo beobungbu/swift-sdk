@@ -56,8 +56,8 @@ public class QueueMessage {
     
     // MERK: Setters and getters
     
-    public func setExpires(dateString: String){
-        addElement("expires", val: dateString)
+    public func setExpires(date: NSDate){
+        addElement("expires", val: CloudBoostDateFormatter.getISOFormatter().stringFromDate(date))
     }
     
     public func getExpires() -> NSDate? {
