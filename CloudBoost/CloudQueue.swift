@@ -85,6 +85,10 @@ public class CloudQueue{
         return nil
     }
     
+    public func getSubscribers() -> [String]?{
+        return document["subscribers"] as? [String]
+    }
+    
     public func getCreatedAt() -> NSDate? {
         if let strDate = document["createdAt"] as? String {
             let date = CloudBoostDateFormatter.getISOFormatter().dateFromString(strDate)
@@ -105,9 +109,6 @@ public class CloudQueue{
         return nil
     }
 
-    
-    
-    
     public func getDocument() -> NSMutableDictionary{
         return self.document
     }
@@ -346,6 +347,13 @@ public class CloudQueue{
         
         CloudCommunications._request("POST", url: NSURL(string: url)!, params: data, callback: {
             response in
+            if response.status == 200 {
+                if let doc = response.object as? NSMutableDictionary {
+                    self.document = doc
+                }
+            }else{
+                self.document["subscribers"] = []
+            }
             callback(response)
         })
     }
@@ -370,6 +378,11 @@ public class CloudQueue{
         
         CloudCommunications._request("DELETE", url: NSURL(string: url)!, params: data, callback: {
             response in
+            if response.status == 200 {
+                if let doc = response.object as? NSMutableDictionary {
+                    self.document = doc
+                }
+            }
             callback(response)
         })
     }
@@ -394,6 +407,11 @@ public class CloudQueue{
         
         CloudCommunications._request("DELETE", url: NSURL(string: url)!, params: data, callback: {
             response in
+            if response.status == 200 {
+                if let doc = response.object as? NSMutableDictionary {
+                    self.document = doc
+                }
+            }
             callback(response)
         })
     }
@@ -588,19 +606,28 @@ public class CloudQueue{
         })
     }
     
-    public func get(callback: (CloudBoostResponse) -> Void){
+    public static func get(name: String, callback: (CloudBoostResponse) -> Void){
         let data = NSMutableDictionary()
         
         data["key"] = CloudApp.getAppKey()
-        let url = CloudApp.getApiUrl() + "/queue/" + CloudApp.getAppId()! + "/\(self.name!)/"
+        let url = CloudApp.getApiUrl() + "/queue/" + CloudApp.getAppId()! + "/\(name)"
         CloudCommunications._request("POST", url: NSURL(string: url)!, params: data, callback: {
             response in
             if response.status == 200 {
                 if let doc = response.object as? NSMutableDictionary {
-                    self.document = doc
+                    let msg = QueueMessage()
+                    msg.setDocument(doc)
+                    let resp = CloudBoostResponse()
+                    resp.success = response.success
+                    resp.object = msg
+                    resp.status = response.status
+                    callback(resp)
+                }else{
+                    callback(response)
                 }
+            }else{
+                callback(response)
             }
-            callback(response)
         })
     }
     

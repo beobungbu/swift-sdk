@@ -914,7 +914,267 @@ class CloudQueueTest: XCTestCase {
         waitForExpectationsWithTimeout(30, handler: nil)
     }
     
+    // Should add subscriber to the queue
+    func testAddSubscriber(){
+        let exp = expectationWithDescription("Should add subscriber to the queue")
+        let qName = Util.makeString(5)
+        let queue = CloudQueue(queueName: qName, queueType: nil)
+        let url = "http://sample.sample.com"
+        queue.addSubscriber(url, callback: {
+            response in
+            let subs = queue.getSubscribers()!
+            if subs.indexOf(url) != nil {
+                print("Element exists")
+            }else{
+                XCTAssert(false)
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+
+
+    // Should multiple subscribers to the queue
+    func testAddMultipleSubscriber(){
+        let exp = expectationWithDescription("Should add multiple subscriber to the queue")
+        let qName = Util.makeString(5)
+        let queue = CloudQueue(queueName: qName, queueType: nil)
+        let url = ["http://sample.sample.com", "http://sample1.cloudapp.net"]
+        queue.addSubscriber(url, callback: {
+            response in
+            let subs = queue.getSubscribers()!
+            if subs.indexOf(url[0]) != nil && subs.indexOf(url[1]) != nil {
+                print("Element exists")
+            }else{
+                XCTAssert(false)
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
     
+    // Should remove subscriber from the queue
+    func testRemoveSubscriber(){
+        let exp = expectationWithDescription("Should remove subscriber from the queue")
+        let qName = Util.makeString(5)
+        let queue = CloudQueue(queueName: qName, queueType: nil)
+        let url = "http://sample.sample.com"
+        queue.removeSubscriber(url, callback: {
+            response in
+            let subs = queue.getSubscribers()!
+            if subs.indexOf(url) != nil {
+                print("Element exists, fail")
+                XCTAssert(false)
+            }else{
+                XCTAssert(true)
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Should remove multiple subscriber from the queue
+    func testRemoveMultipleSubscriber(){
+        let exp = expectationWithDescription("Should remove multiple subscriber from the queue")
+        let qName = Util.makeString(5)
+        let queue = CloudQueue(queueName: qName, queueType: nil)
+        let url = ["http://sample.sample.com", "http://sample1.cloudapp.net"]
+        queue.removeSubscriber(url, callback: {
+            response in
+            let subs = queue.getSubscribers()!
+            if subs.indexOf(url[0]) != nil && subs.indexOf(url[1]) != nil {
+                print("Element exists, fail")
+                XCTAssert(false)
+            }else{
+                XCTAssert(true)
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
 
+    // Should not add subscriber with invalid URL
+    func testAddInvalidSubscriber(){
+        let exp = expectationWithDescription("Should add subscriber to the queue")
+        let qName = Util.makeString(5)
+        let queue = CloudQueue(queueName: qName, queueType: nil)
+        let url = "sample,sample"
+        queue.addSubscriber(url, callback: {
+            response in
+            let subs = queue.getSubscribers()!
+            if subs.indexOf(url) != nil {
+                print("Element added, fail")
+                XCTAssert(false)
+            }else{
+                XCTAssert(true)
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
 
+    // Should add a subscriber and then remove a subscriber from the queue
+    func testAddRemoveSubscriber(){
+        let exp = expectationWithDescription("Should add subscriber to the queue")
+        let qName = Util.makeString(5)
+        let queue = CloudQueue(queueName: qName, queueType: nil)
+        let url = "http://sample.sample.com"
+        queue.addSubscriber(url, callback: {
+            response in
+            let subs = queue.getSubscribers()!
+            if subs.indexOf(url) != nil {
+                queue.removeSubscriber(url, callback: {
+                    response in
+                    if let subs = queue.getSubscribers() {
+                        if subs.indexOf(url) != nil {
+                            XCTAssert(false)
+                        }else{
+                            print("Removed subscriber!!")
+                        }
+                        exp.fulfill()
+                    }else{
+                        XCTAssert(false)
+                        exp.fulfill()
+                    }
+                })
+            }else{
+                XCTAssert(false)
+                exp.fulfill()
+            }
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+
+    // Should delete the queue
+    func testDeleteQueue(){
+        let exp = expectationWithDescription("should delete queue")
+        let queueName = Util.makeString(5)
+        let queue = CloudQueue(queueName: queueName, queueType: nil)
+        
+        queue.addMessage("sample", callback: {
+            response in
+            let qmess = response.object as! QueueMessage
+            if qmess.getMessage()! == "sample"{
+                queue.delete({
+                    response in
+                    XCTAssert(response.success)
+                    queue.getMessage(1, callback: {
+                        response in
+                        if let _ = response.object as? QueueMessage {
+                            XCTAssert(false)
+                        }else{
+                            print("nothing found in queue")
+                            XCTAssert(true)
+                        }
+                        exp.fulfill()
+                    })
+
+                })
+            }else{
+                XCTAssert(false)
+                exp.fulfill()
+            }
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+
+    // should clear queue
+    func testClearQueue(){
+        let exp = expectationWithDescription("should clear queue")
+        let queueName = Util.makeString(5)
+        let queue = CloudQueue(queueName: queueName, queueType: nil)
+        
+        queue.addMessage("sample", callback: {
+            response in
+            let qmess = response.object as! QueueMessage
+            if qmess.getMessage()! == "sample"{
+                queue.clear({
+                    response in
+                    XCTAssert(response.success)
+                    queue.getMessage(1, callback: {
+                        response in
+                        if let _ = response.object as? QueueMessage {
+                            XCTAssert(false)
+                        }else{
+                            print("nothing found in queue")
+                            XCTAssert(true)
+                        }
+                        exp.fulfill()
+                    })
+                })
+            }else{
+                XCTAssert(false)
+                exp.fulfill()
+            }
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Should get the queue
+    func testShouldGetQueue(){
+        let exp = expectationWithDescription("should get the queue")
+        let queueName = Util.makeString(5)
+        let queue = CloudQueue(queueName: queueName, queueType: nil)
+        
+        queue.addMessage("sample", callback: {
+            response in
+            let qmess = response.object as! QueueMessage
+            if qmess.getMessage()! == "sample"{
+                CloudQueue.get(queueName,callback: {
+                    response in
+                    XCTAssert(response.success)
+                    response.log()
+                    exp.fulfill()
+                })
+            }else{
+                XCTAssert(false)
+                exp.fulfill()
+            }
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Should not get the queue with null name
+    func testGetQueueWithNullName(){
+        let exp = expectationWithDescription("should not get the queue with invalid name")
+        let queueName = Util.makeString(5)
+        let queue = CloudQueue(queueName: queueName, queueType: nil)
+        
+        queue.addMessage("sample", callback: {
+            response in
+            let qmess = response.object as! QueueMessage
+            if qmess.getMessage()! == "sample"{
+                CloudQueue.get("null",callback: {
+                    response in
+                    if response.success {
+                        XCTAssert(false)
+                    }else{
+                        XCTAssert(true)
+                    }
+                    response.log()
+                    exp.fulfill()
+                })
+            }else{
+                XCTAssert(false)
+                exp.fulfill()
+            }
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+
+    // Should get All Queues
+    func testGetAllQueues(){
+        let exp = expectationWithDescription("should get all queues")
+        CloudQueue.getAll({
+            response in
+            if let queues = response.object as? [CloudQueue] {
+                print("Number of queues: \(queues.count)")
+            }else{
+                XCTAssert(false)
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
 }
