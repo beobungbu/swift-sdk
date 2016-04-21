@@ -37,6 +37,9 @@
 		22E02D281CC52CE0003C06FF /* CloudQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E02D271CC52CE0003C06FF /* CloudQueue.swift */; };
 		22E02D2A1CC53206003C06FF /* QueueMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E02D291CC53206003C06FF /* QueueMessage.swift */; };
 		22E02D2C1CC61B59003C06FF /* CloudQueueTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E02D2B1CC61B59003C06FF /* CloudQueueTest.swift */; };
+		22E02D2E1CC7EB95003C06FF /* CloudSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E02D2D1CC7EB95003C06FF /* CloudSearch.swift */; };
+		22E02D301CC7ECA4003C06FF /* SearchQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E02D2F1CC7ECA4003C06FF /* SearchQuery.swift */; };
+		22E02D321CC7ECEC003C06FF /* SearchFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E02D311CC7ECEC003C06FF /* SearchFilter.swift */; };
 		22EF16261CB788F700A68AF9 /* CloudGeoPointTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EF16251CB788F700A68AF9 /* CloudGeoPointTest.swift */; };
 		22F29E321CB7673D001CABC0 /* CloudRoleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F29E311CB7673D001CABC0 /* CloudRoleTest.swift */; };
 		22F774221C9C1FD100BDEFCB /* CloudObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F774211C9C1FD100BDEFCB /* CloudObject.swift */; };
@@ -77,6 +80,9 @@
 		22E02D271CC52CE0003C06FF /* CloudQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudQueue.swift; sourceTree = "<group>"; };
 		22E02D291CC53206003C06FF /* QueueMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueMessage.swift; sourceTree = "<group>"; };
 		22E02D2B1CC61B59003C06FF /* CloudQueueTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudQueueTest.swift; sourceTree = "<group>"; };
+		22E02D2D1CC7EB95003C06FF /* CloudSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudSearch.swift; sourceTree = "<group>"; };
+		22E02D2F1CC7ECA4003C06FF /* SearchQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchQuery.swift; sourceTree = "<group>"; };
+		22E02D311CC7ECEC003C06FF /* SearchFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchFilter.swift; sourceTree = "<group>"; };
 		22EF16251CB788F700A68AF9 /* CloudGeoPointTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudGeoPointTest.swift; sourceTree = "<group>"; };
 		22F29E311CB7673D001CABC0 /* CloudRoleTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudRoleTest.swift; sourceTree = "<group>"; };
 		22F774211C9C1FD100BDEFCB /* CloudObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudObject.swift; sourceTree = "<group>"; };
@@ -150,6 +156,9 @@
 				227506651CAD549C00F430A2 /* CloudFile.swift */,
 				22E02D271CC52CE0003C06FF /* CloudQueue.swift */,
 				22E02D291CC53206003C06FF /* QueueMessage.swift */,
+				22E02D2D1CC7EB95003C06FF /* CloudSearch.swift */,
+				22E02D2F1CC7ECA4003C06FF /* SearchQuery.swift */,
+				22E02D311CC7ECEC003C06FF /* SearchFilter.swift */,
 			);
 			path = CloudBoost;
 			sourceTree = "<group>";
@@ -308,13 +317,16 @@
 				22FFC8C91C9852410028EA61 /* CloudTable.swift in Sources */,
 				224C2A5D1CAAAC6000D05F27 /* CloudGeoPoint.swift in Sources */,
 				22E02D281CC52CE0003C06FF /* CloudQueue.swift in Sources */,
+				22E02D301CC7ECA4003C06FF /* SearchQuery.swift in Sources */,
 				22F774241C9C5E6600BDEFCB /* CloudCommunications.swift in Sources */,
 				22E02D241CC4CE4A003C06FF /* CloudCache.swift in Sources */,
 				224C2A591CA80CDB00D05F27 /* CloudUser.swift in Sources */,
 				2249AC521CAB9F790088AFBF /* CloudQuery.swift in Sources */,
 				224C2A571CA80B3100D05F27 /* CloudRole.swift in Sources */,
+				22E02D2E1CC7EB95003C06FF /* CloudSearch.swift in Sources */,
 				2260557E1CA5014700F0357C /* Column.swift in Sources */,
 				22F774221C9C1FD100BDEFCB /* CloudObject.swift in Sources */,
+				22E02D321CC7ECEC003C06FF /* SearchFilter.swift in Sources */,
 				227506661CAD549C00F430A2 /* CloudFile.swift in Sources */,
 				22FFC8B21C97A3E10028EA61 /* CloudApp.swift in Sources */,
 				22F774261C9C788700BDEFCB /* CloudBoostUtilities.swift in Sources */,
