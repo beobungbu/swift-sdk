@@ -75,6 +75,7 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
                         if(httpResponse.statusCode == 200){
                             cloudBoostResponse.success = true
                         } else {
+                            print("Error: \(error)")
                             cloudBoostResponse.message = NSString(data: data!, encoding: NSUTF8StringEncoding) as? String
                         }
                     }

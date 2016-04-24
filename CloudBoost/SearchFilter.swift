@@ -145,6 +145,14 @@ public class SearchFilter {
         return self
     }
     
+    public func near(columnName: String, geoPoint: CloudGeoPoint, distance: Int){
+        let obj = NSMutableDictionary()
+        obj["geo_distance"] = ["distance":distance.description + " m"]
+        obj[columnName] = geoPoint.getCoordinates()
+        self.must.append(obj)
+        self.bool["must"] = must
+    }
+    
     
     private func prependUnderscore(col: String) -> String {
         var returnString = col

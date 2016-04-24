@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public typealias callback = (status: Int, message: String) -> Void
 
 //Types of errors beig thrown by CloudBoost SDK
@@ -34,6 +33,16 @@ public class CloudBoostResponse {
         print("Status: \(status)")
         print("Message: \(message)")
         print("Object: \(object)")
+    }
+}
+
+public class CloudBoostNotificationResponse {
+    public var data: [AnyObject]?
+    public var ack: SocketAckEmitter?
+    
+    public func log() {
+        print("Data: \(data)")
+        print("Ack: \(ack)")
     }
 }
 
@@ -65,7 +74,7 @@ public enum CloudBoostDataType: String {
     case Object = "Object"
     case Id = "Id"
     case EncryptedText = "EncryptedText"
-    case ACl = "ACL"
+    case ACL = "ACL"
 }
 
 

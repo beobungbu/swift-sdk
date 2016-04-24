@@ -18,12 +18,79 @@ public class CloudSearch {
     var size: Int?
     var sort = [AnyObject]()
     
+    var searchFilter: SearchFilter?
+    var searchQuery: SearchQuery?
     
-    public init(tableName: String, searchObject: SearchQuery?, searchFilter: SearchFilter?){
+    public init(tableName: String, searchQuery: SearchQuery?, searchFilter: SearchFilter?){
         self.collectionName = tableName
         
-        if searchObject != nil {
-            self.bool["bool"] = searchObject?.bool
+        if searchQuery != nil {
+            self.bool["bool"] = searchQuery?.bool
+            self.filtered["query"] = self.bool
+        }else{
+            self.filtered["query"] = [:]
+        }
+        if searchFilter != nil {
+            self.bool["bool"] = searchFilter?.bool
+            self.filtered["filter"] = self.bool
+        }else{
+            self.filtered["filter"] = [:]
+        }
+        
+        self.from = 0
+        self.size = 10
+        
+    }
+    
+    public init(tableName: String){
+        self.collectionName = tableName
+
+        self.filtered["query"] = [:]
+        self.filtered["filter"] = [:]
+        
+        self.from = 0
+        self.size = 10
+        
+    }
+    public init(tableName: String, searchQuery: SearchQuery?){
+        self.collectionName = tableName
+        
+        if searchQuery != nil {
+            self.bool["bool"] = searchQuery?.bool
+            self.filtered["query"] = self.bool
+        }else{
+            self.filtered["query"] = [:]
+        }
+        self.filtered["filter"] = [:]
+        
+        self.from = 0
+        self.size = 10
+        
+    }
+    public init(tableName: String, searchFilter: SearchFilter?){
+        self.collectionName = tableName
+        
+        self.filtered["query"] = [:]
+        
+        if searchFilter != nil {
+            self.bool["bool"] = searchFilter?.bool
+            self.filtered["filter"] = self.bool
+        }else{
+            self.filtered["filter"] = [:]
+        }
+        
+        self.from = 0
+        self.size = 10
+        
+    }
+    
+    
+    
+    public init(tableName: [String], searchQuery: SearchQuery?, searchFilter: SearchFilter?){
+        self.collectionArray = tableName
+        
+        if searchQuery != nil {
+            self.bool["bool"] = searchQuery?.bool
             self.filtered["query"] = self.bool
         }else{
             self.filtered["query"] = [:]
@@ -41,26 +108,14 @@ public class CloudSearch {
         
     }
     
-    public init(tableName: [String], searchObject: SearchQuery?, searchFilter: SearchFilter?){
-        self.collectionArray = tableName
-        
-        if searchObject != nil {
-            self.bool["bool"] = searchObject?.bool
-            self.filtered["query"] = self.bool
-        }else{
-            self.filtered["query"] = [:]
-        }
-        
-        if searchFilter != nil {
-            self.bool["bool"] = searchFilter?.bool
-            self.filtered["query"] = self.bool
-        }else{
-            self.filtered["query"] = [:]
-        }
-        
-        self.from = 0
-        self.size = 10
-        
+    func setSearchFilter(searchFilter: SearchFilter) {
+        self.bool["bool"] = searchFilter.bool
+        self.filtered["query"] = self.bool
+    }
+    
+    func setSearchQuery(searchQuery: SearchQuery){
+        self.bool["bool"] = searchQuery.bool
+        self.filtered["query"] = self.bool
     }
 
     
@@ -97,6 +152,14 @@ public class CloudSearch {
     }
     
     public func search(callback: (CloudBoostResponse)->Void) throws {
+        
+        if let sf = self.searchFilter {
+            self.setSearchFilter(sf)
+        }
+        if let sq = self.searchQuery {
+            self.setSearchQuery(sq)
+        }
+        
         var collectionString = ""
         if self.collectionArray.count > 0 {
             if collectionArray.count > 1 {
@@ -109,7 +172,7 @@ public class CloudSearch {
         }else{
             collectionString = self.collectionName!
         }
-        
+        query["filtered"] = filtered
         let params = NSMutableDictionary()
         params["collectionName"] = collectionString
         params["query"] = query

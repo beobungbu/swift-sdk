@@ -1,0 +1,408 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2CA57BBE85A1C7EE3066B8002C930D9E /* Pods-CloudBoost-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A9904E79266295D1AAD4409C6A73EBB2 /* Pods-CloudBoost-dummy.m */; };
+		39C12847F61C303FFD69623B8360A845 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3997E5D2953ECDF377B85B234FDF550D /* Foundation.framework */; };
+		96BFD5DE7C9FB776A8B455F4B20DBCFA /* Pods-CloudBoostTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 81558FC1E2009C54F44005EFE48CFFA5 /* Pods-CloudBoostTests-dummy.m */; };
+		CFA6C40C52286E7EAA805B4BD65045AC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3997E5D2953ECDF377B85B234FDF550D /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		07CE740660366847354107B5F3752544 /* libPods-CloudBoostTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CloudBoostTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1997DE981806ECA506FB23998B045537 /* Pods-CloudBoostTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-CloudBoostTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		3997E5D2953ECDF377B85B234FDF550D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		482E44F1A94047052407F72FB4B92185 /* Pods-CloudBoost-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-CloudBoost-acknowledgements.plist"; sourceTree = "<group>"; };
+		597419C5DEBCF7F11E0D9C9D449CB6C0 /* Pods-CloudBoost-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-CloudBoost-frameworks.sh"; sourceTree = "<group>"; };
+		611ED62119139CF32CED1D9B11D9C5FB /* Pods-CloudBoostTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-CloudBoostTests-frameworks.sh"; sourceTree = "<group>"; };
+		7684A7919889DC3C334EFDE065B0F929 /* Pods-CloudBoost-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-CloudBoost-resources.sh"; sourceTree = "<group>"; };
+		81558FC1E2009C54F44005EFE48CFFA5 /* Pods-CloudBoostTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-CloudBoostTests-dummy.m"; sourceTree = "<group>"; };
+		8AD7FC7D763CEC8AAB1F391E15463FD9 /* Pods-CloudBoostTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-CloudBoostTests.debug.xcconfig"; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9A5D28E280B544046838C09FA0041311 /* Pods-CloudBoostTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-CloudBoostTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		A1FC9D04B42F3F2711838F9E9A2FF2EE /* libPods-CloudBoost.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CloudBoost.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9904E79266295D1AAD4409C6A73EBB2 /* Pods-CloudBoost-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-CloudBoost-dummy.m"; sourceTree = "<group>"; };
+		B7232939EC55D047F3D5E39BA5ECFE1A /* Pods-CloudBoost-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-CloudBoost-acknowledgements.markdown"; sourceTree = "<group>"; };
+		BD4433D4BE7A0A5D5684A2D8B8267D1C /* Pods-CloudBoost.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-CloudBoost.release.xcconfig"; sourceTree = "<group>"; };
+		D1CBB31574EC28978CE455EFDDCAB1DD /* Pods-CloudBoostTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-CloudBoostTests-resources.sh"; sourceTree = "<group>"; };
+		D3AE97FAE547BD9A768590E0E26040B3 /* Pods-CloudBoostTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-CloudBoostTests.release.xcconfig"; sourceTree = "<group>"; };
+		FD54B69238A0A32BAA6FDFFB3A76843C /* Pods-CloudBoost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-CloudBoost.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2B667FFCD0A71D0AD58B74A98E38F9AF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFA6C40C52286E7EAA805B4BD65045AC /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4D62C8E8F41EEA119FCDB18E762D76F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39C12847F61C303FFD69623B8360A845 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		112C7921E3A497328D11F4930CBBC9CA /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				3997E5D2953ECDF377B85B234FDF550D /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		13ECB9082A30A5E12528C432C7C38487 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A1FC9D04B42F3F2711838F9E9A2FF2EE /* libPods-CloudBoost.a */,
+				07CE740660366847354107B5F3752544 /* libPods-CloudBoostTests.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4B989B7F4DE93A53963CAA35D422148C /* Pods-CloudBoost */ = {
+			isa = PBXGroup;
+			children = (
+				B7232939EC55D047F3D5E39BA5ECFE1A /* Pods-CloudBoost-acknowledgements.markdown */,
+				482E44F1A94047052407F72FB4B92185 /* Pods-CloudBoost-acknowledgements.plist */,
+				A9904E79266295D1AAD4409C6A73EBB2 /* Pods-CloudBoost-dummy.m */,
+				597419C5DEBCF7F11E0D9C9D449CB6C0 /* Pods-CloudBoost-frameworks.sh */,
+				7684A7919889DC3C334EFDE065B0F929 /* Pods-CloudBoost-resources.sh */,
+				FD54B69238A0A32BAA6FDFFB3A76843C /* Pods-CloudBoost.debug.xcconfig */,
+				BD4433D4BE7A0A5D5684A2D8B8267D1C /* Pods-CloudBoost.release.xcconfig */,
+			);
+			name = "Pods-CloudBoost";
+			path = "Target Support Files/Pods-CloudBoost";
+			sourceTree = "<group>";
+		};
+		710813116F7A413C6FB1501856750833 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				4B989B7F4DE93A53963CAA35D422148C /* Pods-CloudBoost */,
+				88A9CD68FE617B84EC9AA2B61BE95B40 /* Pods-CloudBoostTests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
+				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
+				13ECB9082A30A5E12528C432C7C38487 /* Products */,
+				710813116F7A413C6FB1501856750833 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		88A9CD68FE617B84EC9AA2B61BE95B40 /* Pods-CloudBoostTests */ = {
+			isa = PBXGroup;
+			children = (
+				9A5D28E280B544046838C09FA0041311 /* Pods-CloudBoostTests-acknowledgements.markdown */,
+				1997DE981806ECA506FB23998B045537 /* Pods-CloudBoostTests-acknowledgements.plist */,
+				81558FC1E2009C54F44005EFE48CFFA5 /* Pods-CloudBoostTests-dummy.m */,
+				611ED62119139CF32CED1D9B11D9C5FB /* Pods-CloudBoostTests-frameworks.sh */,
+				D1CBB31574EC28978CE455EFDDCAB1DD /* Pods-CloudBoostTests-resources.sh */,
+				8AD7FC7D763CEC8AAB1F391E15463FD9 /* Pods-CloudBoostTests.debug.xcconfig */,
+				D3AE97FAE547BD9A768590E0E26040B3 /* Pods-CloudBoostTests.release.xcconfig */,
+			);
+			name = "Pods-CloudBoostTests";
+			path = "Target Support Files/Pods-CloudBoostTests";
+			sourceTree = "<group>";
+		};
+		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				112C7921E3A497328D11F4930CBBC9CA /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		275DB0A3496A24736B287EA55D4EBD85 /* Pods-CloudBoostTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 35637711D4E1C508A30E4D84C58DB5F8 /* Build configuration list for PBXNativeTarget "Pods-CloudBoostTests" */;
+			buildPhases = (
+				B042A1AFDE37F15F84C5BF9FC965E3A9 /* Sources */,
+				2B667FFCD0A71D0AD58B74A98E38F9AF /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-CloudBoostTests";
+			productName = "Pods-CloudBoostTests";
+			productReference = 07CE740660366847354107B5F3752544 /* libPods-CloudBoostTests.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		42EE77F2178EA0D95DA024FDA5D51E5D /* Pods-CloudBoost */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78819FB403F922E55D13BB5721182C29 /* Build configuration list for PBXNativeTarget "Pods-CloudBoost" */;
+			buildPhases = (
+				E901B1C6F84FE22725A1567469ED9437 /* Sources */,
+				D4D62C8E8F41EEA119FCDB18E762D76F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-CloudBoost";
+			productName = "Pods-CloudBoost";
+			productReference = A1FC9D04B42F3F2711838F9E9A2FF2EE /* libPods-CloudBoost.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0700;
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = 13ECB9082A30A5E12528C432C7C38487 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				42EE77F2178EA0D95DA024FDA5D51E5D /* Pods-CloudBoost */,
+				275DB0A3496A24736B287EA55D4EBD85 /* Pods-CloudBoostTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B042A1AFDE37F15F84C5BF9FC965E3A9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96BFD5DE7C9FB776A8B455F4B20DBCFA /* Pods-CloudBoostTests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E901B1C6F84FE22725A1567469ED9437 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CA57BBE85A1C7EE3066B8002C930D9E /* Pods-CloudBoost-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1E8F3950A162A38C239DED7DB66F5DF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D3AE97FAE547BD9A768590E0E26040B3 /* Pods-CloudBoostTests.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		2D29F31DD78A26132236DA4CDF91E3B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD4433D4BE7A0A5D5684A2D8B8267D1C /* Pods-CloudBoost.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		70ED7BA863FEDDFCA6088A0E04B5409E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		74A0E06E352183543F8D694E1DBBDE16 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD54B69238A0A32BAA6FDFFB3A76843C /* Pods-CloudBoost.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C9F0D144E35477F97265DAE490390B6D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8AD7FC7D763CEC8AAB1F391E15463FD9 /* Pods-CloudBoostTests.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		E1B685D9073CDF53C548503CD4FD8B53 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1B685D9073CDF53C548503CD4FD8B53 /* Debug */,
+				70ED7BA863FEDDFCA6088A0E04B5409E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		35637711D4E1C508A30E4D84C58DB5F8 /* Build configuration list for PBXNativeTarget "Pods-CloudBoostTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9F0D144E35477F97265DAE490390B6D /* Debug */,
+				1E8F3950A162A38C239DED7DB66F5DF2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		78819FB403F922E55D13BB5721182C29 /* Build configuration list for PBXNativeTarget "Pods-CloudBoost" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				74A0E06E352183543F8D694E1DBBDE16 /* Debug */,
+				2D29F31DD78A26132236DA4CDF91E3B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}
