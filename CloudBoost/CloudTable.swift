@@ -10,7 +10,7 @@ import Foundation
 
 public class CloudTable {
     
-    public var tableName: String?
+    public var tableName: String
     private var columns = [NSMutableDictionary]()
     var document = NSMutableDictionary()
     
@@ -36,13 +36,18 @@ public class CloudTable {
     }
     
     // MARK:- Getter functions
+    public func getTableName() -> String? {
+        return self.document["name"] as? String
+    }
     
-    
+    public func getID() -> String? {
+        return self.document["_id"] as? String
+    }
     
     // MARK:- Cloud operations on CloudTable
     
     public func save(callback: (CloudBoostResponse) -> Void){
-        let url = CloudApp.serverUrl + "/app/" + CloudApp.appID! + "/" + tableName!
+        let url = CloudApp.serverUrl + "/app/" + CloudApp.appID! + "/" + tableName
         let params = NSMutableDictionary()
         params["key"] = CloudApp.masterKey!
         params["data"] = document
@@ -63,6 +68,38 @@ public class CloudTable {
             callback(response)
         })
 
+    }
+    
+    public static func get(table: CloudTable, callback: (CloudBoostResponse) -> Void) {
+        let url = CloudApp.getApiUrl() + "/app/" + CloudApp.appID! + "/" + table.getTableName()!
+        let params = NSMutableDictionary()
+        params["key"] = CloudApp.masterKey!
+        CloudCommunications._request("POST", url: NSURL(string: url)!, params: params, callback: {
+            (response: CloudBoostResponse) in
+            // Callback from _request, route it to save() callback
+            if response.success && response.status == 200 {
+                if let doc = (response.object as? NSMutableDictionary) {
+                    table.document = doc
+                }
+            }
+            callback(response)
+        })
+        
+    }
+    
+    public func delete(callback: (CloudBoostResponse) -> Void) throws{
+        if self.getID() == nil {
+            throw CloudBoostError.InvalidArgument
+        }
+        let url = CloudApp.serverUrl + "/app/" + CloudApp.appID! + "/" + self.getTableName()!
+        let params = NSMutableDictionary()
+        params["key"] = CloudApp.masterKey!
+        params["name"] = self.getTableName()
+        CloudCommunications._request("DELETE", url: NSURL(string: url)!, params: params, callback: {
+            (response: CloudBoostResponse) in
+            // Callback from _request, route it to save() callback
+            callback(response)
+        })
     }
     
 }

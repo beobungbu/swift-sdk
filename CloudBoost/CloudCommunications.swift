@@ -69,8 +69,13 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
                 }
                 
                 //Converting to proper format and returning
-                do{
+                do{                    
                     if let httpResponse = response as? NSHTTPURLResponse {
+                        for (_,b) in httpResponse.allHeaderFields.enumerate() {
+                            if b.0 == "sessionID" {
+                                CloudApp.SESSION_ID = b.1 as? String
+                            }
+                        }
                         cloudBoostResponse.status = httpResponse.statusCode
                         if(httpResponse.statusCode == 200){
                             cloudBoostResponse.success = true

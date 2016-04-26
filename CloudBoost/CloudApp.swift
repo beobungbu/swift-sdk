@@ -23,7 +23,7 @@ public class CloudApp: NSObject {
     public static let serviceUrl = "https://service.cloudboost.io"
     public static let appUrl = serverUrl + "/api"
     public static let apiUrl = serverUrl
-    public static let socketIoUrl = "https://realtime.cloudboost.io"
+    public static let socketIoUrl = "https://api.cloudboost.io"
     
     public static var SESSION_ID: String?
     public static var MASTER_KEY: String?

@@ -471,8 +471,9 @@ public class CloudQuery{
                             if let count = response.object as? Int {
                                callback(objectsList: list, count: count, totalPages: Int(ceil(Double(count)/Double(self.limit))) )
                             }
+                        }else {
+                            callback(objectsList: list, count: nil, totalPages: nil)
                         }
-                        callback(objectsList: list, count: nil, totalPages: nil)
                     })
                 } else {
                     callback(objectsList: nil,count: nil,totalPages: nil)

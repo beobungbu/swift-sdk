@@ -48,6 +48,22 @@ class CloudTableTest: XCTestCase {
         })
         waitForExpectationsWithTimeout(30, handler: nil)
     }
+    
+    func testDeleteTable(){
+        let exp = expectationWithDescription("should delete a table")
+        let table = CloudTable(tableName: "QueryPaginate")
+        CloudTable.get(table, callback: {
+            response in
+            response.log()
+            print(table.document)
+            try! table.delete({
+                response in
+                response.log()
+                exp.fulfill()
+            })
+        })
+        waitForExpectationsWithTimeout(50, handler: nil)
+    }
 
     
     

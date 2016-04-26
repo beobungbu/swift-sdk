@@ -19,7 +19,7 @@ public class CloudNotification {
      * @param callback a listener which is called when the event is triggered
      * @throws CloudBoostError
      */
-    public static func on(channelName: String, callback: (CloudBoostNotificationResponse)->Void) throws{
+    public static func on(channelName: String, handler: (data: [AnyObject], ack: SocketAckEmitter)-> Void, callback: (error: String?)->Void) throws{
         if(CloudApp.getAppId() == nil){
             throw CloudBoostError.InvalidArgument
         }
@@ -27,25 +27,19 @@ public class CloudNotification {
             throw CloudBoostError.InvalidArgument
         }
         
+        // registering socket events
         CloudSocket.socket!.on("connect"){ data, ack in
-            print("Connected :D")
+            CloudSocket.getSocket().emit("join-custom-channel",CloudApp.getAppId()! + channelName)
+            callback(error: nil)
         }
+        // registering handler to the specified channel's event
+        CloudSocket.socket!.on(CloudApp.getAppId()! + channelName, callback: handler)
         
-
-        CloudSocket.socket!.on(CloudApp.getAppId()! + channelName, callback: {
-            data, ack in
-            let resp = CloudBoostNotificationResponse()
-            print("YAYAYAYA")
-            resp.data = data
-            resp.ack = ack
-            callback(resp)
-            CloudSocket.getSocket().emit(CloudApp.getAppId()! + channelName, "join-custom-channel")
-        })
-        CloudSocket.socket?.connect()
-        CloudSocket.getSocket().connect()
+        // connecting to the server
         CloudSocket.socket!.connect(timeoutAfter: 15, withTimeoutHandler: {
-            print("Timeout")
-        })
+            // handling timeout, sending an error to the callback
+            callback(error: "Server time out")
+        })        
     }
     
     /**
@@ -63,11 +57,10 @@ public class CloudNotification {
         if(CloudApp.getAppKey() == nil){
             throw CloudBoostError.InvalidArgument
         }
-        // splitting into two strings
-        let x = ["channel":CloudApp.getAppId()! + channelName, "data":data]
-        let dat = try! NSJSONSerialization.dataWithJSONObject(x, options: NSJSONWritingOptions.init(rawValue: 0))
-        let str = NSString(data: dat, encoding: NSUTF8StringEncoding) as! String
-        CloudSocket.getSocket().emit("publish-custom-channel", str)
+        // making the payload fot publish-custom-channel
+        let channel = CloudApp.getAppId()! + channelName
+        let payload = ["channel":channel, "data":data]
+        CloudSocket.getSocket().emit("publish-custom-channel", payload)
     }
     
     /**
@@ -84,10 +77,12 @@ public class CloudNotification {
             throw CloudBoostError.InvalidArgument
         }
         
-        CloudSocket.getSocket().disconnect()
+        
         CloudSocket.getSocket().emit("leave-custom-channel", CloudApp.getAppId()! + channelName)
-        CloudSocket.getSocket().disconnect()
-        CloudSocket.getSocket().off(CloudApp.getAppId()! + channelName)
+        // replacing actual callback with a blank callback
+        CloudSocket.getSocket().on(channelName, callback: {_,_ in})
+        callback()
+        
         
     }
     

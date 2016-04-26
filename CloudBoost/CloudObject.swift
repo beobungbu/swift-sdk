@@ -370,6 +370,37 @@ public class CloudObject{
             })
         }
     }
+    
+    public static func on(tableName: String, eventType: String, callback: (CloudBoostNotificationResponse)->Void) throws{
+        let tableName = tableName.lowercaseString
+        let eventType = eventType.lowercaseString
+        if CloudApp.SESSION_ID == nil {
+            throw CloudBoostError.InvalidArgument
+        }else{
+            print("Using session ID: \(CloudApp.SESSION_ID)")
+        }
+        if eventType == "created" || eventType == "deleted" || eventType == "updated" {
+            let str = (CloudApp.getAppId()! + "table" + tableName + eventType).lowercaseString
+            let payload = NSMutableDictionary()
+            payload["room"] = str
+            payload["sessionId"] = CloudApp.SESSION_ID
+            CloudSocket.initialise(CloudApp.getSocketUrl())
+            CloudSocket.getSocket().options = CloudSocket.getSocket().options.union([SocketIOClientOption.ConnectParams(["sessionId":CloudApp.SESSION_ID!])])
+            CloudSocket.getSocket().connect()
+            CloudSocket.getSocket().emitWithAck("join-object-channel", payload)(timeoutAfter: 1, callback: {
+                ack in
+                print(ack)
+            })
+            CloudSocket.getSocket().on(str, callback: {
+              data, ack in
+                print(data)
+                print(ack)
+            })
+
+        } else {
+            throw CloudBoostError.InvalidArgument
+        }
+    }
 
     
 }
