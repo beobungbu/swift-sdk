@@ -33,7 +33,7 @@ public class CloudApp: NSObject {
         print("Creating a new Cloud App...")
         CloudApp.appID = appID
         CloudApp.appKey = appKey
-        //socket = SocketIOClient(socketURL: NSURL(string: CloudApp.socketIoUrl)!, options: [.Log(true), .ForcePolling(true)])
+//        CloudSocket.socket = SocketIOClient(socketURL: NSURL(string: CloudApp.socketIoUrl)!, options: [.Log(true), .ForcePolling(false)])
     }
     
     public func printAppdetails(){

@@ -21,7 +21,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		17A7613E12D926461650FB90 /* libPods-CloudBoostTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A3CEF081C6DE8A68FA1FBBB /* libPods-CloudBoostTests.a */; };
 		2249AC521CAB9F790088AFBF /* CloudQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2249AC511CAB9F790088AFBF /* CloudQuery.swift */; };
 		2249AC541CABC5A40088AFBF /* CloudQueryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2249AC531CABC5A40088AFBF /* CloudQueryTest.swift */; };
 		224C2A571CA80B3100D05F27 /* CloudRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C2A561CA80B3100D05F27 /* CloudRole.swift */; };
@@ -98,7 +97,6 @@
 		22FFC8B21C97A3E10028EA61 /* CloudApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8B11C97A3E10028EA61 /* CloudApp.swift */; };
 		22FFC8C71C984FE10028EA61 /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8C61C984FE10028EA61 /* ACL.swift */; };
 		22FFC8C91C9852410028EA61 /* CloudTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8C81C9852410028EA61 /* CloudTable.swift */; };
-		6557F84482E2866D969C6F4A /* libPods-CloudBoost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A3630991AF7E66A127F4361 /* libPods-CloudBoost.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -183,7 +181,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6557F84482E2866D969C6F4A /* libPods-CloudBoost.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,13 +189,40 @@
 			buildActionMask = 2147483647;
 			files = (
 				22FFC8241C9733D10028EA61 /* CloudBoost.framework in Frameworks */,
-				17A7613E12D926461650FB90 /* libPods-CloudBoostTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		226808DA1CCD378D0078CF6B /* SocketIO */ = {
+			isa = PBXGroup;
+			children = (
+				2288DA981CCD331C00022ACC /* SocketAnyEvent.swift */,
+				2288DA991CCD331C00022ACC /* SocketEventHandler.swift */,
+				2288DA9A1CCD331C00022ACC /* SocketIOClient.swift */,
+				2288DA9B1CCD331C00022ACC /* SocketEngine.swift */,
+				2288DA9C1CCD331C00022ACC /* SocketAckEmitter.swift */,
+				2288DA9D1CCD331C00022ACC /* SocketAckManager.swift */,
+				2288DA9E1CCD331C00022ACC /* SocketEngineSpec.swift */,
+				2288DA9F1CCD331C00022ACC /* SocketClientSpec.swift */,
+				2288DAA01CCD331C00022ACC /* SocketIOClientOption.swift */,
+				2288DAA11CCD331C00022ACC /* SocketEngineClient.swift */,
+				2288DAA21CCD331C00022ACC /* SocketEnginePacketType.swift */,
+				2288DAA31CCD331C00022ACC /* SocketEnginePollable.swift */,
+				2288DAA41CCD331C00022ACC /* SocketEngineWebsocket.swift */,
+				2288DAA51CCD331C00022ACC /* SocketIOClientStatus.swift */,
+				2288DAA61CCD331C00022ACC /* SocketTypes.swift */,
+				2288DAA71CCD331C00022ACC /* SocketLogger.swift */,
+				2288DAA81CCD331C00022ACC /* SocketPacket.swift */,
+				2288DAA91CCD331C00022ACC /* SocketParsable.swift */,
+				2288DAAA1CCD331C00022ACC /* SocketStringReader.swift */,
+				2288DAAB1CCD331C00022ACC /* SwiftRegex.swift */,
+				2288DAAC1CCD331C00022ACC /* WebSocket.swift */,
+			);
+			name = SocketIO;
+			sourceTree = "<group>";
+		};
 		22FFC80F1C9733D10028EA61 = {
 			isa = PBXGroup;
 			children = (
@@ -222,6 +246,7 @@
 		22FFC81B1C9733D10028EA61 /* CloudBoost */ = {
 			isa = PBXGroup;
 			children = (
+				226808DA1CCD378D0078CF6B /* SocketIO */,
 				22FFC81C1C9733D10028EA61 /* CloudBoost.h */,
 				22FFC81E1C9733D10028EA61 /* Info.plist */,
 				22FFC8B11C97A3E10028EA61 /* CloudApp.swift */,
@@ -233,27 +258,6 @@
 				2260557D1CA5014700F0357C /* Column.swift */,
 				224C2A561CA80B3100D05F27 /* CloudRole.swift */,
 				224C2A581CA80CDB00D05F27 /* CloudUser.swift */,
-				2288DA981CCD331C00022ACC /* SocketAnyEvent.swift */,
-				2288DA991CCD331C00022ACC /* SocketEventHandler.swift */,
-				2288DA9A1CCD331C00022ACC /* SocketIOClient.swift */,
-				2288DA9B1CCD331C00022ACC /* SocketEngine.swift */,
-				2288DA9C1CCD331C00022ACC /* SocketAckEmitter.swift */,
-				2288DA9D1CCD331C00022ACC /* SocketAckManager.swift */,
-				2288DA9E1CCD331C00022ACC /* SocketEngineSpec.swift */,
-				2288DA9F1CCD331C00022ACC /* SocketClientSpec.swift */,
-				2288DAA01CCD331C00022ACC /* SocketIOClientOption.swift */,
-				2288DAA11CCD331C00022ACC /* SocketEngineClient.swift */,
-				2288DAA21CCD331C00022ACC /* SocketEnginePacketType.swift */,
-				2288DAA31CCD331C00022ACC /* SocketEnginePollable.swift */,
-				2288DAA41CCD331C00022ACC /* SocketEngineWebsocket.swift */,
-				2288DAA51CCD331C00022ACC /* SocketIOClientStatus.swift */,
-				2288DAA61CCD331C00022ACC /* SocketTypes.swift */,
-				2288DAA71CCD331C00022ACC /* SocketLogger.swift */,
-				2288DAA81CCD331C00022ACC /* SocketPacket.swift */,
-				2288DAA91CCD331C00022ACC /* SocketParsable.swift */,
-				2288DAAA1CCD331C00022ACC /* SocketStringReader.swift */,
-				2288DAAB1CCD331C00022ACC /* SwiftRegex.swift */,
-				2288DAAC1CCD331C00022ACC /* WebSocket.swift */,
 				224C2A5C1CAAAC6000D05F27 /* CloudGeoPoint.swift */,
 				22E02D231CC4CE4A003C06FF /* CloudCache.swift */,
 				2249AC511CAB9F790088AFBF /* CloudQuery.swift */,

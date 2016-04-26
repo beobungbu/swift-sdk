@@ -98,9 +98,9 @@ public class CloudSearch {
         
         if searchFilter != nil {
             self.bool["bool"] = searchFilter?.bool
-            self.filtered["query"] = self.bool
+            self.filtered["filter"] = self.bool
         }else{
-            self.filtered["query"] = [:]
+            self.filtered["filter"] = [:]
         }
         
         self.from = 0
@@ -163,12 +163,13 @@ public class CloudSearch {
         var collectionString = ""
         if self.collectionArray.count > 0 {
             if collectionArray.count > 1 {
-                for i in 1...collectionArray.count {
+                for i in 0...collectionArray.count-1 {
                     collectionString += (i>0 ? ","+self.collectionArray[i] : self.collectionArray[i])
                 }
             }else{
                 collectionString = collectionArray[0]
             }
+            self.collectionName = collectionString
         }else{
             collectionString = self.collectionName!
         }

@@ -9,9 +9,10 @@
 import Foundation
 
 public class CloudSocket {
-    private static var socket: SocketIOClient?
+    static var socket: SocketIOClient?
     
     public static func initialise(url: String){
+        print("connecting to: \(url)")
         let socket = SocketIOClient(socketURL: NSURL(string: url)!, options: [.Log(true), .ForcePolling(true)])
         self.setSocket(socket)    
     }

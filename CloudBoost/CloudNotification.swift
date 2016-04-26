@@ -27,15 +27,25 @@ public class CloudNotification {
             throw CloudBoostError.InvalidArgument
         }
         
-        CloudSocket.getSocket().connect()
-        CloudSocket.getSocket().on(CloudApp.getAppId()! + channelName, callback: {
+        CloudSocket.socket!.on("connect"){ data, ack in
+            print("Connected :D")
+        }
+        
+
+        CloudSocket.socket!.on(CloudApp.getAppId()! + channelName, callback: {
             data, ack in
             let resp = CloudBoostNotificationResponse()
+            print("YAYAYAYA")
             resp.data = data
             resp.ack = ack
             callback(resp)
+            CloudSocket.getSocket().emit(CloudApp.getAppId()! + channelName, "join-custom-channel")
         })
-        CloudSocket.getSocket().emit("join-custom-channel", CloudApp.getAppId()! + channelName)
+        CloudSocket.socket?.connect()
+        CloudSocket.getSocket().connect()
+        CloudSocket.socket!.connect(timeoutAfter: 15, withTimeoutHandler: {
+            print("Timeout")
+        })
     }
     
     /**

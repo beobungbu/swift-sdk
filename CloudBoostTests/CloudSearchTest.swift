@@ -398,5 +398,199 @@ class CloudSearchTest: XCTestCase {
         waitForExpectationsWithTimeout(30, handler: nil)
     }
     
+    // search for records that do not have a certain column
+    func testDoesNotExists(){
+        let exp = expectationWithDescription("should give elements in which a particular column does not exists")
+        let search = CloudSearch(tableName: "StudentSearch")
+        search.searchFilter = SearchFilter()
+        search.searchFilter?.doesNotExists("name")
+        try! search.search({
+            response in
+            if let objArr = response.object as? [CloudObject] {
+                for obj in objArr {
+                    if let _ = obj.get("name"){
+                        XCTAssert(true)
+                    }else{
+                        XCTAssert(false)
+                    }
+                }
+            }else{
+                XCTAssert(false)
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    //should give records within a certain range
+    func testRange(){
+        let exp = expectationWithDescription("should give elements in a particular range")
+        let search = CloudSearch(tableName: "StudentSearch")
+        search.searchFilter = SearchFilter()
+        search.searchFilter?.greaterThan("age", data: 19)
+        search.searchFilter?.lessThan("age", data: 50)
+        try! search.search({
+            response in
+            if let objArr = response.object as? [CloudObject] {
+                for obj in objArr {
+                    if let _ = obj.get("name"){
+                        XCTAssert(true)
+                    }else{
+                        XCTAssert(false)
+                    }
+                }
+            }else{
+                XCTAssert(false)
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // OR should work between tables
+    func testOR(){
+        let exp = expectationWithDescription("OR should work between tables")
+        
+        let obj1 = CloudObject(tableName: "Student")
+        obj1.set("name", value: "Randhir")
+        
+        let obj2 = CloudObject(tableName: "StudentSearch")
+        obj2.set("name", value: "Randhir")
+        
+        obj1.save({
+            response in
+            if response.success {
+                obj2.save({
+                    response in
+                    if response.success{
+                        let tables = ["StudentSearch", "Student"]
+                        
+                        let sq1  = SearchQuery()
+                        sq1.serarchOn("name", query: "Randhir", fuzziness: nil, all_words: nil, match_percent: nil, priority: nil)
+                        
+                        let sq2  = SearchQuery()
+                        sq1.serarchOn("name", query: "Randhir", fuzziness: nil, all_words: nil, match_percent: nil, priority: nil)
+                        
+                        let cs = CloudSearch(tableName: tables, searchQuery: nil, searchFilter: nil)
+                        cs.searchQuery = SearchQuery()
+                        cs.searchQuery?.or(sq1)
+                        cs.searchQuery?.or((sq2))
+                        
+                        try! cs.search({
+                            response in
+                            response.log()
+                            XCTAssert(response.success)
+                            exp.fulfill()
+                        })
+                    }
+                })
+            }
+            
+        })
+        waitForExpectationsWithTimeout(60, handler: nil)
+        
+    }
+    
+    // should run operator (precision) queries
+    func testRunOperatorQueries(){
+        let exp = expectationWithDescription("should run operator (precision) queries")
+        
+        let obj = CloudObject(tableName: "StudentSearch")
+        obj.set("name", value: "RAVI")
+        
+        obj.save({
+            response in
+            let tables = ["StudentSearch"]
+            let cs = CloudSearch(tableName: tables, searchQuery: nil, searchFilter: nil)
+            cs.searchQuery = SearchQuery()
+            cs.searchQuery?.serarchOn("name", query: "ravi", fuzziness: nil, all_words: "and", match_percent: nil, priority: nil)
+            cs.setLimit(9999)
+            try! cs.search({
+                response in
+                response.log()
+                XCTAssert(response.success)
+                exp.fulfill()
+            })
+            
+        })
+        waitForExpectationsWithTimeout(60, handler: nil)
+    }
+
+    //should run minimum percent (precision) queries
+    func testPercent(){
+        let exp = expectationWithDescription("should run minimum percent (precision) queries")
+        
+        let obj = CloudObject(tableName: "StudentSearch")
+        obj.set("name", value: "RAVI")
+        
+        obj.save({
+            response in
+            let tables = ["StudentSearch"]
+            let cs = CloudSearch(tableName: tables, searchQuery: nil, searchFilter: nil)
+            cs.searchQuery = SearchQuery()
+            cs.searchQuery?.serarchOn("name", query: "ravi", fuzziness: nil, all_words: nil, match_percent: "75%", priority: nil)
+            cs.setLimit(9999)
+            try! cs.search({
+                response in
+                response.log()
+                XCTAssert(response.success)
+                exp.fulfill()
+            })
+            
+        })
+        waitForExpectationsWithTimeout(60, handler: nil)
+    }
+
+    // multi table search
+    func testMultiTable(){
+        let exp = expectationWithDescription("OR should work between tables")
+        
+        let obj1 = CloudObject(tableName: "Student")
+        obj1.set("name", value: "RAVI")
+        
+        let obj2 = CloudObject(tableName: "StudentSearch")
+        obj2.set("name", value: "ravi")
+        
+        obj1.save({
+            response in
+            if response.success {
+                obj2.save({
+                    response in
+                    if response.success{
+                        let tables = ["StudentSearch", "Student"]
+                        
+                        let cs = CloudSearch(tableName: tables, searchQuery: nil, searchFilter: nil)
+                        cs.searchQuery = SearchQuery()
+                        cs.searchQuery?.serarchOn("name", query: "ravi", fuzziness: nil, all_words: nil, match_percent: nil, priority: nil)
+                        
+                        try! cs.search({
+                            response in
+                            response.log()
+                            XCTAssert(response.success)
+                            exp.fulfill()
+                        })
+                    }
+                })
+            }
+            
+        })
+        waitForExpectationsWithTimeout(60, handler: nil)
+        
+    }
+    
+    // should save a latitude and longitude when passing data are number type
+    func testSaveGeoPoint(){
+        let exp = expectationWithDescription("should save a latitude and longitude when passing data are number type")
+        let obj = CloudObject(tableName: "LocationTest")
+        let geo = try! CloudGeoPoint(latitude: 17.7, longitude: 80.0)
+        obj.set("location", value: geo)
+        obj.save({
+            response in
+            XCTAssert(response.success)
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
     
 }
