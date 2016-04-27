@@ -139,8 +139,26 @@ public class CloudBoostCache {
         
     }
 }
-
-
-
+class Regex {
+    let internalExpression: NSRegularExpression?
+    let pattern: String
+    
+    init(_ pattern: String) {
+        self.pattern = pattern
+        do {
+            self.internalExpression = try NSRegularExpression(pattern: pattern, options: .AnchorsMatchLines)
+        }catch{
+            self.internalExpression = nil            
+        }
+    }
+    
+    func test(input: String) -> Bool {
+        if let expr = self.internalExpression {
+            let matches = expr.matchesInString(input, options: .Anchored, range:NSMakeRange(0, input.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)))
+            return matches.count > 0
+        }
+        return false
+    }
+}
 
 

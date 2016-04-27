@@ -459,6 +459,72 @@ public class CloudObject{
         })
 
     }
+    
+    /**
+     * start listening to events
+     * @param tableName table to listen to events from
+     * @param eventType one of created, deleted, updated
+     * @param cloudQuery filter to apply on the data
+     * @param handler
+     * @param callback
+     */
+    public static func on(tableName: String, eventType: String, query: CloudQuery, handler: ([CloudObject]?)->Void, callback: (error: String?)->Void){
+        let tableName = tableName.lowercaseString
+        let eventType = eventType.lowercaseString
+        if query.getTableName() != tableName {
+            callback(error: "CloudQuery TableName and CloudNotification TableName should be same")
+            return
+        }
+        // if select not equal to an empty mutable dictionary
+        if query.getSelect() != NSMutableDictionary() {
+            callback(error: "You cannot pass the query with select in CloudNotifications")
+            return
+        }
+        if CloudApp.SESSION_ID == nil {
+            callback(error: "Invalid session ID")
+            return
+        }else{
+            print("Using session ID: \(CloudApp.SESSION_ID)")
+        }
+        if eventType == "created" || eventType == "deleted" || eventType == "updated" {
+            let str = (CloudApp.getAppId()! + "table" + tableName + eventType).lowercaseString
+            let payload = NSMutableDictionary()
+            payload["room"] = str
+            
+            CloudSocket.getSocket().on(str, callback: {
+                data, ack in
+                var resArr = [CloudObject]()
+                for el in data {
+                    if let doc = el as? NSMutableDictionary {
+                        let obj = CloudObject(tableName: tableName)
+                        obj.document = doc
+                        if CloudObject.validateNotificationQuery(obj, query: query){
+                            resArr.append(obj)
+                        }
+                    }
+                }
+                if resArr.count > 0{
+                    handler(resArr)
+                }
+            })
+            CloudSocket.getSocket().on("connect", callback: { data, ack in
+                print("sessionID: \(CloudSocket.getSocket().sid)")
+                payload["sessionId"] = CloudSocket.getSocket().sid
+                CloudSocket.getSocket().emit("join-object-channel", payload)
+                callback(error: nil)
+            })
+            CloudSocket.getSocket().connect(timeoutAfter: 15, withTimeoutHandler: {
+                print("Timeout")
+                callback(error: "Timed out")
+            })
+            
+            
+            
+        } else {
+            callback(error: "invalid event type, it can only be (created, deleted, updated)")
+        }
+    }
+
 
     public static func off(tableName: String, eventType: String, callback: (error: String?)->Void){
         let tableName = tableName.lowercaseString
@@ -473,6 +539,29 @@ public class CloudObject{
         } else {
             callback(error: "invalid event type, it can only be (created, deleted, updated)")
         }
+    }
+    
+    private static func validateNotificationQuery(object: CloudObject, query: CloudQuery) -> Bool {
+        var valid = false
+        
+        // if query is equal to empty dictionary
+        if query.getQuery() == NSMutableDictionary(){
+            return valid
+        }
+        if query.getLimit() == 0 {
+            return valid
+        }
+        if query.getSkip() > 0 {
+            query.setSkip((query.getSkip())-1)
+            return valid
+        }
+        let realQuery = query.getQuery()
+        realQuery["$include"] = nil
+        realQuery["$all"] = nil
+        realQuery["$includeList"] = nil
+        valid = CloudQuery.validateQuery(object, query: realQuery)
+        
+        return valid
     }
 
     

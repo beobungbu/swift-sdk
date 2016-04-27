@@ -483,5 +483,106 @@ public class CloudQuery{
             callback(objectsList: nil,count: nil,totalPages: nil)
         }
     }
+    
+    public static func validateQuery(co: CloudObject, query: NSMutableDictionary) -> Bool {
+        for (key, value) in query {
+            if let key = key as? String{
+                if key == "$include" || key == "$includeList" {
+                    continue
+                }
+                if value as? NSMutableDictionary != nil && value as? [NSMutableDictionary] != nil {
+                    // checking OR
+                    if key == "$or" {
+                        if let arr = query[key] as? [NSMutableDictionary] {
+                            var valid = false
+                            if arr.count > 0 {
+                                for (_,val) in arr.enumerate() {
+                                    if(CloudQuery.validateQuery(co, query: val)){
+                                        valid = true
+                                        break
+                                    }
+                                }
+                                if valid == false {
+                                    return false
+                                }
+                            }
+                        }else{
+                            return false
+                        }
+                    }
+                    // here 'key' will usually contain the column name and value will be query
+                    else if let dictValue = value as? [String:AnyObject] {
+                        // iterating over each query, $ne, $eq, etc
+                        for (subKey, subValue) in dictValue {
+                            
+                            //not equalTo query
+                            if subKey == "$ne" {
+                                if co.get(key) === subValue {
+                                    return false
+                                }
+                            }
+                            
+                            //greater than
+                            if subKey == "$gt" {
+                                if (co.get(key)as?Int) <= (subValue as? Int) {
+                                    return false
+                                }
+                            }
+                            
+                            //less than
+                            if subKey == "$lt" {
+                                if (co.get(key)as?Int) >= (subValue as? Int) {
+                                    return false
+                                }
+                            }
+                            
+                            //greater than and equalTo.
+                            if subKey == "$gte" {
+                                if (co.get(key)as?Int) < (subValue as? Int) {
+                                    return false
+                                }
+                            }
+                            
+                            //less than and equalTo.
+                            if subKey == "$lte" {
+                                if (co.get(key)as?Int) > (subValue as? Int) {
+                                    return false
+                                }
+                            }
+                            
+                            //exists
+                            if subKey == "$exists" {
+                                if let _ = co.get(key) {
+                                    // do nothing since the object exists
+                                }else{
+                                    return false
+                                }
+                            }
+                            
+                            //startsWith.
+                            if subKey == "$regex" {
+                                if let re = subValue as? String {
+                                    let reg = Regex(re)
+                                    if let toMatch = co.get(key) as? String{
+                                        return reg.test(toMatch)
+                                    }
+                                }
+                                return false
+                            }
+                            
+                            // Additional tests TO BE added
+                        
+                        }
+                    }else{
+                        // other stuff
+                    }
+                } else {
+                    // other stuff
+                }
+                
+            }
+        }
+        return true
+    }
 
 }

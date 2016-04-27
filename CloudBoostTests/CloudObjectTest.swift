@@ -885,7 +885,7 @@ class CloudObjectTest: XCTestCase {
     // should alert when multiple events are passed
     func testAlertMultipleEvents(){
         let exp = expectationWithDescription("should alert when multiple events passed")
-        let obj = CloudObject(tableName: "Student")        
+        let obj = CloudObject(tableName: "Student")
         var handlerCounts = 0
         CloudObject.on("Student", eventTypes: ["created","deleted"],
                        // handler for data received on 'sample'
@@ -914,5 +914,8 @@ class CloudObjectTest: XCTestCase {
         })
         waitForExpectationsWithTimeout(30, handler: nil)
     }
+    
+    // MARK: cloud object notification with query
+    
 
 }
