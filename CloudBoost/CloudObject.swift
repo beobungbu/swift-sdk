@@ -371,11 +371,11 @@ public class CloudObject{
         }
     }
     
-    public static func on(tableName: String, eventType: String, callback: (CloudBoostNotificationResponse)->Void) throws{
+    public static func on(tableName: String, eventType: String, handler: ([CloudObject]?)->Void, callback: (error: String?)->Void){
         let tableName = tableName.lowercaseString
         let eventType = eventType.lowercaseString
         if CloudApp.SESSION_ID == nil {
-            throw CloudBoostError.InvalidArgument
+            callback(error: "Invalid session ID")
         }else{
             print("Using session ID: \(CloudApp.SESSION_ID)")
         }
@@ -383,22 +383,95 @@ public class CloudObject{
             let str = (CloudApp.getAppId()! + "table" + tableName + eventType).lowercaseString
             let payload = NSMutableDictionary()
             payload["room"] = str
-            payload["sessionId"] = CloudApp.SESSION_ID
-            CloudSocket.initialise(CloudApp.getSocketUrl())
-            CloudSocket.getSocket().options = CloudSocket.getSocket().options.union([SocketIOClientOption.ConnectParams(["sessionId":CloudApp.SESSION_ID!])])
-            CloudSocket.getSocket().connect()
-            CloudSocket.getSocket().emitWithAck("join-object-channel", payload)(timeoutAfter: 1, callback: {
-                ack in
-                print(ack)
-            })
+            
             CloudSocket.getSocket().on(str, callback: {
-              data, ack in
-                print(data)
-                print(ack)
+                data, ack in
+                var resArr = [CloudObject]()
+                for el in data {                    
+                    if let doc = el as? NSMutableDictionary {
+                        let obj = CloudObject(tableName: tableName)
+                        obj.document = doc
+                        resArr.append(obj)
+                    }
+                }
+                handler(resArr)
             })
-
+            CloudSocket.getSocket().on("connect", callback: { data, ack in
+                print("sessionID: \(CloudSocket.getSocket().sid)")
+                payload["sessionId"] = CloudSocket.getSocket().sid
+                CloudSocket.getSocket().emit("join-object-channel", payload)
+                callback(error: nil)
+            })
+            CloudSocket.getSocket().connect(timeoutAfter: 15, withTimeoutHandler: {
+                print("Timeout")
+                callback(error: "Timed out")
+            })
+            
+            
+            
         } else {
-            throw CloudBoostError.InvalidArgument
+            callback(error: "invalid event type, it can only be (created, deleted, updated)")
+        }
+    }
+    
+    public static func on(tableName: String, eventTypes: [String], handler: ([CloudObject]?)->Void, callback: (error: String?)->Void){
+        let tableName = tableName.lowercaseString
+        if CloudApp.SESSION_ID == nil {
+            callback(error: "Invalid session ID")
+        }else{
+            print("Using session ID: \(CloudApp.SESSION_ID)")
+        }
+        var payloads = [NSMutableDictionary]()
+            
+        for (index,event) in eventTypes.enumerate() {
+            if event == "created" || event == "deleted" || event == "updated" {
+                let str = (CloudApp.getAppId()! + "table" + tableName + event).lowercaseString
+                payloads.insert([:], atIndex: index)
+                payloads[index]["room"] = str
+                CloudSocket.getSocket().on(str, callback: {
+                    data, ack in
+                    var resArr = [CloudObject]()
+                    for el in data {
+                        if let doc = el as? NSMutableDictionary {
+                            let obj = CloudObject(tableName: tableName)
+                            obj.document = doc
+                            resArr.append(obj)
+                        }
+                    }
+                    handler(resArr)
+                })
+            }else{
+                callback(error: "invalid event type, it can only be (created, deleted, updated)")
+                return
+            }
+        }
+        CloudSocket.getSocket().on("connect", callback: { data, ack in
+            print("sessionID: \(CloudSocket.getSocket().sid)")
+            for (index,_) in payloads.enumerate() {
+                payloads[index]["sessionId"] = CloudSocket.getSocket().sid
+                CloudSocket.getSocket().emit("join-object-channel", payloads[index])
+            }
+            callback(error: nil)
+        })
+        CloudSocket.getSocket().connect(timeoutAfter: 15, withTimeoutHandler: {
+            print("Timeout")
+            callback(error: "Timed out")
+        })
+
+    }
+
+    public static func off(tableName: String, eventType: String, callback: (error: String?)->Void){
+        let tableName = tableName.lowercaseString
+        let eventType = eventType.lowercaseString
+        if eventType == "created" || eventType == "deleted" || eventType == "updated" {
+            let str = (CloudApp.getAppId()! + "table" + tableName + eventType).lowercaseString
+            
+            CloudSocket.getSocket().emit("leave-object-channel", str)
+            CloudSocket.getSocket().on(str, callback: {_,_ in})
+            
+            
+        } else {
+            callback(error: "invalid event type, it can only be (created, deleted, updated)")
         }
     }
 

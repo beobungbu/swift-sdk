@@ -13,10 +13,9 @@ class CloudObjectTest: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        let app = CloudApp.init(appID: "xckzjbmtsbfb", appKey: "345f3324-c73c-4b15-94b5-9e89356c1b4e")
+        let app = CloudApp.init(appID: "zbzgfbmhvnzf", appKey: "d9c4cdef-7586-4fa2-822b-cb815424d2c8")
         app.setIsLogging(true)
-        app.setMasterKey("f5cc5cb3-ba0d-446d-9e51-e09be23c540d")
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        app.setMasterKey("2df6d3e7-a695-4ab0-b18a-d37a90af4dc9")
     }
     
     override func tearDown() {
@@ -752,5 +751,168 @@ class CloudObjectTest: XCTestCase {
         waitForExpectationsWithTimeout(60, handler: nil)
     }
     
+    // MARK: Notifications Tests
     
+    //should alert when the object is created
+    func testAlertCreated(){
+        let exp = expectationWithDescription("should alert when the object is created")
+        let obj = CloudObject(tableName: "Student")
+        CloudObject.on("Student", eventType: "created",
+                                  // handler for data received on 'sample'
+            handler: {
+                response in
+                if response != nil {
+                    if response![0].get("name")as!String == "Randhir" {
+                        print("successfully notified")
+                        CloudObject.off("Student", eventType: "created", callback: {_ in 
+                            XCTAssert(true)
+                            exp.fulfill()
+                        })                        
+                    }else{
+                        XCTAssert(false)
+                    }
+                }else{
+                    XCTAssert(false)
+                }
+                exp.fulfill()
+            },
+            // callback from registering the handler
+            callback: { error in
+                if error != nil {
+                    print(error)
+                }else{
+                    obj.set("name", value: "Randhir")
+                    obj.save({
+                        response in
+                        response.log()                        
+                    })
+                }
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // should throw an error when wrong event type is entered
+    func testWrongEventType(){
+        let exp = expectationWithDescription("error when wrong event type")
+        CloudObject.on("Student", eventType: "asdds",
+                       // handler for data received on 'sample'
+            handler: {
+                response in
+                XCTAssert(false)
+            },
+            // callback from registering the handler
+            callback: {
+                error in
+                if error != nil {
+                    print(error)
+                }else{
+                    XCTAssert(false)
+                }
+        })
+        exp.fulfill()
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    
+    // should alert when the object is updated
+    func testAlertUpdated(){
+        let exp = expectationWithDescription("should alert when the object is updated")
+        let obj = CloudObject(tableName: "Student")
+        CloudObject.on("Student", eventType: "updated",
+                       // handler for data received on 'sample'
+            handler: {
+                response in
+                if response != nil {
+                    if response![0].get("name")as!String == "Anurag" {
+                        print("successfully notified for update")
+                        XCTAssert(true)
+                    }else{
+                        XCTAssert(false)
+                    }
+                }else{
+                    XCTAssert(false)
+                }
+                exp.fulfill()
+            },
+            // callback from registering the handler
+            callback: { error in
+                if error != nil {
+                    print(error)
+                }else{
+                    obj.set("name", value: "Randhir")
+                    obj.save({
+                        response in
+                        obj.set("name", value: "Anurag")
+                        obj.save({
+                            response in
+                            XCTAssert(response.success)
+                        })
+                    })
+                }
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // should alert when the object is deleted
+    func testAlertDeleted(){
+        let exp = expectationWithDescription("should alert when the object is deleted")
+        let obj = CloudObject(tableName: "Student")
+        CloudObject.on("Student", eventType: "deleted",
+                       // handler for data received on 'sample'
+            handler: {
+                response in
+                print(response)
+                exp.fulfill()
+            },
+            // callback from registering the handler
+            callback: { error in
+                if error != nil {
+                    print(error)
+                }else{
+                    obj.set("name", value: "Randhir")
+                    obj.save({
+                        response in
+                        obj.delete({
+                            response in
+                            XCTAssert(response.success)
+                        })
+                    })
+                }
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+
+    // should alert when multiple events are passed
+    func testAlertMultipleEvents(){
+        let exp = expectationWithDescription("should alert when multiple events passed")
+        let obj = CloudObject(tableName: "Student")        
+        var handlerCounts = 0
+        CloudObject.on("Student", eventTypes: ["created","deleted"],
+                       // handler for data received on 'sample'
+            handler: {
+                response in
+                handlerCounts += 1
+                if handlerCounts == 2 {
+                    print("notified for creation and deletion")
+                    exp.fulfill()
+                }
+            },
+            // callback from registering the handler
+            callback: { error in
+                if error != nil {
+                    print(error)
+                }else{
+                    obj.set("name", value: "Randhir")
+                    obj.save({
+                        response in
+                        obj.delete({
+                            response in
+                            XCTAssert(response.success)
+                        })
+                    })
+                }
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+
 }

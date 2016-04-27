@@ -20,6 +20,7 @@ enum CloudBoostError: ErrorType {
     case InvalidGeoPoint
     case InvalidArgument
     case InvalidDataType
+    case DoesNotExist
 }
 
 public class CloudBoostResponse {
