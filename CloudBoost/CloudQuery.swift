@@ -33,7 +33,7 @@ public class CloudQuery{
         
         query["$include"] = _include
         query["$includeList"] = _includeList
-        
+                
     }
     
     // getter and setters for limit

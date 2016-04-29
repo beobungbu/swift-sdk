@@ -915,7 +915,7 @@ class CloudObjectTest: XCTestCase {
         waitForExpectationsWithTimeout(30, handler: nil)
     }
     
-    // MARK: cloud object notification with query
+
     
 
 }

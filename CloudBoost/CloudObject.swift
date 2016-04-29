@@ -468,10 +468,11 @@ public class CloudObject{
      * @param handler
      * @param callback
      */
-    public static func on(tableName: String, eventType: String, query: CloudQuery, handler: ([CloudObject]?)->Void, callback: (error: String?)->Void){
-        let tableName = tableName.lowercaseString
+    public static func on(tableName: String, eventType: String, query: CloudQuery, handler: ([CloudObject]?)->Void, callback: (error: String?)->Void){        
         let eventType = eventType.lowercaseString
         if query.getTableName() != tableName {
+            print(query.getTableName())
+            print(tableName)
             callback(error: "CloudQuery TableName and CloudNotification TableName should be same")
             return
         }
@@ -480,12 +481,7 @@ public class CloudObject{
             callback(error: "You cannot pass the query with select in CloudNotifications")
             return
         }
-        if CloudApp.SESSION_ID == nil {
-            callback(error: "Invalid session ID")
-            return
-        }else{
-            print("Using session ID: \(CloudApp.SESSION_ID)")
-        }
+        var countLimit = query.getLimit()
         if eventType == "created" || eventType == "deleted" || eventType == "updated" {
             let str = (CloudApp.getAppId()! + "table" + tableName + eventType).lowercaseString
             let payload = NSMutableDictionary()
@@ -498,7 +494,8 @@ public class CloudObject{
                     if let doc = el as? NSMutableDictionary {
                         let obj = CloudObject(tableName: tableName)
                         obj.document = doc
-                        if CloudObject.validateNotificationQuery(obj, query: query){
+                        if CloudObject.validateNotificationQuery(obj, query: query) && countLimit != 0 {
+                            countLimit -= 1
                             resArr.append(obj)
                         }
                     }
