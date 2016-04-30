@@ -1,6 +1,6 @@
 # CloudBoost Swift SDK
 
-[![CI Status](http://img.shields.io/travis/RandhirSingh/CloudBoost.svg?style=flat)](https://travis-ci.org/Randhir Singh/CloudBoost)
+[![CI Status](http://img.shields.io/travis/RandhirSingh/CloudBoost.svg?style=flat)](https://travis-ci.org/RandhirSingh/CloudBoost)
 [![Version](https://img.shields.io/cocoapods/v/CloudBoost.svg?style=flat)](http://cocoapods.org/pods/CloudBoost)
 [![License](https://img.shields.io/cocoapods/l/CloudBoost.svg?style=flat)](http://cocoapods.org/pods/CloudBoost)
 [![Platform](https://img.shields.io/cocoapods/p/CloudBoost.svg?style=flat)](http://cocoapods.org/pods/CloudBoost)
@@ -33,15 +33,14 @@ let app = CloudApp(appID: "Your-app-ID", appKey: "Your-app-key")
 app.setIsLogging(true)
 
 // Create a new table
-let obj = CloudObject(name: "Student")
+let obj = CloudObject(tableName: "Student")
 
 // Set attributes
-obj.setString("name", value: "Randhir")
-obj.setInt("marks", value: 99)
+obj.set("name", value: "Randhir")
+obj.set("marks", value: 99)
 
-// Save the table, with a callback
-obj.save({
-    (response: CloudBoostResponse) in
+// Save the table, with a callback. response is in the form of CloudBoostResponse
+obj.save({ response in
     response.log()
 })
 ```
