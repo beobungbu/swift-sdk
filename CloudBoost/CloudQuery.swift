@@ -788,9 +788,9 @@ public class CloudQuery{
                             // Additional tests TO BE added
                             
                             if subKey == "$in" {
-                                if let arr = value[subKey] as? [NSMutableDictionary]{
-                                    
-                                }
+//                                if let arr = value[subKey] as? [NSMutableDictionary]{
+//                                    
+//                                }
                                 if let re = subValue as? String {
                                     let reg = Regex(re)
                                     if let toMatch = co.get(key) as? String{
