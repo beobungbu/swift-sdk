@@ -434,7 +434,7 @@ class CloudObjectNotificationTest: XCTestCase {
                 }else {
                     
                     let obj = CloudObject(tableName: "Student")
-                    obj.set("name", value: "Randhir")                    
+                    obj.set("name", value: "Randhir")
                     obj.save({res in
                         sleep(10)
                         exp.fulfill()
@@ -444,5 +444,153 @@ class CloudObjectNotificationTest: XCTestCase {
         
         waitForExpectationsWithTimeout(50, handler: nil)
     }
+    
+    
+    //greater than equal to : 1
+    func testGreaterThanEqualTo1(){
+        let exp = expectationWithDescription("testing greater than equal to")
+        
+        let query = CloudQuery(tableName: "Student")
+        try! query.greaterThanEqualTo("marks", obj: 50)
+        
+        CloudObject.on("Student", eventType: "created", query: query, handler: {
+            res in
+            
+            XCTAssert(true)
+            CloudObject.off("Student", eventType: "created", callback: {
+                res in
+                exp.fulfill()
+            })
+            
+            
+            }, callback: {
+                err in
+                if err != nil {
+                    print(err)
+                    XCTAssert(false)
+                    exp.fulfill()
+                }else {
+                    
+                    let obj = CloudObject(tableName: "Student")
+                    obj.set("name", value: "Randhir1")
+                    obj.set("marks", value: 50)
+                    obj.save({res in})
+                }
+        })
+        
+        waitForExpectationsWithTimeout(50, handler: nil)
+    }
+    
+    //greater than equal to : 2
+    func testGreaterThanEqualTo2(){
+        let exp = expectationWithDescription("testing greater than equal to")
+        
+        let query = CloudQuery(tableName: "Student")
+        try! query.greaterThanEqualTo("marks", obj: 50)
+        
+        CloudObject.on("Student", eventType: "created", query: query, handler: {
+            res in
+            XCTAssert(false)
+            CloudObject.off("Student", eventType: "created", callback: {
+                res in
+                XCTAssert(false)
+                exp.fulfill()
+            })
+            
+            }, callback: {
+                err in
+                if err != nil {
+                    print(err)
+                    XCTAssert(false)
+                    exp.fulfill()
+                }else {
+                    
+                    let obj = CloudObject(tableName: "Student")
+                    obj.set("name", value: "Randhir")
+                    obj.set("marks", value: 49)
+                    obj.save({res in
+                        sleep(10)
+                        exp.fulfill()
+                    })
+                }
+        })
+        
+        waitForExpectationsWithTimeout(50, handler: nil)
+    }
+    
+    //less than equal to: 1
+    func testLessThanEqualTo1(){
+        let exp = expectationWithDescription("testing less than")
+        
+        let query = CloudQuery(tableName: "Student")
+        try! query.lessThanEqualTo("marks", obj: 50)
+        
+        CloudObject.on("Student", eventType: "created", query: query, handler: {
+            res in
+            
+            XCTAssert(true)
+            CloudObject.off("Student", eventType: "created", callback: {
+                res in
+                exp.fulfill()
+            })
+            
+            
+            }, callback: {
+                err in
+                if err != nil {
+                    print(err)
+                    XCTAssert(false)
+                    exp.fulfill()
+                }else {
+                    
+                    let obj = CloudObject(tableName: "Student")
+                    obj.set("name", value: "Randhir1")
+                    obj.set("marks", value: 50)
+                    obj.save({res in})
+                }
+        })
+        
+        waitForExpectationsWithTimeout(50, handler: nil)
+    }
+    
+    //less than equal to: 2
+    func testLessThanEqualTo2(){
+        let exp = expectationWithDescription("testing less than")
+        
+        let query = CloudQuery(tableName: "Student")
+        try! query.lessThanEqualTo("marks", obj: 50)
+        
+        CloudObject.on("Student", eventType: "created", query: query, handler: {
+            res in
+            XCTAssert(false)
+            CloudObject.off("Student", eventType: "created", callback: {
+                res in
+                XCTAssert(false)
+                exp.fulfill()
+            })
+            
+            }, callback: {
+                err in
+                if err != nil {
+                    print(err)
+                    XCTAssert(false)
+                    exp.fulfill()
+                }else {
+                    
+                    let obj = CloudObject(tableName: "Student")
+                    obj.set("name", value: "Randhir")
+                    obj.set("marks", value: 51)
+                    obj.save({res in
+                        sleep(10)
+                        exp.fulfill()
+                    })
+                }
+        })
+        
+        waitForExpectationsWithTimeout(50, handler: nil)
+    }
+    
+    
 
+    
 }

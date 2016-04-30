@@ -161,22 +161,76 @@ public class CloudQuery{
         
     }
     
-    
-    public func equalTo(columnName: String, obj: AnyObject) throws {
+    /**
+     *
+     * CloudQuery EqualTo
+     *
+     *
+     * @param columnName
+     * @param obj
+     * @return CloudQuery good for chaining requests
+     * @throws CLoubBoostError
+     */
+    public func equalTo(columnName: String, obj: AnyObject) throws -> CloudQuery {
         var _columnName = columnName
         if(columnName == "id"){
             _columnName = "_id"
+        }
+        var obj = obj
+        if let ob = obj as? CloudObject {
+            _columnName = _columnName + "._id"
+            if let id = ob.getId() {
+                obj = id
+            }else{
+                throw CloudBoostError.InvalidArgument
+            }
+        }
+        if let ob = obj as? CloudRole {
+            _columnName = _columnName + "._id"
+            if let id = ob.getId() {
+                obj = id
+            }else{
+                throw CloudBoostError.InvalidArgument
+            }
         }
         query[_columnName] = obj
         guard let _ = try query.getJSON() else{
             throw CloudBoostError.InvalidArgument
         }
+        
+        return self
     }
     
+    /**
+     *
+     * CloudQuery Not Equal To
+     *
+     * @param columnName
+     * @param obj
+     * @return CloudQuery
+     * @throws CLoubBoostError
+     */
     public func notEqualTo(columnName: String, obj: AnyObject) throws {
         var _columnName = columnName
         if(columnName == "id"){
             _columnName = "_id"
+        }
+        var obj = obj
+        if let ob = obj as? CloudObject {
+            _columnName = _columnName + "._id"
+            if let id = ob.getId() {
+                obj = id
+            }else{
+                throw CloudBoostError.InvalidArgument
+            }
+        }
+        if let ob = obj as? CloudRole {
+            _columnName = _columnName + "._id"
+            if let id = ob.getId() {
+                obj = id
+            }else{
+                throw CloudBoostError.InvalidArgument
+            }
         }
         query[_columnName] = [ "$ne" : obj ]
         guard let _ = try query.getJSON() else{
@@ -253,6 +307,166 @@ public class CloudQuery{
             _columnName = "_id"
         }
         query[_columnName] = ["$all":obj]
+    }
+    
+    /**
+     *
+     * CloudQuery ContainedIn
+     *
+     * @param columnName
+     * @param data
+     * @return CloudQuery
+     * @throws CloudBoostExcetion
+     */
+    public func containedIn(columnName: String, data: [AnyObject]) throws -> CloudQuery{
+        var _columnName = columnName
+        if(columnName == "id" || columnName == "expires"){
+            _columnName = "_" + columnName
+        }
+        var column = NSMutableDictionary()
+        if let col = self.query[_columnName] as? NSMutableDictionary {
+            column = col
+        }
+        
+        var _in_ = [String]()
+        var _nin_ = [String]()
+        if data as? [String] != nil || data as? [CloudObject] != nil || data as? [Int] != nil || data as? [Double] != nil {
+            var object = [CloudObject]()
+            
+            query["$include"] = _include
+            query["$includeList"] = _includeList
+            
+            if column["$in"] == nil {
+                column["$in"] = [String]()
+            }
+            if column["$nin"] == nil {
+                column["$nin"] = [String]()
+            }
+            
+            _in_ = column["$in"] as! [String]
+            _nin_ = column["$nin"] as! [String]
+
+            if data as? [CloudObject] != nil {
+                _columnName = _columnName == "_id" ? _columnName : _columnName + "._id"
+                var dataz = [String]()
+                for (index, el) in data.enumerate() {
+                    object.insert(el as! CloudObject, atIndex: index)
+                    if let id = object[index].getId() {
+                        dataz.append(id)
+                    }else{
+                        throw CloudBoostError.InvalidArgument
+                    }
+                }
+                
+                for (index, dat) in dataz.enumerate() {
+                    if _in_.indexOf(dat) == nil {
+                        _in_.append(dat)
+                    }
+                    if _nin_.indexOf(dat) != nil {
+                        _nin_.removeAtIndex(index)
+                    }
+                }
+                
+            } else {
+                for (index, dat) in data.enumerate() {
+                    if _in_.indexOf(dat.description) == nil {
+                        _in_.append(dat.description)
+                    }
+                    if _nin_.indexOf(dat.description) != nil {
+                        _nin_.removeAtIndex(index)
+                    }
+                }
+            }
+            
+            column["$in"] = _in_
+            column["$nin"] = _nin_
+            
+            self.query[_columnName] = column
+        } else {
+            throw CloudBoostError.InvalidArgument
+        }
+        
+        return self
+    }
+    
+    /**
+     *
+     * CloudQuery notContainedIn
+     *
+     * @param columnName
+     * @param data
+     * @return CloudQuery
+     * @throws CloudBoostExcetion
+     */
+    public func notContainedIn(columnName: String, data: [AnyObject]) throws -> CloudQuery{
+        var _columnName = columnName
+        if(columnName == "id" || columnName == "expires"){
+            _columnName = "_" + columnName
+        }
+        var column = NSMutableDictionary()
+        if let col = self.query[_columnName] as? NSMutableDictionary {
+            column = col
+        }
+        
+        var _in_ = [String]()
+        var _nin_ = [String]()
+        if data as? [String] != nil || data as? [CloudObject] != nil || data as? [Int] != nil || data as? [Double] != nil {
+            var object = [CloudObject]()
+            
+            query["$include"] = _include
+            query["$includeList"] = _includeList
+            
+            if column["$in"] == nil {
+                column["$in"] = [String]()
+            }
+            if column["$nin"] == nil {
+                column["$nin"] = [String]()
+            }
+            
+            _in_ = column["$in"] as! [String]
+            _nin_ = column["$nin"] as! [String]
+            
+            if data as? [CloudObject] != nil {
+                _columnName = _columnName + "._id"
+                var dataz = [String]()
+                for (index, el) in data.enumerate() {
+                    object.insert(el as! CloudObject, atIndex: index)
+                    if let id = object[index].getId() {
+                        dataz.append(id)
+                    }else{
+                        throw CloudBoostError.InvalidArgument
+                    }
+                }
+                
+                for (index, dat) in dataz.enumerate() {
+                    if _nin_.indexOf(dat) == nil {
+                        _nin_.append(dat)
+                    }
+                    if _in_.indexOf(dat) != nil {
+                        _in_.removeAtIndex(index)
+                    }
+                }
+                
+            } else {
+                for (index, dat) in data.enumerate() {
+                    if _nin_.indexOf(dat.description) == nil {
+                        _nin_.append(dat.description)
+                    }
+                    if _in_.indexOf(dat.description) != nil {
+                        _in_.removeAtIndex(index)
+                    }
+                }
+            }
+            
+            column["$in"] = _in_
+            column["$nin"] = _nin_
+            
+            self.query[_columnName] = column
+        } else {
+            throw CloudBoostError.InvalidArgument
+        }
+        
+        return self
     }
     
     public func notContainedIn(columnName: String, obj: [String]) {
@@ -570,7 +784,23 @@ public class CloudQuery{
                                 return false
                             }
                             
+                            
                             // Additional tests TO BE added
+                            
+                            if subKey == "$in" {
+                                if let arr = value[subKey] as? [NSMutableDictionary]{
+                                    
+                                }
+                                if let re = subValue as? String {
+                                    let reg = Regex(re)
+                                    if let toMatch = co.get(key) as? String{
+                                        return reg.test(toMatch)
+                                    }
+                                }
+                                return false
+                            }
+                            
+                            
                         
                         }
                     }else{
