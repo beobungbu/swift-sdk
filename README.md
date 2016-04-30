@@ -1,4 +1,20 @@
-# CloudBoost DraftSDK (Swift)
+# CloudBoost Swift SDK
+
+[![CI Status](http://img.shields.io/travis/RandhirSingh/CloudBoost.svg?style=flat)](https://travis-ci.org/Randhir Singh/CloudBoost)
+[![Version](https://img.shields.io/cocoapods/v/CloudBoost.svg?style=flat)](http://cocoapods.org/pods/CloudBoost)
+[![License](https://img.shields.io/cocoapods/l/CloudBoost.svg?style=flat)](http://cocoapods.org/pods/CloudBoost)
+[![Platform](https://img.shields.io/cocoapods/p/CloudBoost.svg?style=flat)](http://cocoapods.org/pods/CloudBoost)
+
+
+## Installation
+
+CloudBoost is available through [CocoaPods](http://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```ruby
+pod "CloudBoost"
+```
+
 
 # Usage:
 
@@ -29,3 +45,12 @@ obj.save({
     response.log()
 })
 ```
+
+
+## Author
+
+Randhir Singh, rick.rox10@gmail.com
+
+## License
+
+CloudBoost is available under the MIT license. See the LICENSE file for more info.

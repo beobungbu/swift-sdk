@@ -98,6 +98,8 @@
 		22FFC8B21C97A3E10028EA61 /* CloudApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8B11C97A3E10028EA61 /* CloudApp.swift */; };
 		22FFC8C71C984FE10028EA61 /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8C61C984FE10028EA61 /* ACL.swift */; };
 		22FFC8C91C9852410028EA61 /* CloudTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8C81C9852410028EA61 /* CloudTable.swift */; };
+		D00061FE3DA3706AD6F9E742 /* libPods-CloudBoostTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A3CEF081C6DE8A68FA1FBBB /* libPods-CloudBoostTests.a */; };
+		E98F4060F13155CBDCCFD057 /* libPods-CloudBoost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A3630991AF7E66A127F4361 /* libPods-CloudBoost.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -183,6 +185,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E98F4060F13155CBDCCFD057 /* libPods-CloudBoost.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,6 +194,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				22FFC8241C9733D10028EA61 /* CloudBoost.framework in Frameworks */,
+				D00061FE3DA3706AD6F9E742 /* libPods-CloudBoostTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
