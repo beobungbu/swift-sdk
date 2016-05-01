@@ -788,14 +788,19 @@ public class CloudQuery{
                             // Additional tests TO BE added
                             
                             if subKey == "$in" {
-//                                if let arr = value[subKey] as? [NSMutableDictionary]{
-//                                    
-//                                }
-                                if let re = subValue as? String {
-                                    let reg = Regex(re)
-                                    if let toMatch = co.get(key) as? String{
-                                        return reg.test(toMatch)
+                                if let arr = value[subKey] as? [AnyObject]{
+                                    let obj = co.get(key)
+                                    if key.containsString(".") && co.get(key) != nil {
+                                        
                                     }
+                                    for el in arr {
+                                        // return true on first occurance of an element
+                                        if obj === el {
+                                           return true
+                                        }
+                                    }
+                                }else{
+                                    return false
                                 }
                                 return false
                             }
