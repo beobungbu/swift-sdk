@@ -48,7 +48,7 @@ obj.save({ response in
 
 ## Author
 
-Randhir Singh, rick.rox10@gmail.com
+Randhir Singh, randhirsingh051@gmail.com
 
 ## License
 
