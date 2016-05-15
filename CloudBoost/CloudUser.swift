@@ -64,7 +64,13 @@ public class CloudUser: CloudObject {
     // MARK: Cloud operations on CloudUser
     
     
-    // Signup a user on the app
+    /**
+     *
+     * Sign Up
+     *
+     * @param callbackObject
+     * @throws CloudBoostError
+     */
     public func signup(callback: (response: CloudBoostResponse)->Void) throws{
         if(CloudApp.appID == nil){
             throw CloudBoostError.AppIdNotSet
@@ -97,7 +103,13 @@ public class CloudUser: CloudObject {
         })
     }
     
-    // Login a user
+    /**
+     *
+     * Log in
+     *
+     * @param callbackObject
+     * @throws CloudBoostError
+     */
     public func login(callback: (response: CloudBoostResponse)->Void) throws {
         if(CloudApp.appID == nil){
             throw CloudBoostError.AppIdNotSet
@@ -129,7 +141,13 @@ public class CloudUser: CloudObject {
         })
     }
     
-    // logout the user
+    /**
+     *
+     * Log out
+     *
+     * @param callbackObject
+     * @throws CloudBoostError
+     */
     func logout(callback: (response: CloudBoostResponse)->Void) throws{
         if(CloudApp.appID == nil){
             throw CloudBoostError.AppIdNotSet
@@ -160,7 +178,14 @@ public class CloudUser: CloudObject {
 
     }
     
-    // Reset password
+    /**
+     *
+     * Reset Password
+     *
+     * @param email
+     * @param callbackObject
+     * @throws CloudBoostError
+     */
     public static func resetPassword(email: String, callback: (reponse: CloudBoostResponse)->Void) {
         let data = NSMutableDictionary()
         data["key"] = CloudApp.getAppKey()
@@ -176,7 +201,43 @@ public class CloudUser: CloudObject {
         })
     }
     
-    // add user to a role
+    /**
+     *
+     * Change Password
+     *
+     * @param email
+     * @param callbackObject
+     * @throws CloudBoostError
+     */
+    public func changePassword(oldPassword: String, newPassword: String, callback: (reponse: CloudBoostResponse)->Void) {
+        let data = NSMutableDictionary()
+        data["key"] = CloudApp.getAppKey()
+        data["oldPassword"] = oldPassword
+        data["newPassword"] = newPassword
+        let url = CloudApp.getApiUrl() + "/user/" + CloudApp.getAppId()! + "/changePassword"
+        CloudCommunications._request("PUT", url: NSURL(string: url)!, params: data, callback: {
+            (response: CloudBoostResponse) in
+            if(CloudApp.isLogging()){
+                response.log()
+            }
+            // Save the user if he has been successfully logged in
+            if response.status == 200 && response.success {
+                if let doc = response.object as? NSMutableDictionary {
+                    self.document = doc
+                }
+            }
+            callback(reponse: response)
+        })
+    }
+    
+    /**
+     *
+     * Add To Role
+     *
+     * @param role
+     * @param callbackObject
+     * @throws CloudBoostError
+     */
     public func addToRole(role: CloudRole, callback: (response: CloudBoostResponse)-> Void) throws{
         if role.getName() == nil {
             throw CloudBoostError.InvalidArgument
@@ -193,7 +254,14 @@ public class CloudUser: CloudObject {
         })
     }
     
-    //remove a user from role
+    /**
+     *
+     * Remove from Role
+     *
+     * @param role
+     * @param callbackObject
+     * @throws CloudBoostError
+     */
     public func removeFromRole(role: CloudRole, callback: (response: CloudBoostResponse)->Void) throws{
         if role.getName() == nil {
             throw CloudBoostError.InvalidArgument

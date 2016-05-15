@@ -270,7 +270,7 @@ class CloudQueryTest: XCTestCase {
         obj.save({
             (response: CloudBoostResponse) in
             let query = CloudQuery(tableName: "Student")
-            try! query.substring("name", subStr: "umit")
+            query.substring("name", subStr: "umit")
             try! query.find({
                 (response: CloudBoostResponse) in
                 response.log()
@@ -301,12 +301,12 @@ class CloudQueryTest: XCTestCase {
         obj.save({
             (response: CloudBoostResponse) in
             let query = CloudQuery(tableName: "Student")
-            try! query.substring("name", subStr: "umit")
-            try! query.substring("name", subStr: "ipul")
+            query.substring("name", subStr: "umit")
+            query.substring("name", subStr: "ipul")
             try! query.find({
                 (response: CloudBoostResponse) in
                 response.log()
-                guard let resArray = response.object as? [NSDictionary] else{
+                guard (response.object as? [NSDictionary]) != nil else{
                     XCTAssert(false)
                     exp.fulfill()
                     return
@@ -898,7 +898,7 @@ class CloudQueryTest: XCTestCase {
         CloudObject.saveAll([obj1, obj2, obj3, obj4], callback: {
             response in
             if response.success {
-                let query1 = CloudQuery(tableName: "QueryPaginate")
+                let query1 = CloudQuery(tableName: "QueryPaginate")                
                 let pageNum = 1
                 let totalItemsInPage = 2
                 query1.paginate(pageNum, _totalItemsInPage: totalItemsInPage, callback: {

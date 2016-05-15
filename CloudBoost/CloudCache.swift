@@ -36,6 +36,10 @@ public class CloudCache {
         return cacheName
     }
     
+    public func getCacheSize() -> String? {
+        return document["size"] as? String
+    }
+    
     public func getDocument() -> NSMutableDictionary? {
         return document
     }
@@ -152,7 +156,7 @@ public class CloudCache {
         })
     }
     
-    public func getAllCaches(callback: (CloudBoostResponse)->Void) throws {
+    public static func getAllCache(callback: (CloudBoostResponse)->Void) throws {
         if CloudApp.getAppId() == nil {
             throw CloudBoostError.InvalidArgument
         }
@@ -218,7 +222,7 @@ public class CloudCache {
 
     }
     
-    public func deleteAll(callback: (CloudBoostResponse)->Void) throws {
+    public static func deleteAll(callback: (CloudBoostResponse)->Void) throws {
         if CloudApp.getAppId() == nil {
             throw CloudBoostError.InvalidArgument
         }

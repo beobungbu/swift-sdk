@@ -58,7 +58,7 @@ class CloudTableTest: XCTestCase {
     
     // should create a table with random string name
     func testCreateTable(){
-        let exp = expectationWithDescription("should delete a table")
+        let exp = expectationWithDescription("should create a table")
         let tableName = "pg19S"
         let table = CloudTable(tableName: tableName)
         table.save({

@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		222D78941CE6F28800682D17 /* CloudPush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222D78931CE6F28800682D17 /* CloudPush.swift */; };
 		2249AC521CAB9F790088AFBF /* CloudQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2249AC511CAB9F790088AFBF /* CloudQuery.swift */; };
 		2249AC541CABC5A40088AFBF /* CloudQueryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2249AC531CABC5A40088AFBF /* CloudQueryTest.swift */; };
 		224C2A571CA80B3100D05F27 /* CloudRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C2A561CA80B3100D05F27 /* CloudRole.swift */; };
@@ -98,8 +99,6 @@
 		22FFC8B21C97A3E10028EA61 /* CloudApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8B11C97A3E10028EA61 /* CloudApp.swift */; };
 		22FFC8C71C984FE10028EA61 /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8C61C984FE10028EA61 /* ACL.swift */; };
 		22FFC8C91C9852410028EA61 /* CloudTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8C81C9852410028EA61 /* CloudTable.swift */; };
-		D00061FE3DA3706AD6F9E742 /* libPods-CloudBoostTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A3CEF081C6DE8A68FA1FBBB /* libPods-CloudBoostTests.a */; };
-		E98F4060F13155CBDCCFD057 /* libPods-CloudBoost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A3630991AF7E66A127F4361 /* libPods-CloudBoost.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +113,7 @@
 
 /* Begin PBXFileReference section */
 		1A3CEF081C6DE8A68FA1FBBB /* libPods-CloudBoostTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CloudBoostTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		222D78931CE6F28800682D17 /* CloudPush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudPush.swift; sourceTree = "<group>"; };
 		2249AC511CAB9F790088AFBF /* CloudQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudQuery.swift; sourceTree = "<group>"; };
 		2249AC531CABC5A40088AFBF /* CloudQueryTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudQueryTest.swift; sourceTree = "<group>"; };
 		224C2A561CA80B3100D05F27 /* CloudRole.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudRole.swift; sourceTree = "<group>"; };
@@ -185,7 +185,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E98F4060F13155CBDCCFD057 /* libPods-CloudBoost.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,7 +193,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				22FFC8241C9733D10028EA61 /* CloudBoost.framework in Frameworks */,
-				D00061FE3DA3706AD6F9E742 /* libPods-CloudBoostTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +273,7 @@
 				22E02D311CC7ECEC003C06FF /* SearchFilter.swift */,
 				2296EC2B1CCD16D700C4197D /* CloudSocket.swift */,
 				2296EC2D1CCD185A00C4197D /* CloudNotification.swift */,
+				222D78931CE6F28800682D17 /* CloudPush.swift */,
 			);
 			path = CloudBoost;
 			sourceTree = "<group>";
@@ -557,6 +556,7 @@
 				2288DAD51CCD331C00022ACC /* WebSocket.swift in Sources */,
 				22F774221C9C1FD100BDEFCB /* CloudObject.swift in Sources */,
 				22E02D321CC7ECEC003C06FF /* SearchFilter.swift in Sources */,
+				222D78941CE6F28800682D17 /* CloudPush.swift in Sources */,
 				227506661CAD549C00F430A2 /* CloudFile.swift in Sources */,
 				2288DABB1CCD331C00022ACC /* SocketClientSpec.swift in Sources */,
 				2288DAAF1CCD331C00022ACC /* SocketEventHandler.swift in Sources */,

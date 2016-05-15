@@ -140,6 +140,19 @@ public class CloudQuery{
         
     }
     
+    public func doNotSelectColumn(column: String){
+        select[column] = 0
+    }
+    
+    /**
+     *
+     * CloudQuery Or
+     *
+     *
+     * @param object1
+     * @param object2
+     * @throws CLoubBoostError
+     */
     public func or(object1: CloudQuery, object2: CloudQuery) throws {
         
         guard let tableName1 = object1.getTableName() else{
@@ -307,6 +320,14 @@ public class CloudQuery{
             _columnName = "_id"
         }
         query[_columnName] = ["$all":obj]
+    }
+    
+    public func regex(columnName: String, exp: String) {
+        var _columnName = columnName
+        if(columnName == "id"){
+            _columnName = "_id"
+        }
+        query[_columnName] = ["$regex":exp]
     }
     
     /**
@@ -477,6 +498,12 @@ public class CloudQuery{
         query[_columnName] = ["$nin":obj]
     }
     
+    /**
+     *
+     * CloudQuery Exists
+     *
+     * @param columnName
+     */
     public func exists(columnName: String) {
         var _columnName = columnName
         if(columnName == "id"){
@@ -485,12 +512,48 @@ public class CloudQuery{
         query[_columnName] = ["$exists":true]
     }
     
+    /**
+     *
+     * CloudQuery Does Not Exists
+     *
+     * @param columnName
+     */
     public func doesNotExists(columnName: String) {
         var _columnName = columnName
         if(columnName == "id"){
             _columnName = "_id"
         }
         query[_columnName] = ["$exists":false]
+    }
+    
+    /**
+     *
+     * CloudQuery Include List
+     *
+     * @param columnName
+     */
+    public func includeList(columnName: String){
+        var _columnName = columnName
+        if columnName == "id" || columnName == "expires" {
+            _columnName = "_" + columnName
+        }
+        self.includeList.append(_columnName)
+        query["$includeList"] = self.includeList
+    }
+    
+    /**
+     *
+     * CloudQuery Include
+     *
+     * @param columnName
+     */
+    public func include(columnName: String){
+        var _columnName = columnName
+        if columnName == "id" || columnName == "expires" {
+            _columnName = "_" + columnName
+        }
+        self.include.append(_columnName)
+        query["$includeList"] = self.include
     }
 
     public func sortAscendingBy(columnName: String) {
@@ -534,30 +597,6 @@ public class CloudQuery{
         query[columnName] = nil
         query[columnName] = [ "$geoWithin" : [ "$centerSphere": [ geoPoint.getCoordinates(), radius/3963.2] ] ]
     }
-    
-//    public func substring(columnName: String, subStrs: [String]) throws {
-//        var _columnName = columnName
-//        if(columnName == "id"){
-//            _columnName = "_id"
-//        }
-////        var exp = [NSMutableDictionary]()
-//        for str in subStrs {
-//            let tempQ = CloudQuery(tableName: self.getTableName()!)
-//            try! tempQ.substring(columnName, subStr: str)
-////            tempQ.query[_columnName] = ["$regex" : ".*" + str + ".*" ]
-//            do {
-//                try or(self, object2: tempQ)
-//            } catch {
-//                throw CloudBoostError.InvalidArgument
-//            }
-//            
-//        }
-////        query[_columnName] = exp
-//        guard let _ = try query.getJSON() else{
-//            throw CloudBoostError.InvalidArgument
-//        }
-//    }
-    
     
     public func find(callbak: (response: CloudBoostResponse)->Void) throws {
         let params = NSMutableDictionary()
@@ -704,7 +743,7 @@ public class CloudQuery{
                 if key == "$include" || key == "$includeList" {
                     continue
                 }
-                if value as? NSMutableDictionary != nil && value as? [NSMutableDictionary] != nil {
+                if value as? NSMutableDictionary != nil || value as? [NSMutableDictionary] != nil {
                     // checking OR
                     if key == "$or" {
                         if let arr = query[key] as? [NSMutableDictionary] {
@@ -725,7 +764,7 @@ public class CloudQuery{
                         }
                     }
                     // here 'key' will usually contain the column name and value will be query
-                    else if let dictValue = value as? [String:AnyObject] {
+                    if let dictValue = value as? [String:AnyObject] {
                         // iterating over each query, $ne, $eq, etc
                         for (subKey, subValue) in dictValue {
                             
@@ -784,18 +823,21 @@ public class CloudQuery{
                                 return false
                             }
                             
-                            
-                            // Additional tests TO BE added
-                            
+                            //containedIn
                             if subKey == "$in" {
                                 if let arr = value[subKey] as? [AnyObject]{
-                                    let obj = co.get(key)
-                                    if key.containsString(".") && co.get(key) != nil {
-                                        
+                                    var value: AnyObject?
+                                    if key.containsString(".") && co.get(key) == nil {
+                                        if co.get(key.componentsSeparatedByString(".")[0]) != nil {
+                                            value = co.get(key.componentsSeparatedByString(".")[0])
+                                        }
+                                    } else if co.get(key) != nil {
+                                        value = co.get(key)
                                     }
+                                    
                                     for el in arr {
-                                        // return true on first occurance of an element
-                                        if obj === el {
+                                        // return true on first occurance of 'value'
+                                        if value === el {
                                            return true
                                         }
                                     }
@@ -805,17 +847,42 @@ public class CloudQuery{
                                 return false
                             }
                             
+                            //notContainedIn
+                            if subKey == "$nin" {
+                                if let arr = value[subKey] as? [AnyObject]{
+                                    var value: AnyObject?
+                                    if key.containsString(".") && co.get(key) == nil {
+                                        if co.get(key.componentsSeparatedByString(".")[0]) != nil {
+                                            value = co.get(key.componentsSeparatedByString(".")[0])
+                                        }
+                                    } else if co.get(key) != nil {
+                                        value = co.get(key)
+                                    }
+                                    
+                                    for el in arr {
+                                        // return true on first occurance of 'value'
+                                        if value === el {
+                                            return false
+                                        }
+                                    }
+                                }else{
+                                    return true
+                                }
+                                return true
+                            }
+
+                            if subKey == "$all" {
+                                
+                            }
                             
                         
                         }
-                    }else{
-                        // other stuff
                     }
                 } else {
-                    // other stuff
+                    // when the query sub-object corresponding to 'key' is not a JSONObect/JSONArray
+                    
                 }
-                
-            }
+            } // else dosent matter, if the key is not in a string format, then discard that query
         }
         return true
     }

@@ -359,6 +359,17 @@ class CloudFileTest: XCTestCase {
         waitForExpectationsWithTimeout(30, handler: nil)
     }
     
+    // get cloud file
+    func testGetFileQuery(){
+        let exp = expectationWithDescription("query cloud file")
+        let query = CloudQuery(tableName: "Student")
+        query.include("file")
+        try! query.find({response in
+            response.log()
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
     
 
 }

@@ -39,6 +39,7 @@ class CloudCacheTest: XCTestCase {
     func  testAddItemToCache() {
         let exp = expectationWithDescription("Add item to Cache")
         let cache = try! CloudCache(cacheName: "newCache")
+        let name = cache.getCacheSize()
         try! cache.set("name", value: "Randhir", callback: {
             response in
             response.log()
@@ -172,7 +173,7 @@ class CloudCacheTest: XCTestCase {
         let exp = expectationWithDescription("get items in cache")
         do {
             let cache = try CloudCache(cacheName: "newCache")
-            try cache.set("values", value: ["name":"Randhir", "marks": 34] as NSDictionary, callback: {
+            try cache.set("values", value: ["name":"Randhir", "marks": 34], callback: {
                 response in
                 response.log()
                 if response.success {
@@ -289,8 +290,7 @@ class CloudCacheTest: XCTestCase {
     // Should get all the caches
     func testShouldGetAllCache(){
         let exp = expectationWithDescription("getting all the cache")
-        let cache = try!CloudCache(cacheName: "newCache")
-        try!cache.getAllCaches({
+        try! CloudCache.getAllCache({
             resp in
             resp.log()
             exp.fulfill()
@@ -421,7 +421,7 @@ class CloudCacheTest: XCTestCase {
                         if let dict = response.object as? NSDictionary {
                             if dict["name"]as!String == "Randhir" && dict["marks"]as!Int == 34 {
                                 print("Values match")
-                                try! cache.deleteAll({
+                                try! CloudCache.deleteAll({
                                     response in
                                     if response.success {
                                         try!cache.get("values", callback: {

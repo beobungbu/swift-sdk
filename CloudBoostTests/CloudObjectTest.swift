@@ -483,6 +483,7 @@ class CloudObjectTest: XCTestCase {
             return
         }
         let file = CloudFile(name: "aTag", data: data, contentType: "text/html")
+        file.getACL()
         file.save({
             (response: CloudBoostResponse) in
             response.log()
@@ -648,7 +649,6 @@ class CloudObjectTest: XCTestCase {
         obj.save({
             (response: CloudBoostResponse) in
             response.log()
-            
             CloudQuery(tableName: "Student").findById(obj.getId()!, callbak: {
                 (response: CloudBoostResponse) in
                 if let doc = response.object as? NSMutableDictionary {
