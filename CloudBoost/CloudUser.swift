@@ -23,6 +23,10 @@ public class CloudUser: CloudObject {
         document["_modifiedColumns"] = _modifiedColumns
     }
     
+    required public init(tableName: String) {
+        super.init(tableName: "User")
+    }
+    
     // MARK: Setters
     
     public func setEmail(email: String) {
@@ -123,7 +127,7 @@ public class CloudUser: CloudObject {
         if(document["password"] == nil){
             throw CloudBoostError.PasswordNotSet
         }
-
+        
         // Setting the payload
         let data = NSMutableDictionary()
         data["document"] = document
@@ -175,7 +179,7 @@ public class CloudUser: CloudObject {
             // return callback
             callback(response: response)
         })
-
+        
     }
     
     /**
@@ -276,7 +280,7 @@ public class CloudUser: CloudObject {
             response in
             callback(response: response)
         })
-
+        
     }
     
     

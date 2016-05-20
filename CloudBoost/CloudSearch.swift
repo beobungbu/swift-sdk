@@ -17,12 +17,19 @@ public class CloudSearch {
     var from: Int?
     var size: Int?
     var sort = [AnyObject]()
+    public var objectClass: CloudObject.Type = CloudObject.self
     
     var searchFilter: SearchFilter?
     var searchQuery: SearchQuery?
     
-    public init(tableName: String, searchQuery: SearchQuery? = nil, searchFilter: SearchFilter? = nil){
+    public init(tableName: String,
+                searchQuery: SearchQuery? = nil,
+                searchFilter: SearchFilter? = nil,
+                objectClass: CloudObject.Type = CloudObject.self) {
+        
         self.collectionName = tableName
+        
+        self.objectClass = objectClass
         
         if searchQuery != nil {
             self.bool["bool"] = searchQuery?.bool
@@ -30,72 +37,6 @@ public class CloudSearch {
         }else{
             self.filtered["query"] = [:]
         }
-        if searchFilter != nil {
-            self.bool["bool"] = searchFilter?.bool
-            self.filtered["filter"] = self.bool
-        }else{
-            self.filtered["filter"] = [:]
-        }
-        
-        self.from = 0
-        self.size = 10
-        
-    }
-    
-    public init(tableName: String){
-        self.collectionName = tableName
-
-        self.filtered["query"] = [:]
-        self.filtered["filter"] = [:]
-        
-        self.from = 0
-        self.size = 10
-        
-    }
-    public init(tableName: String, searchQuery: SearchQuery?){
-        self.collectionName = tableName
-        
-        if searchQuery != nil {
-            self.bool["bool"] = searchQuery?.bool
-            self.filtered["query"] = self.bool
-        }else{
-            self.filtered["query"] = [:]
-        }
-        self.filtered["filter"] = [:]
-        
-        self.from = 0
-        self.size = 10
-        
-    }
-    public init(tableName: String, searchFilter: SearchFilter?){
-        self.collectionName = tableName
-        
-        self.filtered["query"] = [:]
-        
-        if searchFilter != nil {
-            self.bool["bool"] = searchFilter?.bool
-            self.filtered["filter"] = self.bool
-        }else{
-            self.filtered["filter"] = [:]
-        }
-        
-        self.from = 0
-        self.size = 10
-        
-    }
-    
-    
-    
-    public init(tableName: [String], searchQuery: SearchQuery?, searchFilter: SearchFilter?){
-        self.collectionArray = tableName
-        
-        if searchQuery != nil {
-            self.bool["bool"] = searchQuery?.bool
-            self.filtered["query"] = self.bool
-        }else{
-            self.filtered["query"] = [:]
-        }
-        
         if searchFilter != nil {
             self.bool["bool"] = searchFilter?.bool
             self.filtered["filter"] = self.bool
@@ -117,7 +58,7 @@ public class CloudSearch {
         self.bool["bool"] = searchQuery.bool
         self.filtered["query"] = self.bool
     }
-
+    
     
     // MARK: Setters and getter
     
@@ -187,26 +128,67 @@ public class CloudSearch {
         CloudCommunications._request("POST", url: NSURL(string: url)!, params: params, callback: {
             (response: CloudBoostResponse) in
             if response.status == 200 {
-                if let doc = response.object as? [NSMutableDictionary] {
-                    var msgArr = [CloudObject]()
-                    for el in doc {
-                        let msg = CloudObject(tableName: el["_tableName"]as!String)
-                        msg.document = el
-                        msgArr.append(msg)
+                if let documents = response.object as? [NSMutableDictionary] {
+                    
+                    var objectsArray = [CloudObject]()
+                    
+                    for document in documents {
+                        
+                        var objectClass = self.objectClass
+                        
+                        let tableName = document["_tableName"] as! String
+                        
+                        switch tableName {
+                            
+                        case "Role":
+                            objectClass = CloudRole.self
+                            
+                        case "User":
+                            objectClass = CloudUser.self
+                            
+                        default:
+                            objectClass = self.objectClass
+                        }
+                        
+                        let object = objectClass.init(tableName: tableName)
+                        object.document = document
+                        
+                        objectsArray.append(object)
                     }
-                    let resp = CloudBoostResponse()
-                    resp.success = response.success
-                    resp.object = msgArr
-                    resp.status = response.status
-                    callback(resp)
-                } else if let doc = response.object as? NSMutableDictionary {
-                    let msg = CloudObject(tableName: doc["_tableName"]as!String)
-                    msg.document = doc
-                    let resp = CloudBoostResponse()
-                    resp.success = response.success
-                    resp.object = msg
-                    resp.status = response.status
-                    callback(resp)
+                    
+                    let theResponse = CloudBoostResponse()
+                    theResponse.success = response.success
+                    theResponse.object = objectsArray
+                    theResponse.status = response.status
+                    
+                    callback(theResponse)
+                } else if let document = response.object as? NSMutableDictionary {
+                    
+                    var objectClass = self.objectClass
+                    
+                    let tableName = document["_tableName"] as! String
+                    
+                    switch tableName {
+                        
+                    case "Role":
+                        objectClass = CloudRole.self
+                        
+                    case "User":
+                        objectClass = CloudUser.self
+                        
+                    default:
+                        objectClass = self.objectClass
+                    }
+                    
+                    let object = objectClass.init(tableName: tableName)
+                    object.document = document
+                    
+                    let theResponse = CloudBoostResponse()
+                    theResponse.success = response.success
+                    theResponse.object = object
+                    theResponse.status = response.status
+                    
+                    callback(theResponse)
                 } else {
                     callback(response)
                 }

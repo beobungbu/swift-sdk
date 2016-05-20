@@ -13,7 +13,7 @@ public class CloudObject{
     var document = NSMutableDictionary()
     var _modifiedColumns = [String]()
     
-    public init(tableName: String){
+    required public init(tableName: String){
         self._modifiedColumns = [String]()
         
         _modifiedColumns.append("createdAt")
@@ -27,9 +27,9 @@ public class CloudObject{
         if(tableName == "Role"){
             document["_type"] = "role"
         }else if (tableName == "User"){
-            document["_type"] = "user"            
+            document["_type"] = "user"
         }else{
-            document["_type"] = "custom"            
+            document["_type"] = "custom"
         }
         document["createdAt"] = ""
         document["updatedAt"] = ""
@@ -53,7 +53,7 @@ public class CloudObject{
             _modifiedColumns.append(attribute)
             document["_modifiedColumns"] = _modifiedColumns
         }
-        // Cloud Object List
+            // Cloud Object List
         else if let obj = value as? [CloudObject] {
             var res = [NSMutableDictionary]()
             for o in obj {
@@ -63,13 +63,13 @@ public class CloudObject{
             _modifiedColumns.append(attribute)
             document["_modifiedColumns"] = _modifiedColumns
         }
-        // Geo point
+            // Geo point
         else if let obj = value as? CloudGeoPoint {
             document[attribute] = obj.document
             _modifiedColumns.append(attribute)
             document["_modifiedColumns"] = _modifiedColumns
         }
-        // Geo point list
+            // Geo point list
         else if let obj = value as? [CloudGeoPoint] {
             var res = [NSMutableDictionary]()
             for o in obj {
@@ -79,13 +79,13 @@ public class CloudObject{
             _modifiedColumns.append(attribute)
             document["_modifiedColumns"] = _modifiedColumns
         }
-        // Cloud File
+            // Cloud File
         else if let obj = value as? CloudFile {
             document[attribute] = obj.document
             _modifiedColumns.append(attribute)
             document["_modifiedColumns"] = _modifiedColumns
         }
-        // Cloud file list
+            // Cloud file list
         else if let obj = value as? [CloudFile] {
             var res = [NSMutableDictionary]()
             for o in obj {
@@ -95,13 +95,13 @@ public class CloudObject{
             _modifiedColumns.append(attribute)
             document["_modifiedColumns"] = _modifiedColumns
         }
-        // Date
+            // Date
         else if let obj = value as? NSDate {
             document[attribute] = CloudBoostDateFormatter.getISOFormatter().stringFromDate(obj)
             _modifiedColumns.append(attribute)
             document["_modifiedColumns"] = _modifiedColumns
         }
-        
+            
         else {
             document[attribute] = value
             _modifiedColumns.append(attribute)
@@ -165,7 +165,7 @@ public class CloudObject{
     
     
     // MARK:- Getter functions
-
+    
     // Get a unique ID of the object, needs to be saved first
     public func getId() -> String? {
         if let id = document["_id"] as? String {
@@ -220,7 +220,7 @@ public class CloudObject{
         return document["updatedAt"] as? NSDate
     }
     
-
+    
     // Get any attribute as AnyObject
     public func get(attribute: String) -> AnyObject? {
         return document[attribute]
@@ -249,7 +249,7 @@ public class CloudObject{
     // Get a date attribute
     public func getDate(attribute: String) -> NSDate? {
         if let attribute = document[attribute] as? String {
-                return CloudBoostDateFormatter.getISOFormatter().dateFromString(attribute)
+            return CloudBoostDateFormatter.getISOFormatter().dateFromString(attribute)
         }
         return nil
     }
@@ -270,7 +270,7 @@ public class CloudObject{
     // Log this cloud boost object
     public func log() {
         print("-- CLoud Object --")
-        print(document)        
+        print(document)
     }
     
     
@@ -348,7 +348,7 @@ public class CloudObject{
             })
         }
     }
-
+    
     // Delete an array of CloudObject
     public static func deleteAll(array: [CloudObject], callback: (CloudBoostResponse)->Void) {
         
@@ -395,7 +395,7 @@ public class CloudObject{
             CloudSocket.getSocket().on(str, callback: {
                 data, ack in
                 var resArr = [CloudObject]()
-                for el in data {                    
+                for el in data {
                     if let doc = el as? NSMutableDictionary {
                         let obj = CloudObject(tableName: tableName)
                         obj.document = doc
@@ -430,7 +430,7 @@ public class CloudObject{
             print("Using session ID: \(CloudApp.SESSION_ID)")
         }
         var payloads = [NSMutableDictionary]()
-            
+        
         for (index,event) in eventTypes.enumerate() {
             if event == "created" || event == "deleted" || event == "updated" {
                 let str = (CloudApp.getAppId()! + "table" + tableName + event).lowercaseString
@@ -465,7 +465,7 @@ public class CloudObject{
             print("Timeout")
             callback(error: "Timed out")
         })
-
+        
     }
     
     /**
@@ -476,7 +476,7 @@ public class CloudObject{
      * @param handler
      * @param callback
      */
-    public static func on(tableName: String, eventType: String, query: CloudQuery, handler: ([CloudObject]?)->Void, callback: (error: String?)->Void){        
+    public static func on(tableName: String, eventType: String, query: CloudQuery, handler: ([CloudObject]?)->Void, callback: (error: String?)->Void){
         let eventType = eventType.lowercaseString
         if query.getTableName() != tableName {
             print(query.getTableName())
@@ -529,8 +529,8 @@ public class CloudObject{
             callback(error: "invalid event type, it can only be (created, deleted, updated)")
         }
     }
-
-
+    
+    
     public static func off(tableName: String, eventType: String, callback: (error: String?)->Void){
         let tableName = tableName.lowercaseString
         let eventType = eventType.lowercaseString
@@ -568,6 +568,6 @@ public class CloudObject{
         
         return valid
     }
-
+    
     
 }
