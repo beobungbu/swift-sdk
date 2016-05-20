@@ -17,11 +17,27 @@ public class CloudSearch {
     var from: Int?
     var size: Int?
     var sort = [AnyObject]()
-    public var objectClass: CloudObject.Type = CloudObject.self
     
     var searchFilter: SearchFilter?
     var searchQuery: SearchQuery?
     
+    ///
+    /// CloudObject subclass to be used to construct objects fetched with the `.search` method
+    /// Usage:
+    /// 1. Declare your own CloudObject subclass
+    /// 2. Initialize a CloudSearch passing your subclass type as a parameter or set the objectClass property
+    /// 3. Call the .search method
+    ///
+    public var objectClass: CloudObject.Type = CloudObject.self
+    
+    /// Instantiate a new QuerySearch object
+    ///
+    /// - parameters:
+    ///   - tableName: Name of the table on the backend
+    ///   - searchQuery: An SearchQuery object for the criteria of the search (optional)
+    ///   - searchFiler: An SearchFilter object with the filtering options of the search (optional)
+    ///   - objectClass: The type of object to be returned (must be a subclass of CloudObject); is optional and if omitted will be created CloudObject instances
+    ///
     public init(tableName: String,
                 searchQuery: SearchQuery? = nil,
                 searchFilter: SearchFilter? = nil,
