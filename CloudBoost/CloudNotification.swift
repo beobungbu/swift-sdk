@@ -19,12 +19,12 @@ public class CloudNotification {
      * @param callback a listener which is called when the event is triggered
      * @throws CloudBoostError
      */
-    public static func on(channelName: String, handler: (data: [AnyObject], ack: SocketAckEmitter)-> Void, callback: (error: String?)->Void) throws{
+    public static func on(channelName: String, handler: (data: [AnyObject], ack: SocketAckEmitter)-> Void, callback: (error: String?)->Void) {
         if(CloudApp.getAppId() == nil){
-            throw CloudBoostError.InvalidArgument
+            callback(error: "App ID is invalid")
         }
         if(CloudApp.getAppKey() == nil){
-            throw CloudBoostError.InvalidArgument
+            callback(error: "App key is invalid")
         }
         
         // registering socket events
@@ -69,19 +69,19 @@ public class CloudNotification {
      * @param callbackObject
      * @throws CloudBoostError
      */
-    public static func off(channelName: String, callback: ()->Void) throws{
+    public static func off(channelName: String, callback: (error: String?)->Void) {
         if(CloudApp.getAppId() == nil){
-            throw CloudBoostError.InvalidArgument
+            callback(error: "App ID is invalid")
         }
         if(CloudApp.getAppKey() == nil){
-            throw CloudBoostError.InvalidArgument
+            callback(error: "App key is invalid")
         }
         
         
         CloudSocket.getSocket().emit("leave-custom-channel", CloudApp.getAppId()! + channelName)
         // replacing actual callback with a blank callback
         CloudSocket.getSocket().on(channelName, callback: {_,_ in})
-        callback()
+        callback(error: nil)
         
         
     }

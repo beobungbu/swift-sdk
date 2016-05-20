@@ -28,12 +28,14 @@ class CloudRoleTest: XCTestCase {
         let exp = expectationWithDescription("Should create a Role")
         let roleName = Util.makeString(10)
         let role = CloudRole(roleName: roleName)
+        
         role.save({
             (response: CloudBoostResponse) in
             response.log()
             XCTAssert(response.success)
             exp.fulfill()
         })
+        role
         waitForExpectationsWithTimeout(30, handler: nil)
     }
     

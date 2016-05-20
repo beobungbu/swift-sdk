@@ -59,10 +59,21 @@ public class Column {
         document["unique"] = value
     }
     
+    public func setDataType(dataType: CloudBoostDataType){
+        document["dataType"] = dataType.rawValue
+    }
+    
     // MARK:- Getter
     
     public func getColumnName() -> String? {
         return document["name"] as? String
+    }
+    
+    public func getDataType() -> CloudBoostDataType? {
+        if let val = document["dataType"] as? String {
+            return CloudBoostDataType(rawValue: val)
+        }
+        return nil
     }
     
     public func getRequired() -> Bool?{

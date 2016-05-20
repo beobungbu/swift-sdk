@@ -21,7 +21,7 @@ public class CloudSearch {
     var searchFilter: SearchFilter?
     var searchQuery: SearchQuery?
     
-    public init(tableName: String, searchQuery: SearchQuery?, searchFilter: SearchFilter?){
+    public init(tableName: String, searchQuery: SearchQuery? = nil, searchFilter: SearchFilter? = nil){
         self.collectionName = tableName
         
         if searchQuery != nil {

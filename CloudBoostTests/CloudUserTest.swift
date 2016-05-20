@@ -32,6 +32,7 @@ class CloudUserTest: XCTestCase {
         let email = Util.makeEmail()
         let user = CloudUser(username: username, password: "abcdef")
         user.setEmail(email)
+        user.getEmail()
         do{
             try user.signup({
                 response in

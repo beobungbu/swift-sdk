@@ -32,6 +32,7 @@ class CloudObjectTest: XCTestCase {
         let expectaion = expectationWithDescription("Should not save data incorrect date")
         let obj = CloudObject(tableName: "Student")
         obj.setString("dob", value: "yesterday")
+        
         obj.save({
             (resp: CloudBoostResponse) in
             if(resp.success){

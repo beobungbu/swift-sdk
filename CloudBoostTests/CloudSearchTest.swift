@@ -41,6 +41,8 @@ class CloudSearchTest: XCTestCase {
                         let sFilter = SearchFilter()
                         sFilter.near("location", geoPoint: loc, distance: 1)
                         let search = CloudSearch(tableName: "CloudGeoPoint", searchQuery: nil, searchFilter: sFilter)
+                        search.setLimit(10)
+                        search.setSkip(1)
                         try! search.search({
                             response in
                             response.log()

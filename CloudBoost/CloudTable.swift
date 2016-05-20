@@ -25,9 +25,28 @@ public class CloudTable {
     }
     
     // MARK:- Setter and getter functions
-    public func setColumn(columnName: Column){
-        columns.append(columnName.document)
+    public func setColumn(column: Column){
+        columns.append(column.document)
         document["columns"] = columns
+    }
+    
+    public func getColumn(columnName: String) -> Column? {
+        for col in columns {
+            guard let name = col["name"] as? String else {
+                return nil
+            }
+            if name == columnName {
+                guard let dataType = col["dataType"] as? String else {
+                    return nil
+                }
+                guard let cbDataType = CloudBoostDataType(rawValue: dataType) else {
+                    return nil
+                }
+                let resColumn = Column(name: name, dataType: cbDataType)
+                return resColumn
+            }
+        }
+        return nil
     }
     
     public func setTableType(columnType: String){
@@ -44,16 +63,28 @@ public class CloudTable {
         self.document["name"] = tableName
     }
     
-    public func updateColumn(column: Column) throws {
+    public func updateColumn(column: Column) -> Bool {
         for (index,el) in columns.enumerate() {
             if let elName = el["name"] as? String {
                 if elName == column.getColumnName() {
                     columns[index] = column.document
-                    return
+                    return true
                 }
             }
         }
-        throw CloudBoostError.DoesNotExist
+        return false
+    }
+    
+    public func deleteColumn(columnName: String) -> Bool{
+        for (index,el) in columns.enumerate() {
+            if let elName = el["name"] as? String {
+                if elName == columnName {
+                    columns.removeAtIndex(index)
+                    return true
+                }
+            }
+        }
+        return false
     }
     
     
@@ -118,6 +149,29 @@ public class CloudTable {
             // Callback from _request, route it to save() callback
             if response.success && response.status == 200 {
                 let returnTable = table
+                if let doc = (response.object as? NSMutableDictionary) {
+                    returnTable.document = doc
+                    if let cols = doc["columns"] as? [NSMutableDictionary] {
+                        returnTable.columns = cols
+                    }
+                }
+                callback(response, returnTable)
+            }else{
+                callback(response, nil)
+            }
+        })
+        
+    }
+    
+    public static func get(table: String, callback: (CloudBoostResponse, CloudTable?) -> Void) {
+        let url = CloudApp.getApiUrl() + "/app/" + CloudApp.appID! + "/" + table
+        let params = NSMutableDictionary()
+        params["key"] = CloudApp.masterKey!
+        CloudCommunications._request("POST", url: NSURL(string: url)!, params: params, callback: {
+            (response: CloudBoostResponse) in
+            // Callback from _request, route it to save() callback
+            if response.success && response.status == 200 {
+                let returnTable = CloudTable(tableName: table)
                 if let doc = (response.object as? NSMutableDictionary) {
                     returnTable.document = doc
                     if let cols = doc["columns"] as? [NSMutableDictionary] {

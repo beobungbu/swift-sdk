@@ -90,6 +90,14 @@ extension NSDictionary{
             throw CloudBoostError.ParsingError
         }
     }
+    
+    public func get(param: String) -> AnyObject? {
+        return self[param]
+    }
+    
+    public func set(param:  String, value: AnyObject){
+        self.set(param, value: value)
+    }
 }
 
 public class CloudBoostDateFormatter{

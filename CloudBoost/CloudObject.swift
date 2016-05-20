@@ -179,9 +179,17 @@ public class CloudObject{
     }
     
     // Get the ACL property associated with the object
-    public func getAcl() -> NSMutableDictionary? {
-        // FIgure out ACL
+    public func getAcl() -> ACL? {
+        if let aclDoc = document["ACL"] as? NSMutableDictionary {
+            return ACL(acl: aclDoc)
+        }
         return nil
+    }
+    
+    // set ACL of the object
+    public func setACL(acl: ACL) {
+        _modifiedColumns.append("ACL")
+        document["ACL"] = acl.getACL()
     }
     
     // Checks if the object has the kay

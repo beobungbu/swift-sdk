@@ -119,9 +119,9 @@ public class SearchFilter {
         return self
     }
     
-    public func or(searchFilter: SearchFilter) throws -> SearchFilter {
+    public func or(searchFilter: SearchFilter) -> SearchFilter? {
         if searchFilter._include.count > 0 {
-            throw CloudBoostError.InvalidArgument
+            return nil
         }
         self._include = []
         self.should.append(searchFilter.bool)

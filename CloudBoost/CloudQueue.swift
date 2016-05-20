@@ -74,6 +74,17 @@ public class CloudQueue{
         setAttribute("delay", val: delay)
     }
     
+    public func getExpires() -> NSDate? {
+        if let strDate = document["expires"] as? String {
+            return CloudBoostDateFormatter.getISOFormatter().dateFromString(strDate)
+        }
+        return nil
+    }
+    
+    public func setExpires(date: NSDate) {
+        document["expires"] = CloudBoostDateFormatter.getISOFormatter().stringFromDate(date)
+    }
+    
     public func setQueueType(type: String) {
         setAttribute("type", val: type)
     }

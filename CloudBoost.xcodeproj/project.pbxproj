@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		2224A6A01CECE012000B5744 /* CloudPushTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2224A69F1CECE012000B5744 /* CloudPushTest.swift */; };
 		222D78941CE6F28800682D17 /* CloudPush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222D78931CE6F28800682D17 /* CloudPush.swift */; };
 		2249AC521CAB9F790088AFBF /* CloudQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2249AC511CAB9F790088AFBF /* CloudQuery.swift */; };
 		2249AC541CABC5A40088AFBF /* CloudQueryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2249AC531CABC5A40088AFBF /* CloudQueryTest.swift */; };
@@ -113,6 +114,7 @@
 
 /* Begin PBXFileReference section */
 		1A3CEF081C6DE8A68FA1FBBB /* libPods-CloudBoostTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CloudBoostTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2224A69F1CECE012000B5744 /* CloudPushTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudPushTest.swift; sourceTree = "<group>"; };
 		222D78931CE6F28800682D17 /* CloudPush.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudPush.swift; sourceTree = "<group>"; };
 		2249AC511CAB9F790088AFBF /* CloudQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudQuery.swift; sourceTree = "<group>"; };
 		2249AC531CABC5A40088AFBF /* CloudQueryTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudQueryTest.swift; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 				22E02D331CC959BE003C06FF /* CloudSearchTest.swift */,
 				2296EC2F1CCD241A00C4197D /* CloudNotificationTests.swift */,
 				22D6B98A1CD2DDC9001DC8E0 /* CloudObjectNotificationTest.swift */,
+				2224A69F1CECE012000B5744 /* CloudPushTest.swift */,
 			);
 			path = CloudBoostTests;
 			sourceTree = "<group>";
@@ -609,6 +612,7 @@
 				2288DAD61CCD331C00022ACC /* WebSocket.swift in Sources */,
 				22BFD71C1CB8D91A00784E31 /* CloudFileTest.swift in Sources */,
 				2288DAB41CCD331C00022ACC /* SocketEngine.swift in Sources */,
+				2224A6A01CECE012000B5744 /* CloudPushTest.swift in Sources */,
 				2288DAC81CCD331C00022ACC /* SocketIOClientStatus.swift in Sources */,
 				22FFC8291C9733D10028EA61 /* CloudBoostTests.swift in Sources */,
 				22F29E321CB7673D001CABC0 /* CloudRoleTest.swift in Sources */,

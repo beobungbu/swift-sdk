@@ -80,6 +80,132 @@ public class ACL {
         }
     }
     
+    /**
+     * get an Array of String of role Id's which are allowed to access resource,role Id's are instances of {@link io.cloudboost.CloudRole}
+     * @return [String]
+     */
+    public func getAllowedReadRole() -> [String]? {
+        guard let read = acl["read"] as? NSMutableDictionary else {
+            return nil
+        }
+        guard let allowedRead = read["allow"] as? NSMutableDictionary else {
+            return nil
+        }
+        guard let role = allowedRead["role"] as? [String] else {
+            return nil
+        }
+        allowedReadRole = []
+        for (_, el) in role.enumerate() {
+            allowedReadRole.append(el)
+        }
+        return allowedReadRole
+    }
+    
+    /**
+     * get an Array of String of role Id's which are allowed to modify resource,role Id's are instances of {@link io.cloudboost.CloudRole}
+     * @return [String]
+     */
+    public func getAllowedWriteRole() -> [String]? {
+        guard let read = acl["write"] as? NSMutableDictionary else {
+            return nil
+        }
+        guard let allowedRead = read["allow"] as? NSMutableDictionary else {
+            return nil
+        }
+        guard let role = allowedRead["role"] as? [String] else {
+            return nil
+        }
+        allowedWriteRole = []
+        for (_, el) in role.enumerate() {
+            allowedWriteRole.append(el)
+        }
+        return allowedWriteRole
+    }
+    
+    /**
+     * get an Arroy of String of User Id's which are allowed to access this resource
+     * @return [String]
+     */
+    public func getAllowedReadUser() -> [String]? {
+        guard let read = acl["read"] as? NSMutableDictionary else {
+            return nil
+        }
+        guard let allowedRead = read["allow"] as? NSMutableDictionary else {
+            return nil
+        }
+        guard let role = allowedRead["user"] as? [String] else {
+            return nil
+        }
+        allowedReadRole = []
+        for (_, el) in role.enumerate() {
+            allowedReadRole.append(el)
+        }
+        return allowedReadRole
+    }
+    
+    /**
+     * get an Arroy of String of User Id's which are allowed to modify this resource
+     * @return [String]
+     */
+    public func getAllowedWriteUser() -> [String]? {
+        guard let read = acl["write"] as? NSMutableDictionary else {
+            return nil
+        }
+        guard let allowedRead = read["allow"] as? NSMutableDictionary else {
+            return nil
+        }
+        guard let role = allowedRead["user"] as? [String] else {
+            return nil
+        }
+        allowedWriteUser = []
+        for (_, el) in role.enumerate() {
+            allowedWriteUser.append(el)
+        }
+        return allowedWriteUser
+    }
+    
+    /**
+     * get an Arroy of String of User Id's which are denied to access this resource
+     * @return [String]
+     */
+    public func getDeniedReadUser() -> [String]? {
+        guard let read = acl["read"] as? NSMutableDictionary else {
+            return nil
+        }
+        guard let allowedRead = read["deny"] as? NSMutableDictionary else {
+            return nil
+        }
+        guard let role = allowedRead["user"] as? [String] else {
+            return nil
+        }
+        allowedReadRole = []
+        for (_, el) in role.enumerate() {
+            allowedReadRole.append(el)
+        }
+        return allowedReadRole
+    }
+    
+    /**
+     * get an Arroy of String of User Id's which are denied to modify this resource
+     * @return [String]
+     */
+    public func getDeniedWriteUser() -> [String]? {
+        guard let read = acl["write"] as? NSMutableDictionary else {
+            return nil
+        }
+        guard let allowedRead = read["deny"] as? NSMutableDictionary else {
+            return nil
+        }
+        guard let role = allowedRead["user"] as? [String] else {
+            return nil
+        }
+        allowedWriteUser = []
+        for (_, el) in role.enumerate() {
+            allowedWriteUser.append(el)
+        }
+        return allowedWriteUser
+    }
+    
     public func setPublicReadAccess(value: Bool) {
         if value {
             self.allowedReadUser = ["all"]
@@ -98,6 +224,63 @@ public class ACL {
         setupACL()
     }
     
+    public func setUserWriteAccess(uid: String, value: Bool){
+        var index: Int?
+        allowedWriteUser = getAllowedWriteUser()!
+        deniedWriteUser = getDeniedWriteUser()!
+        
+        if value {
+            index = allowedWriteUser.indexOf("all")
+            if index != nil {
+                allowedWriteUser.removeAtIndex(index!)
+            }
+            index = allowedWriteUser.indexOf(uid)
+            if index == nil {
+                allowedWriteUser.append(uid)
+            }
+        }else{
+            index = allowedWriteUser.indexOf(uid)
+            if index > -1 {
+                allowedWriteUser.removeAtIndex(index!)
+            }
+            deniedWriteUser.append(uid)
+        }
+        
+        allowWrite["user"] = allowedWriteUser
+        denyWrite["user"] = deniedWriteUser
+        write["deny"] = denyWrite
+        write["allow"] = allowWrite
+        
+    }
+    
+    public func setUserReadAccess(uid: String, value: Bool){
+        var index: Int?
+        allowedReadUser = getAllowedReadUser()!
+        deniedReadUser = getDeniedReadUser()!
+        
+        if value {
+            index = allowedReadUser.indexOf("all")
+            if index != nil {
+                allowedReadUser.removeAtIndex(index!)
+            }
+            index = allowedReadUser.indexOf(uid)
+            if index == nil {
+                allowedReadUser.append(uid)
+            }
+        }else{
+            index = allowedReadUser.indexOf(uid)
+            if index > -1 {
+                allowedReadUser.removeAtIndex(index!)
+            }
+            deniedReadUser.append(uid)
+        }
+        
+        allowRead["user"] = allowedReadUser
+        denyRead["user"] = deniedReadUser
+        read["deny"] = denyRead
+        read["allow"] = allowRead
+        
+    }
     
     
     

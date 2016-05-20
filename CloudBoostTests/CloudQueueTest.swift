@@ -1177,4 +1177,27 @@ class CloudQueueTest: XCTestCase {
         waitForExpectationsWithTimeout(30, handler: nil)
     }
     
+    func testGetParameters() {
+        let exp = expectationWithDescription("askj")
+        let msg = QueueMessage()
+        msg.setMessage("Sample")
+        msg.setExpires(NSDate().dateByAddingTimeInterval(NSTimeInterval.abs(10000)))
+        let queue = CloudQueue(queueName: "asd", queueType: nil)
+        queue.addMessage(msg, callback: { response in
+            response.log()
+        })
+        let query = CloudQuery(tableName: "Student")
+        let geoPoint = try! CloudGeoPoint(latitude: 17, longitude: 80)
+        query.include("courses")
+        query.near("location", geoPoint: geoPoint, maxDistance: 55, minDistance: 10)
+        try! query.find({ res in
+            if let list = res.object as? [NSMutableDictionary] {
+                if list.count > 0 {
+                    
+                }
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
 }

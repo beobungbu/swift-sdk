@@ -348,7 +348,7 @@ class CloudTableTest: XCTestCase {
         table.addColumn(name)
         table.addColumn(dob)
         table.addColumn(password)
-        
+                
         table.save({
             response in
             response.log()

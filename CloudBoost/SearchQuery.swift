@@ -191,7 +191,7 @@ public class SearchQuery {
         return obj
     }
     
-    public func serarchOn(columns: String, query: String?, fuzziness: String?, all_words: String?, match_percent: String?, priority: String?) -> SearchQuery {
+    public func searchOn(columns: String, query: String? = nil, fuzziness: String? = nil, all_words: String? = nil, match_percent: String? = nil, priority: String? = nil) -> SearchQuery {
         var aw = all_words
         if aw != nil {
             aw = "and"
@@ -206,7 +206,7 @@ public class SearchQuery {
     }
     
     
-    public func phrase(columns: String, query: String?, fuzziness: String?, priority: String?) -> SearchQuery{
+    public func phrase(columns: String, query: String?, fuzziness: String? = nil, priority: String? = nil) -> SearchQuery{
         let obj = self._buildSearchPhrase(columns, query: query, slop: fuzziness, boost: priority)
         self.should.append(obj)
         self.bool["should"] = should

@@ -53,7 +53,7 @@ class CloudNotificationTests: XCTestCase {
         let exp = expectationWithDescription("should publish data to the channel")
         
         let data = "Randhir"
-        try! CloudNotification.on("sample",
+        CloudNotification.on("sample",
             // this is the handler that is called whenever a data is emmitted to the app's specified channe(here 'sample' is the channel name)
             handler: {
                 data, ack in
@@ -77,7 +77,7 @@ class CloudNotificationTests: XCTestCase {
         let exp = expectationWithDescription("shold stop listening to data")
         
         let data = "Randhir"
-        try! CloudNotification.on("sample",
+        CloudNotification.on("sample",
                                   // this is the handler that is called whenever a data is emmitted to the app's specified channe(here 'sample' is the channel name)
             handler: {
                 data, ack in
@@ -87,7 +87,7 @@ class CloudNotificationTests: XCTestCase {
             // this is the callback after the handler has been registered for listening to the channel
             callback: { error in
                 if error == nil {
-                    try! CloudNotification.off("sample", callback: {
+                    CloudNotification.off("sample", callback: {error in
                         print("heyy")                        
                         try! CloudNotification.publish("sample", data: data)
                         sleep(5)
