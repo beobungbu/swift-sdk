@@ -379,7 +379,11 @@ public class CloudObject{
         }
     }
     
-    public static func on(tableName: String, eventType: String, handler: ([CloudObject]?)->Void, callback: (error: String?)->Void){
+    public static func on(tableName: String,
+                          eventType: String,
+                          objectClass: CloudObject.Type = CloudObject.self,
+                          handler: ([CloudObject]?)->Void, callback: (error: String?)->Void){
+        
         let tableName = tableName.lowercaseString
         let eventType = eventType.lowercaseString
         if CloudApp.SESSION_ID == nil {
@@ -394,15 +398,37 @@ public class CloudObject{
             
             CloudSocket.getSocket().on(str, callback: {
                 data, ack in
-                var resArr = [CloudObject]()
-                for el in data {
-                    if let doc = el as? NSMutableDictionary {
-                        let obj = CloudObject(tableName: tableName)
-                        obj.document = doc
-                        resArr.append(obj)
+                
+                var objectsArray = [CloudObject]()
+                
+                for document in data {
+                    
+                    var objClass = objectClass
+                    
+                    let tableName = document["_tableName"] as! String
+                    
+                    switch tableName {
+                        
+                    case "Role":
+                        objClass = CloudRole.self
+                        
+                    case "User":
+                        objClass = CloudUser.self
+                        
+                    default:
+                        objClass = objectClass
+                    }
+                    
+                    if let document = document as? NSMutableDictionary {
+                        
+                        let object = objClass.init(tableName: tableName)
+                        object.document = document
+                        
+                        objectsArray.append(object)
                     }
                 }
-                handler(resArr)
+
+                handler(objectsArray)
             })
             CloudSocket.getSocket().on("connect", callback: { data, ack in
                 print("sessionID: \(CloudSocket.getSocket().sid)")
@@ -422,7 +448,12 @@ public class CloudObject{
         }
     }
     
-    public static func on(tableName: String, eventTypes: [String], handler: ([CloudObject]?)->Void, callback: (error: String?)->Void){
+    public static func on(tableName: String,
+                          eventTypes: [String],
+                          objectClass: CloudObject.Type = CloudObject.self,
+                          handler: ([CloudObject]?)->Void,
+                          callback: (error: String?)->Void) {
+        
         let tableName = tableName.lowercaseString
         if CloudApp.SESSION_ID == nil {
             callback(error: "Invalid session ID")
@@ -438,15 +469,37 @@ public class CloudObject{
                 payloads[index]["room"] = str
                 CloudSocket.getSocket().on(str, callback: {
                     data, ack in
-                    var resArr = [CloudObject]()
-                    for el in data {
-                        if let doc = el as? NSMutableDictionary {
-                            let obj = CloudObject(tableName: tableName)
-                            obj.document = doc
-                            resArr.append(obj)
+                    
+                    var objectsArray = [CloudObject]()
+                    
+                    for document in data {
+                        
+                        var objClass = objectClass
+                        
+                        let tableName = document["_tableName"] as! String
+                        
+                        switch tableName {
+                            
+                        case "Role":
+                            objClass = CloudRole.self
+                            
+                        case "User":
+                            objClass = CloudUser.self
+                            
+                        default:
+                            objClass = objectClass
+                        }
+                        
+                        if let document = document as? NSMutableDictionary {
+                            
+                            let object = objClass.init(tableName: tableName)
+                            object.document = document
+                            
+                            objectsArray.append(object)
                         }
                     }
-                    handler(resArr)
+                    
+                    handler(objectsArray)
                 })
             }else{
                 callback(error: "invalid event type, it can only be (created, deleted, updated)")
@@ -476,7 +529,13 @@ public class CloudObject{
      * @param handler
      * @param callback
      */
-    public static func on(tableName: String, eventType: String, query: CloudQuery, handler: ([CloudObject]?)->Void, callback: (error: String?)->Void){
+    public static func on(tableName: String,
+                          eventType: String,
+                          query: CloudQuery,
+                          objectClass: CloudObject.Type = CloudObject.self,
+                          handler: ([CloudObject]?)->Void,
+                          callback: (error: String?)->Void) {
+        
         let eventType = eventType.lowercaseString
         if query.getTableName() != tableName {
             print(query.getTableName())
@@ -497,19 +556,43 @@ public class CloudObject{
             
             CloudSocket.getSocket().on(str, callback: {
                 data, ack in
-                var resArr = [CloudObject]()
-                for el in data {
-                    if let doc = el as? NSMutableDictionary {
-                        let obj = CloudObject(tableName: tableName)
-                        obj.document = doc
-                        if CloudObject.validateNotificationQuery(obj, query: query) && countLimit != 0 {
+                
+                var objectsArray = [CloudObject]()
+                
+                for document in data {
+                    
+                    var objClass = objectClass
+                    
+                    let tableName = document["_tableName"] as! String
+                    
+                    switch tableName {
+                        
+                    case "Role":
+                        objClass = CloudRole.self
+                        
+                    case "User":
+                        objClass = CloudUser.self
+                        
+                    default:
+                        objClass = objectClass
+                    }
+                    
+                    if let document = document as? NSMutableDictionary {
+                        
+                        let object = objClass.init(tableName: tableName)
+                        object.document = document
+                        
+                        if CloudObject.validateNotificationQuery(object, query: query)
+                            && countLimit != 0 {
+                            
                             countLimit -= 1
-                            resArr.append(obj)
+                            objectsArray.append(object)
                         }
                     }
                 }
-                if resArr.count > 0{
-                    handler(resArr)
+                
+                if objectsArray.count > 0{
+                    handler(objectsArray)
                 }
             })
             CloudSocket.getSocket().on("connect", callback: { data, ack in
@@ -531,7 +614,10 @@ public class CloudObject{
     }
     
     
-    public static func off(tableName: String, eventType: String, callback: (error: String?)->Void){
+    public static func off(tableName: String,
+                           eventType: String,
+                           callback: (error: String?)->Void) {
+        
         let tableName = tableName.lowercaseString
         let eventType = eventType.lowercaseString
         if eventType == "created" || eventType == "deleted" || eventType == "updated" {

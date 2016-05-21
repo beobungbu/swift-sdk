@@ -471,7 +471,7 @@
 				TargetAttributes = {
 					22FFC8181C9733D10028EA61 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = PUNL286Z26;
+						DevelopmentTeam = ARUG6B6X5B;
 					};
 					22FFC8221C9733D10028EA61 = {
 						CreatedOnToolsVersion = 7.2;
@@ -480,6 +480,9 @@
 					22FFC8BD1C97B9D50028EA61 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = PUNL286Z26;
+					};
+					AA034CB41CEF9B8B004A3820 = {
+						DevelopmentTeam = ARUG6B6X5B;
 					};
 				};
 			};
@@ -867,6 +870,7 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -879,6 +883,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.CloudBoost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -891,6 +896,7 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -903,6 +909,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.CloudBoost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
