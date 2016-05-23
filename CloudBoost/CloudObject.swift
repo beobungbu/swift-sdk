@@ -9,11 +9,14 @@
 import Foundation
 
 public class CloudObject{
-    var acl = ACL()
+    
     var document = NSMutableDictionary()
+
+    var acl = ACL()
     var _modifiedColumns = [String]()
     
-    required public init(tableName: String){
+    required public init(tableName: String) {
+        
         self._modifiedColumns = [String]()
         
         _modifiedColumns.append("createdAt")
@@ -35,7 +38,11 @@ public class CloudObject{
         document["updatedAt"] = ""
         document["_modifiedColumns"] = _modifiedColumns
         document["_isModified"] = true
+    }
+
+    public init(dictionary: NSDictionary){
         
+        self.document = NSMutableDictionary(dictionary: dictionary as [NSObject : AnyObject], copyItems: true)
     }
     
     // MARK:- Setter Functions
@@ -685,5 +692,45 @@ public class CloudObject{
         return valid
     }
     
+    internal static func cloudObjectFromDocumentDictionary(dictionary: NSDictionary,
+                                                           documentType type: CloudObject.Type? = nil) -> CloudObject {
+        
+        var objectClass: CloudObject.Type
+        
+        let tableName = dictionary["_tableName"] as! String
+        
+        switch tableName {
+            
+        case "Role":
+            objectClass = CloudRole.self
+            
+        case "User":
+            objectClass = CloudUser.self
+            
+        default:
+            if let type = type {
+                objectClass = type
+            } else {
+                // Try to infer the correct type
+
+                // TODO: By mapping table
+
+                // By class name
+                let tableClass = NSClassFromString(tableName) as? CloudObject.Type
+                if let tableClass = tableClass {
+                    objectClass = tableClass
+                } else {
+                    
+                    // No match - Let it be a CloudObject
+                    objectClass = CloudObject.self
+                }
+            }
+        }
+        
+        let object = objectClass.init(tableName: tableName)
+        object.document = NSMutableDictionary(dictionary: dictionary as [NSObject : AnyObject], copyItems: true)
+        
+        return object
+    }
     
 }

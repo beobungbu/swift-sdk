@@ -149,26 +149,9 @@ public class CloudSearch {
                     var objectsArray = [CloudObject]()
                     
                     for document in documents {
-                        
-                        var objectClass = self.objectClass
-                        
-                        let tableName = document["_tableName"] as! String
-                        
-                        switch tableName {
-                            
-                        case "Role":
-                            objectClass = CloudRole.self
-                            
-                        case "User":
-                            objectClass = CloudUser.self
-                            
-                        default:
-                            objectClass = self.objectClass
-                        }
-                        
-                        let object = objectClass.init(tableName: tableName)
-                        object.document = document
-                        
+
+                        let object = self.objectClass.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+
                         objectsArray.append(object)
                     }
                     
@@ -180,24 +163,7 @@ public class CloudSearch {
                     callback(theResponse)
                 } else if let document = response.object as? NSMutableDictionary {
                     
-                    var objectClass = self.objectClass
-                    
-                    let tableName = document["_tableName"] as! String
-                    
-                    switch tableName {
-                        
-                    case "Role":
-                        objectClass = CloudRole.self
-                        
-                    case "User":
-                        objectClass = CloudUser.self
-                        
-                    default:
-                        objectClass = self.objectClass
-                    }
-                    
-                    let object = objectClass.init(tableName: tableName)
-                    object.document = document
+                    let object = self.objectClass.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
                     
                     let theResponse = CloudBoostResponse()
                     theResponse.success = response.success
@@ -214,7 +180,6 @@ public class CloudSearch {
         })
         
     }
-    
     
     private func prependUnderscore(col: String) -> String {
         var returnString = col
