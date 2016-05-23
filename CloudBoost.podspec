@@ -27,7 +27,7 @@ TODO: Add long description of the pod here.
   s.homepage     = 'https://cloudboost.io'
   s.author           = { "Randhir Singh" => "randhirsingh051@gmail.com" }
   s.source           = { :git => "https://github.com/CloudBoost/swift-sdk.git", :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/Randhir_ricky'
+  s.social_media_url = 'https://twitter.com/randhir051'
 
   s.ios.deployment_target = '8.0'
 
