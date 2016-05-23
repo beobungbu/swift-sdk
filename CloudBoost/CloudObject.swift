@@ -448,45 +448,29 @@ public class CloudObject{
                 
                 for document in data {
                     
-                    var objClass = objectClass
-                    
-                    let tableName = document["_tableName"] as! String
-                    
-                    switch tableName {
+                    if let dictionary = document as? NSDictionary {
                         
-                    case "Role":
-                        objClass = CloudRole.self
-                        
-                    case "User":
-                        objClass = CloudUser.self
-                        
-                    default:
-                        objClass = objectClass
-                    }
-                    
-                    if let document = document as? NSMutableDictionary {
-                        
-                        let object = objClass.init(tableName: tableName)
-                        object.document = document
+                        let object = objectClass.cloudObjectFromDocumentDictionary(dictionary,
+                            documentType: objectClass)
                         
                         objectsArray.append(object)
                     }
                 }
-
+                
                 handler(objectsArray)
             })
+            
             CloudSocket.getSocket().on("connect", callback: { data, ack in
                 print("sessionID: \(CloudSocket.getSocket().sid)")
                 payload["sessionId"] = CloudSocket.getSocket().sid
                 CloudSocket.getSocket().emit("join-object-channel", payload)
                 callback(error: nil)
             })
+            
             CloudSocket.getSocket().connect(timeoutAfter: 15, withTimeoutHandler: {
                 print("Timeout")
                 callback(error: "Timed out")
             })
-            
-            
             
         } else {
             callback(error: "invalid event type, it can only be (created, deleted, updated)")
@@ -519,26 +503,10 @@ public class CloudObject{
                     
                     for document in data {
                         
-                        var objClass = objectClass
-                        
-                        let tableName = document["_tableName"] as! String
-                        
-                        switch tableName {
+                        if let dictionary = document as? NSDictionary {
                             
-                        case "Role":
-                            objClass = CloudRole.self
-                            
-                        case "User":
-                            objClass = CloudUser.self
-                            
-                        default:
-                            objClass = objectClass
-                        }
-                        
-                        if let document = document as? NSMutableDictionary {
-                            
-                            let object = objClass.init(tableName: tableName)
-                            object.document = document
+                            let object = objectClass.cloudObjectFromDocumentDictionary(dictionary,
+                                documentType: objectClass)
                             
                             objectsArray.append(object)
                         }
@@ -606,26 +574,10 @@ public class CloudObject{
                 
                 for document in data {
                     
-                    var objClass = objectClass
-                    
-                    let tableName = document["_tableName"] as! String
-                    
-                    switch tableName {
+                    if let dictionary = document as? NSDictionary {
                         
-                    case "Role":
-                        objClass = CloudRole.self
-                        
-                    case "User":
-                        objClass = CloudUser.self
-                        
-                    default:
-                        objClass = objectClass
-                    }
-                    
-                    if let document = document as? NSMutableDictionary {
-                        
-                        let object = objClass.init(tableName: tableName)
-                        object.document = document
+                        let object = objectClass.cloudObjectFromDocumentDictionary(dictionary,
+                            documentType: objectClass)
                         
                         if CloudObject.validateNotificationQuery(object, query: query)
                             && countLimit != 0 {
