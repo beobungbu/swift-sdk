@@ -223,6 +223,36 @@ public class CloudObject{
     
     // Get any attribute as AnyObject
     public func get(attribute: String) -> AnyObject? {
+        
+        // Check if the attribute is a relational CloudObject
+        if let dictionary = document[attribute] as? NSDictionary
+            where dictionary["_tableName"] is String {
+        
+            // Relational object
+            
+            // TODO: Check for a correct type
+            let object = CloudObject.cloudObjectFromDocumentDictionary(dictionary)
+            
+            return object
+        }
+        
+        // Check if the attribute is a list of CloudObjects
+        if let array = document[attribute] as? [NSDictionary] {
+
+            var cloudObjects = [CloudObject]()
+            
+            for dictionary in array where dictionary["_tableName"] is String {
+                
+                let object = CloudObject.cloudObjectFromDocumentDictionary(dictionary)
+                
+                cloudObjects.append(object)
+            }
+            
+            if cloudObjects.count > 0 {
+                return cloudObjects
+            }
+        }
+        
         return document[attribute]
     }
     
