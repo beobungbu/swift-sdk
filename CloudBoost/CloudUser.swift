@@ -23,6 +23,13 @@ public class CloudUser: CloudObject {
         document["_modifiedColumns"] = _modifiedColumns
     }
     
+    private init(doc: NSMutableDictionary){
+        super.init(tableName: "User")
+        
+        self.document = doc
+    }
+    
+    
     // MARK: Setters
     
     public func setEmail(email: String) {
@@ -97,7 +104,10 @@ public class CloudUser: CloudObject {
             }
             // Save the user if he has been successfully logged in
             if(response.status == 200){
-                self.document = response.object! as! NSMutableDictionary
+                if let doc = response.object as? NSMutableDictionary{
+                    self.document = doc
+                    self.setAsCurrentUser()
+                }
             }
             callback(response: response)
         })
@@ -134,6 +144,7 @@ public class CloudUser: CloudObject {
             if response.success {
                 if let doc = response.object as? NSMutableDictionary {
                     self.document = doc
+                    self.setAsCurrentUser()
                 }
             }
             // Save the user if he has been successfully logged in
@@ -196,7 +207,7 @@ public class CloudUser: CloudObject {
             if(CloudApp.isLogging()){
                 response.log()
             }
-            // Save the user if he has been successfully logged in
+            // Save the user if he has been successfully logged in            
             callback(reponse: response)
         })
     }
@@ -277,6 +288,25 @@ public class CloudUser: CloudObject {
             callback(response: response)
         })
 
+    }
+    
+    public static func getCurrentUser() -> CloudUser? {
+        let def = NSUserDefaults.standardUserDefaults()
+        if let userDat = def.objectForKey("cb_current_user") as? NSData{
+            if let doc = NSKeyedUnarchiver.unarchiveObjectWithData(userDat) as? NSMutableDictionary {
+                let user = CloudUser.init(doc: doc)
+                return user
+            }
+            return nil
+        }
+        return nil
+    }
+    
+    public func setAsCurrentUser(){
+        let def = NSUserDefaults.standardUserDefaults()
+        let data = NSKeyedArchiver.archivedDataWithRootObject(self.document)
+        def.setObject(data, forKey: "cb_current_user")
+        
     }
     
     

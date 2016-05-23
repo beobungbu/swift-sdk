@@ -29,6 +29,16 @@ public class CloudFile {
         document["contentType"] = contentType
     }
     
+    public init(id: String){
+        document["_id"] = id
+    }
+    
+    public init(doc: NSMutableDictionary){
+        self.document = doc
+        self.data = nil
+    }
+    
+    
     // MARK: Getters
     
     public func getId() -> String?  {
@@ -57,6 +67,18 @@ public class CloudFile {
     public func getData() -> NSData? {
         return data
     }
+    
+    public func getExpires() -> NSDate? {
+        if let expires = document["expires"] as? String {
+            return CloudBoostDateFormatter.getISOFormatter().dateFromString(expires)
+        }
+        return nil
+    }
+    
+    public func setExpires(date: NSDate) {
+        document["expires"] = CloudBoostDateFormatter.getISOFormatter().stringFromDate(date)
+    }
+    
     
     // MARK: Setters
     
@@ -203,6 +225,33 @@ public class CloudFile {
             uploadResponse in
             progressCallback(response: uploadResponse)
         })
+    }
+    
+    public func fetch(callback: (CloudBoostResponse)->Void){
+        let res = CloudBoostResponse()
+        let query = CloudQuery(tableName: "_File")
+        if getId() == nil {
+            res.message = "ID not set in the object"
+            callback(res)
+        }else{
+            try! query.equalTo("id", obj: getId()!)
+            query.setLimit(1)
+            try! query.find({ res in
+                if res.success {
+                    if let obj = res.object as? [NSMutableDictionary] {
+                        self.document = obj[0]
+                        callback(res)
+                    }else{
+                        res.success = false
+                        res.message = "Invalid response received"
+                        callback(res)
+                    }
+                }else{
+                    res.message = "Failed to fetch"
+                    callback(res)
+                }
+            })
+        }
     }
     
     
