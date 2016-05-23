@@ -221,9 +221,7 @@
 		2A3630991AF7E66A127F4361 /* libPods-CloudBoost.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CloudBoost.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B8F29407AD08011FCF757DA /* Pods-CloudBoost.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudBoost.release.xcconfig"; path = "Pods/Target Support Files/Pods-CloudBoost/Pods-CloudBoost.release.xcconfig"; sourceTree = "<group>"; };
 		A12A60847BBFAF7614AB9AAE /* Pods-CloudBoost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudBoost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CloudBoost/Pods-CloudBoost.debug.xcconfig"; sourceTree = "<group>"; };
-		AA034CB31CEF9B5A004A3820 /* CloudBoost copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "CloudBoost copy-Info.plist"; path = "/Users/santosha/Progetti/CloudBoost/swift-sdk/CloudBoost copy-Info.plist"; sourceTree = "<absolute>"; };
 		AA034CE91CEF9B8B004A3820 /* CloudBoost.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CloudBoost.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA034CEA1CEF9B8B004A3820 /* CloudBoost copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "CloudBoost copy2-Info.plist"; path = "/Users/santosha/Progetti/CloudBoost/swift-sdk/CloudBoost copy2-Info.plist"; sourceTree = "<absolute>"; };
 		DDA7C915C64EE249132F9460 /* Pods-CloudBoostTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudBoostTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CloudBoostTests/Pods-CloudBoostTests.release.xcconfig"; sourceTree = "<group>"; };
 		F4BA088F773532376F36BE7C /* Pods-CloudBoostTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudBoostTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CloudBoostTests/Pods-CloudBoostTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -290,8 +288,6 @@
 				22FFC81A1C9733D10028EA61 /* Products */,
 				EA8D9AB10C817D86F38379BA /* Pods */,
 				298F91F8A251493BD308AA53 /* Frameworks */,
-				AA034CB31CEF9B5A004A3820 /* CloudBoost copy-Info.plist */,
-				AA034CEA1CEF9B8B004A3820 /* CloudBoost copy2-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -308,30 +304,30 @@
 		22FFC81B1C9733D10028EA61 /* CloudBoost */ = {
 			isa = PBXGroup;
 			children = (
-				226808DA1CCD378D0078CF6B /* SocketIO */,
-				22FFC81C1C9733D10028EA61 /* CloudBoost.h */,
-				22FFC81E1C9733D10028EA61 /* Info.plist */,
-				22FFC8B11C97A3E10028EA61 /* CloudApp.swift */,
 				22FFC8C61C984FE10028EA61 /* ACL.swift */,
-				22FFC8C81C9852410028EA61 /* CloudTable.swift */,
-				22F774211C9C1FD100BDEFCB /* CloudObject.swift */,
-				22F774231C9C5E6600BDEFCB /* CloudCommunications.swift */,
+				22FFC8B11C97A3E10028EA61 /* CloudApp.swift */,
+				22FFC81C1C9733D10028EA61 /* CloudBoost.h */,
 				22F774251C9C788700BDEFCB /* CloudBoostUtilities.swift */,
-				2260557D1CA5014700F0357C /* Column.swift */,
-				224C2A561CA80B3100D05F27 /* CloudRole.swift */,
-				224C2A581CA80CDB00D05F27 /* CloudUser.swift */,
-				224C2A5C1CAAAC6000D05F27 /* CloudGeoPoint.swift */,
 				22E02D231CC4CE4A003C06FF /* CloudCache.swift */,
-				2249AC511CAB9F790088AFBF /* CloudQuery.swift */,
+				22F774231C9C5E6600BDEFCB /* CloudCommunications.swift */,
 				227506651CAD549C00F430A2 /* CloudFile.swift */,
-				22E02D271CC52CE0003C06FF /* CloudQueue.swift */,
-				22E02D291CC53206003C06FF /* QueueMessage.swift */,
-				22E02D2D1CC7EB95003C06FF /* CloudSearch.swift */,
-				22E02D2F1CC7ECA4003C06FF /* SearchQuery.swift */,
-				22E02D311CC7ECEC003C06FF /* SearchFilter.swift */,
-				2296EC2B1CCD16D700C4197D /* CloudSocket.swift */,
+				224C2A5C1CAAAC6000D05F27 /* CloudGeoPoint.swift */,
 				2296EC2D1CCD185A00C4197D /* CloudNotification.swift */,
+				22F774211C9C1FD100BDEFCB /* CloudObject.swift */,
 				222D78931CE6F28800682D17 /* CloudPush.swift */,
+				2249AC511CAB9F790088AFBF /* CloudQuery.swift */,
+				22E02D271CC52CE0003C06FF /* CloudQueue.swift */,
+				224C2A561CA80B3100D05F27 /* CloudRole.swift */,
+				22E02D2D1CC7EB95003C06FF /* CloudSearch.swift */,
+				2296EC2B1CCD16D700C4197D /* CloudSocket.swift */,
+				22FFC8C81C9852410028EA61 /* CloudTable.swift */,
+				224C2A581CA80CDB00D05F27 /* CloudUser.swift */,
+				2260557D1CA5014700F0357C /* Column.swift */,
+				22FFC81E1C9733D10028EA61 /* Info.plist */,
+				22E02D291CC53206003C06FF /* QueueMessage.swift */,
+				22E02D311CC7ECEC003C06FF /* SearchFilter.swift */,
+				22E02D2F1CC7ECA4003C06FF /* SearchQuery.swift */,
+				226808DA1CCD378D0078CF6B /* SocketIO */,
 			);
 			path = CloudBoost;
 			sourceTree = "<group>";
