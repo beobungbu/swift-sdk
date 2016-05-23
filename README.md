@@ -2,9 +2,9 @@
 
 [![CI Status](http://img.shields.io/travis/CloudBoost/swift-sdk.svg?style=flat)](https://travis-ci.org/CloudBoost/swift-sdk)
 [![Version](https://img.shields.io/cocoapods/v/CloudBoost.svg?style=flat)](http://cocoapods.org/pods/CloudBoost)
-[![Contact](https://img.shields.io/badge/contact-%40randhir051-blue.svg)](http://twitter.com/randhir051)
 [![License](https://img.shields.io/cocoapods/l/CloudBoost.svg?style=flat)](http://cocoapods.org/pods/CloudBoost)
 [![Platform](https://img.shields.io/cocoapods/p/CloudBoost.svg?style=flat)](http://cocoapods.org/pods/CloudBoost)
+[![Contact](https://img.shields.io/badge/contact-%40randhir051-blue.svg)](http://twitter.com/randhir051)
 
 
 ## Installation
