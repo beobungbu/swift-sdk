@@ -45,6 +45,14 @@ public class CloudObject{
         self.document = NSMutableDictionary(dictionary: dictionary as [NSObject : AnyObject], copyItems: true)
     }
     
+    public func getDocumentDictionary() -> NSMutableDictionary {
+        return document
+    }
+
+    public func setDocumentDictionary(dictionary: NSDictionary) {
+        document = NSMutableDictionary(dictionary: dictionary as [NSObject : AnyObject], copyItems: true)
+    }
+
     // MARK:- Setter Functions
     
     // Set an object(assument that it can be serialised

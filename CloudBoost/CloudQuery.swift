@@ -620,7 +620,7 @@ public class CloudQuery{
 
             if response.status == 200 {
                 
-                if let documents = response.object as? [NSMutableDictionary] {
+                if let documents = response.object as? [NSDictionary] {
                     
                     var objectsArray = [CloudObject]()
                     
@@ -636,7 +636,7 @@ public class CloudQuery{
                     theResponse.object = objectsArray
                     theResponse.status = response.status
                     
-                    callback(response: response)
+                    callback(response: theResponse)
                 } else if let document = response.object as? NSMutableDictionary {
                     
                     let object = self.objectClass.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
@@ -646,7 +646,7 @@ public class CloudQuery{
                     theResponse.object = object
                     theResponse.status = response.status
                     
-                    callback(response: response)
+                    callback(response: theResponse)
                 } else {
                     
                     callback(response: response)
@@ -692,7 +692,7 @@ public class CloudQuery{
                                                 theResponse.object = objectsArray
                                                 theResponse.status = response.status
                                                 
-                                                callback(response: response)
+                                                callback(response: theResponse)
                                             } else if let document = response.object as? NSMutableDictionary {
                                                 
                                                 let object = self.objectClass.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
@@ -702,7 +702,7 @@ public class CloudQuery{
                                                 theResponse.object = object
                                                 theResponse.status = response.status
                                                 
-                                                callback(response: response)
+                                                callback(response: theResponse)
                                             } else {
                                                 
                                                 callback(response: response)
@@ -752,7 +752,7 @@ public class CloudQuery{
                                                 theResponse.object = objectsArray
                                                 theResponse.status = response.status
                                                 
-                                                callback(response: response)
+                                                callback(response: theResponse)
                                             } else if let document = response.object as? NSMutableDictionary {
                                                 
                                                 let object = self.objectClass.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
@@ -762,7 +762,7 @@ public class CloudQuery{
                                                 theResponse.object = object
                                                 theResponse.status = response.status
                                                 
-                                                callback(response: response)
+                                                callback(response: theResponse)
                                             } else {
                                                 
                                                 callback(response: response)
@@ -814,7 +814,7 @@ public class CloudQuery{
                                                 theResponse.object = objectsArray
                                                 theResponse.status = response.status
                                                 
-                                                callback(response: response)
+                                                callback(response: theResponse)
                                             } else if let document = response.object as? NSMutableDictionary {
                                                 
                                                 let object = self.objectClass.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
@@ -824,7 +824,7 @@ public class CloudQuery{
                                                 theResponse.object = object
                                                 theResponse.status = response.status
                                                 
-                                                callback(response: response)
+                                                callback(response: theResponse)
                                             } else {
                                                 
                                                 callback(response: response)
