@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "CloudBoost"
-  s.version          = "0.0.1"
+  s.version          = "0.1"
   s.summary          = "Host your iOS/OSX apps on CLoudBoost"
 
 # This description is used to generate tags and improve search results.
@@ -27,12 +27,12 @@ TODO: Add long description of the pod here.
   s.homepage     = 'https://cloudboost.io'
   s.author           = { "Randhir Singh" => "randhirsingh051@gmail.com" }
   s.source           = { :git => "https://github.com/CloudBoost/swift-sdk.git", :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/Randhir_ricky'
+  s.social_media_url = 'https://twitter.com/randhir051'
 
   s.ios.deployment_target = '8.0'
 
   s.source_files = 'CloudBoost/**/*'
-  
+
   # s.resource_bundles = {
   #   'CloudBoost' => ['CloudBoost/Assets/*.png']
   # }

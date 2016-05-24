@@ -87,5 +87,66 @@ class CloudPushTest: XCTestCase {
         
     }
     
+    // Should send message with data,query and callback
+    func testSendMessage(){
+        let exp = expectationWithDescription("send message")
+        
+        let obj = CloudObject(tableName: "Device")
+        obj.set("deviceToken", value: "fOek_RfEqUw:APA91bGGWKZzgM0-s4Z-NK9t7cdDqUBsskidJ09bn_vTruycmRgk_zS2IYE591GMVP1SuaSc3m81spmw8lad23vtkMI8E8dZB-F9lTz44Ij1uw9Zy1m3405dscjnfnOHru0IpJQe3jef")
+        obj.set("deviceOS", value: "ios")
+        obj.set("timezone", value: "india")
+        obj.set("channels", value: ["pirates","hackers","stealers"])
+        obj.set("metadata", value: ["appname":"hdhfhfhfhf"])
+        
+        obj.save({ response in
+            if response.success {
+                let query = CloudQuery(tableName: "Device")
+                try! query.containedIn("channels", data: ["hackers"])
+                
+                try! CloudPush.send(["title":"RT Bathula","message":"check this"], query: query, callback: { response in
+                    response.log()
+                    exp.fulfill()
+                })
+            }else{
+                XCTAssert(false)
+                exp.fulfill()
+            }
+        })
+        
+        waitForExpectationsWithTimeout(50, handler: nil)
+        
+    }
+    
+    // Should send message with data and callback
+    func testSendMessage2(){
+        let exp = expectationWithDescription("send message")
+        
+        let obj = CloudObject(tableName: "Device")
+        obj.set("deviceToken", value: "datasdsdszafua")
+        obj.set("deviceOS", value: "ios")
+        obj.set("timezone", value: "india")
+        obj.set("channels", value: ["pirates","hackers","stealers"])
+        obj.set("metadata", value: ["appname":"hdhfhfhfhf"])
+        
+        obj.save({ response in
+            if response.success {
+                
+                try! CloudPush.send(["title":"RT Bathula","message":"check this"], query: nil, callback: { response in
+                    response.log()
+                    exp.fulfill()
+                })
+            }else{
+                XCTAssert(false)
+                exp.fulfill()
+            }
+        })
+        
+        waitForExpectationsWithTimeout(50, handler: nil)
+    }
+    
+    
+    
+    
+    
 
 }

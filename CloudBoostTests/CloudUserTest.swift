@@ -32,7 +32,7 @@ class CloudUserTest: XCTestCase {
         let email = Util.makeEmail()
         let user = CloudUser(username: username, password: "abcdef")
         user.setEmail(email)
-        user.getEmail()
+        
         do{
             try user.signup({
                 response in
@@ -98,6 +98,29 @@ class CloudUserTest: XCTestCase {
             response.log()
             expectation.fulfill()
         })
+        
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Should change password
+    func testChangePassword() {
+        let expectation = expectationWithDescription("should reset password")
+        
+        let user = CloudUser(username: "randhirsingh", password: "abcdef")
+        user.setEmail("randhirsingh051@gmail.com")
+        do{
+            try user.login({ resp in
+                print("user logged in: \(user.getId())")
+                user.changePassword("abcdef", newPassword: "qwerty", callback: { res in
+                    res.log()
+                    expectation.fulfill()
+                })
+                
+            })
+        } catch {
+            print("Could not catch!")
+        }
+
         
         waitForExpectationsWithTimeout(30, handler: nil)
     }
@@ -200,6 +223,31 @@ class CloudUserTest: XCTestCase {
         waitForExpectationsWithTimeout(60, handler: nil)
     }
     
+    // get saved user
+    func testGetSaveduser(){
+        let exp = expectationWithDescription("get saved user")
+        let username = Util.makeString(10)
+        let email = Util.makeEmail()
+        let user = CloudUser(username: username, password: "abcdef")
+        user.setEmail(email)
+        
+        user.getEmail()
+        do{
+            try user.signup({
+                response in
+                let user = CloudUser.getCurrentUser()
+                print(user?.getUsername())
+                print(user?.getPassword())
+                XCTAssert(response.success)
+                exp.fulfill()
+            })
+        } catch let error as CloudBoostError {
+            print(error)
+        } catch {
+            print("Could not catch!")
+        }
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
     
 
 }

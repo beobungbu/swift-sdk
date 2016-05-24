@@ -371,5 +371,24 @@ class CloudFileTest: XCTestCase {
         waitForExpectationsWithTimeout(30, handler: nil)
     }
     
+    // fetch test
+    func testFetchFile(){
+        let exp = expectationWithDescription("query cloud file")
+        let data = "asdasD".dataUsingEncoding(NSUTF8StringEncoding)
+        let file = CloudFile(name: "name", data: data!, contentType: "txt")
+        
+        file.save() { res in
+            let file2 = CloudFile(id: file.getId()!)
+            file2.fetch({ res in
+                if res.success {
+                   print(file2.getFileName())
+                }
+                exp.fulfill()
+            })            
+        }
+        
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
 
 }

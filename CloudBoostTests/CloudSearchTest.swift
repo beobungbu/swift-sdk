@@ -116,7 +116,7 @@ class CloudSearchTest: XCTestCase {
     func testOverIndexed(){
         let exp = expectationWithDescription("test over indexed objects")
         let query = SearchQuery()
-        query.serarchOn("name", query: "Randhir", fuzziness: nil, all_words: nil, match_percent: nil, priority: nil)
+        query.searchOn("name",query: "Randhir")
         
         let search = CloudSearch(tableName: "Student", searchQuery: query, searchFilter: nil)
         try! search.search({
@@ -468,10 +468,10 @@ class CloudSearchTest: XCTestCase {
                         let tables = ["StudentSearch", "Student"]
                         
                         let sq1  = SearchQuery()
-                        sq1.serarchOn("name", query: "Randhir", fuzziness: nil, all_words: nil, match_percent: nil, priority: nil)
+                        sq1.searchOn("name", query: "Randhir", fuzziness: nil, all_words: nil, match_percent: nil, priority: nil)
                         
                         let sq2  = SearchQuery()
-                        sq1.serarchOn("name", query: "Randhir", fuzziness: nil, all_words: nil, match_percent: nil, priority: nil)
+                        sq1.searchOn("name", query: "Randhir", fuzziness: nil, all_words: nil, match_percent: nil, priority: nil)
                         
                         let cs = CloudSearch(tableName: tables, searchQuery: nil, searchFilter: nil)
                         cs.searchQuery = SearchQuery()
@@ -505,7 +505,7 @@ class CloudSearchTest: XCTestCase {
             let tables = ["StudentSearch"]
             let cs = CloudSearch(tableName: tables, searchQuery: nil, searchFilter: nil)
             cs.searchQuery = SearchQuery()
-            cs.searchQuery?.serarchOn("name", query: "ravi", fuzziness: nil, all_words: "and", match_percent: nil, priority: nil)
+            cs.searchQuery?.searchOn("name", query: "ravi", fuzziness: nil, all_words: "and", match_percent: nil, priority: nil)
             cs.setLimit(9999)
             try! cs.search({
                 response in
@@ -530,7 +530,7 @@ class CloudSearchTest: XCTestCase {
             let tables = ["StudentSearch"]
             let cs = CloudSearch(tableName: tables, searchQuery: nil, searchFilter: nil)
             cs.searchQuery = SearchQuery()
-            cs.searchQuery?.serarchOn("name", query: "ravi", fuzziness: nil, all_words: nil, match_percent: "75%", priority: nil)
+            cs.searchQuery?.searchOn("name", query: "ravi", fuzziness: nil, all_words: nil, match_percent: "75%", priority: nil)
             cs.setLimit(9999)
             try! cs.search({
                 response in
@@ -563,7 +563,7 @@ class CloudSearchTest: XCTestCase {
                         
                         let cs = CloudSearch(tableName: tables, searchQuery: nil, searchFilter: nil)
                         cs.searchQuery = SearchQuery()
-                        cs.searchQuery?.serarchOn("name", query: "ravi", fuzziness: nil, all_words: nil, match_percent: nil, priority: nil)
+                        cs.searchQuery?.searchOn("name", query: "ravi", fuzziness: nil, all_words: nil, match_percent: nil, priority: nil)
                         
                         try! cs.search({
                             response in

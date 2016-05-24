@@ -43,10 +43,8 @@ public class CloudSearch {
                 searchFilter: SearchFilter? = nil,
                 objectClass: CloudObject.Type = CloudObject.self) {
         
-        self.collectionName = tableName
-        
         self.objectClass = objectClass
-        
+
         if searchQuery != nil {
             self.bool["bool"] = searchQuery?.bool
             self.filtered["query"] = self.bool
@@ -59,6 +57,17 @@ public class CloudSearch {
         }else{
             self.filtered["filter"] = [:]
         }
+        
+        self.from = 0
+        self.size = 10
+        
+    }
+    
+    public init(tableName: String){
+        self.collectionName = tableName
+
+        self.filtered["query"] = [:]
+        self.filtered["filter"] = [:]
         
         self.from = 0
         self.size = 10

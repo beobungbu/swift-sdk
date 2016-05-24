@@ -10,8 +10,7 @@ import Foundation
 
 public class CloudPush {
     
-    public static func send(data: AnyObject, query: CloudQuery, callback: (CloudBoostResponse)->Void) throws {
-        let tableName = "Device"
+    public static func send(data: AnyObject, query: CloudQuery?, callback: (CloudBoostResponse)->Void) throws {
         
         if CloudApp.getAppId() == nil {
             throw CloudBoostError.AppIdNotSet
@@ -19,12 +18,20 @@ public class CloudPush {
         if CloudApp.getAppKey() == nil {
             throw CloudBoostError.AppIdNotSet
         }
+        var pushQuery: CloudQuery
+        if query == nil {
+            pushQuery = CloudQuery(tableName: "Device")
+        }else{
+            pushQuery = query!
+        }
         
         let params = NSMutableDictionary()
-        params["query"] = query.getQuery()
-        params["sort"] = query.getSort()
-        params["limit"] = query.getLimit()
-        params["skip"] = query.getSkip()
+
+        params["query"] = pushQuery.getQuery()
+        params["sort"] = pushQuery.getSort()
+        params["limit"] = pushQuery.getLimit()
+        params["skip"] = pushQuery.getSkip()
+        
         params["key"] = CloudApp.getAppKey()
         params["data"] = data
         

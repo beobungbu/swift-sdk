@@ -49,6 +49,24 @@ public class CloudTable {
         return nil
     }
     
+    public func getColumns() -> [Column]? {
+        var arr = [Column]()
+        for col in columns {
+            guard let name = col["name"] as? String else {
+                return nil
+            }
+            guard let dataType = col["dataType"] as? String else {
+                return nil
+            }
+            guard let cbDataType = CloudBoostDataType(rawValue: dataType) else {
+                return nil
+            }
+            let resColumn = Column(name: name, dataType: cbDataType)
+            arr.append(resColumn)
+        }
+        return arr
+    }
+    
     public func setTableType(columnType: String){
         document["type"] = columnType
     }
