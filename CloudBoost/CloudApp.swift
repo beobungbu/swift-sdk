@@ -16,6 +16,8 @@ public class CloudApp: NSObject {
     public static var masterKey: String?
     //public var socket: SocketIOClient?
     
+    public static var objectsMapping = [String: CloudObject.Type]()
+    
     //detarmines if the API Logs, defaults to false
     private static var log = false
     
@@ -38,6 +40,22 @@ public class CloudApp: NSObject {
     
     public func printAppdetails(){
         print("App ID: " + CloudApp.appID! + "\nApp Key: " + CloudApp.appKey!)
+    }
+    
+    public class func objectClassForTableName(tableName: String) -> CloudObject.Type {
+        
+        if let objectClass = self.objectsMapping[tableName] {
+            return objectClass
+        }
+        
+        switch  tableName {
+        case "User":
+            return CloudUser.self
+        case "Role":
+            return CloudRole.self
+        default:
+            return CloudObject.self
+        }
     }
     
     // MARK:- Setter functions

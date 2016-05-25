@@ -660,36 +660,14 @@ public class CloudObject: CustomStringConvertible {
     internal static func cloudObjectFromDocumentDictionary(dictionary: NSDictionary,
                                                            documentType type: CloudObject.Type? = nil) -> CloudObject {
         
-        var objectClass: CloudObject.Type
-        
         let tableName = dictionary["_tableName"] as! String
-        
-        switch tableName {
-            
-        case "Role":
-            objectClass = CloudRole.self
-            
-        case "User":
-            objectClass = CloudUser.self
-            
-        default:
-            if let type = type {
-                objectClass = type
-            } else {
-                // Try to infer the correct type
 
-                // TODO: By mapping table
+        var objectClass: CloudObject.Type
 
-                // By class name
-                let tableClass = NSClassFromString(tableName) as? CloudObject.Type
-                if let tableClass = tableClass {
-                    objectClass = tableClass
-                } else {
-                    
-                    // No match - Let it be a CloudObject
-                    objectClass = CloudObject.self
-                }
-            }
+        if let type = type {
+            objectClass = type
+        } else {
+            objectClass = CloudApp.objectClassForTableName(tableName)
         }
         
         let object = objectClass.init(tableName: tableName)
