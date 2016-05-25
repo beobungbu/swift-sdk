@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class CloudObject{
+public class CloudObject: CustomStringConvertible {
     
     var document = NSMutableDictionary()
 
@@ -43,6 +43,11 @@ public class CloudObject{
     public init(dictionary: NSDictionary){
         
         self.document = NSMutableDictionary(dictionary: dictionary as [NSObject : AnyObject], copyItems: true)
+    }
+    
+    public var description: String {
+        
+        return document.description
     }
     
     public func getDocumentDictionary() -> NSMutableDictionary {
