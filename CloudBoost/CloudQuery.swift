@@ -556,7 +556,7 @@ public class CloudQuery{
             _columnName = "_" + columnName
         }
         self.include.append(_columnName)
-        query["$includeList"] = self.include
+        query["$include"] = self.include
     }
 
     public func sortAscendingBy(columnName: String) {
