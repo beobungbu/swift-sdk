@@ -156,6 +156,19 @@ public class CloudObject: CustomStringConvertible {
         return(1,nil)
     }
     
+    // Set an decimal number value in the CloudObject
+    public func setDecimalNumber(attribute: String, value: NSDecimalNumber) -> (NSDecimalNumber, String?){
+        let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
+        if(keywords.indexOf(attribute) != nil){
+            //Not allowed to chage these values
+            return(-1,"Not allowed to change these values")
+        }
+        document[attribute] = value.doubleValue
+        _modifiedColumns.append(attribute)
+        document["_modifiedColumns"] = _modifiedColumns
+        return(1,nil)
+    }
+    
     // Set a date value
     public func setDate(attribute: String, value: NSDate) -> (Int, String?) {
         let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
@@ -284,6 +297,15 @@ public class CloudObject: CustomStringConvertible {
     // Get an integer attribute
     public func getInt(attribute: String) -> Int? {
         return document[attribute] as? Int
+    }
+    
+    // Get a decimal number
+    public func getDecimalNumber(attribute: String) -> NSDecimalNumber? {
+        if let double = document[attribute] as? Double {
+            return NSDecimalNumber(double: double)
+        } else {
+            return nil
+        }
     }
     
     // Get a string attribute
