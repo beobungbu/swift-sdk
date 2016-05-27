@@ -8,6 +8,8 @@
 
 import Foundation
 
+/// Base class of all the object fetched and saved to CloudBoost. CloudObject can be subclass, the the framework take care of the rest, utilizing the appropriate class based on various definitition found throught the SDK.
+
 public class CloudObject: CustomStringConvertible {
     
     var document = NSMutableDictionary()
@@ -60,7 +62,17 @@ public class CloudObject: CustomStringConvertible {
 
     // MARK:- Setter Functions
     
-    // Set an object(assument that it can be serialised
+    /// Set an object to a thethe given property
+    ///
+    /// - parameter attribute: the name of the remode attribute
+    /// - parameter value: a generic jobect to inserted into the propriery
+    /// - returns: TDB
+    /// - note: The object has to be serialized, so i must contains only NSCoding compliant objects
+    ///
+    /// This method evaluates the content of the given object and takes care of the action needed to to fill the remote property, such as for CloudGeoPoints or CloudFile.
+    ///
+    /// Relational objects are returned by recostructing the appropriate CloudObject subclass, depending on the originating query or serach request or by the mapping configuring throught the objectsMappgin property of CloudApp. See the CloudApp reference for further informtions on CloudObject sublclassing.
+    
     public func set(attribute: String, value: AnyObject) -> (Int, String?) {
         let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
         if(keywords.indexOf(attribute) != nil){
@@ -130,7 +142,12 @@ public class CloudObject: CustomStringConvertible {
         return(1,nil)
     }
     
-    // Set a string  value in the CloudObject
+    /// Assigns an String value to the given property
+    ///
+    /// - parameter attribute: the name of the remode attribute
+    /// - parameter value: a String ojbect to be assigned to the property
+    /// - returns: TDB
+    ///
     public func setString(attribute: String, value: String) -> (Int, String?){
         let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
         if(keywords.indexOf(attribute) != nil){
@@ -143,7 +160,13 @@ public class CloudObject: CustomStringConvertible {
         return(1,nil)
     }
     
-    // Set an integer value in the CloudObject
+    /// Assigns an int value to the given property
+    ///
+    /// - parameter attribute: the name of the remode attribute
+    /// - parameter value: a Int object to be assigned to the property
+    /// - returns: TDB
+    ///
+    
     public func setInt(attribute: String, value: Int) -> (Int, String?){
         let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
         if(keywords.indexOf(attribute) != nil){
@@ -156,8 +179,33 @@ public class CloudObject: CustomStringConvertible {
         return(1,nil)
     }
     
-    // Set an decimal number value in the CloudObject
-    public func setDecimalNumber(attribute: String, value: NSDecimalNumber) -> (NSDecimalNumber, String?){
+    /// Assigns an double value to the given property
+    ///
+    /// - parameter attribute: the name of the remode attribute
+    /// - parameter value: a Double object to be assigned to the property
+    /// - returns: TDB
+    ///
+    
+    public func setDouble(attribute: String, value: Double) -> (Int, String?){
+        let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
+        if(keywords.indexOf(attribute) != nil){
+            //Not allowed to chage these values
+            return(-1,"Not allowed to change these values")
+        }
+        document[attribute] = value
+        _modifiedColumns.append(attribute)
+        document["_modifiedColumns"] = _modifiedColumns
+        return(1,nil)
+    }
+    
+    /// Assigns an NSDecimalNumber object to the given property
+    /// 
+    /// - parameter attribute: the name of the remode attribute
+    /// - parameter value: an NSDecimalNumber object
+    /// - returns: TDB
+    ///
+    
+    public func setDecimalNUmber(attribute: String, value: NSDecimalNumber) -> (Int, String?){
         let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
         if(keywords.indexOf(attribute) != nil){
             //Not allowed to chage these values
@@ -169,7 +217,13 @@ public class CloudObject: CustomStringConvertible {
         return(1,nil)
     }
     
-    // Set a date value
+    /// Assigns a NSDate value to the given property
+    ///
+    /// - parameter attribute: the name of the remode attribute
+    /// - parameter value: an NSDate ojbect to be assigned to the property
+    /// - returns: TDB
+    ///    
+    
     public func setDate(attribute: String, value: NSDate) -> (Int, String?) {
         let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
         if(keywords.indexOf(attribute) != nil){
@@ -195,11 +249,10 @@ public class CloudObject: CustomStringConvertible {
         document["expires"] = value.description
     }
     
+    /// Obtains the unique id assogned to this cloud object
+    ///
+    /// - returns: a String optional
     
-    
-    // MARK:- Getter functions
-    
-    // Get a unique ID of the object, needs to be saved first
     public func getId() -> String? {
         if let id = document["_id"] as? String {
             if(id  == ""){
@@ -211,7 +264,11 @@ public class CloudObject: CustomStringConvertible {
         return nil
     }
     
-    // Get the ACL property associated with the object
+    /// Obtains the ACL object assigned to this cloud object
+    /// - note: See ACL section for more on ACL
+    ///
+    /// - returns: a String optional
+
     public func getAcl() -> ACL? {
         if let aclDoc = document["ACL"] as? NSMutableDictionary {
             return ACL(acl: aclDoc)
@@ -219,13 +276,19 @@ public class CloudObject: CustomStringConvertible {
         return nil
     }
     
-    // set ACL of the object
+    /// Set an ACL object to this cloud object
+    /// - parameter acl: The ACL object to be assigned to this cloud objct
+    /// - note: See ACL section for more on ACL
+    
     public func setACL(acl: ACL) {
         _modifiedColumns.append("ACL")
         document["ACL"] = acl.getACL()
     }
-    
-    // Checks if the object has the kay
+
+    /// Check if this objct has the specified key
+    /// - parameter key: the String key to be verified
+    /// - returns: true if the key exists
+
     func exist(key: String) -> Bool{
         if(document[key] != nil){
             return true
@@ -254,7 +317,11 @@ public class CloudObject: CustomStringConvertible {
     }
     
     
-    // Get any attribute as AnyObject
+    /// Get an object for the specified attributed
+    /// - note: Is the attribute contains a relational object or list, it tries to reconstruct the appropriate CloudObject or sublcassed object
+    /// - parameter attribute: The attribute for the object to be retrieved
+    /// - returns: and AnyObject optional or a CloudObject optional
+
     public func get(attribute: String) -> AnyObject? {
         
         // Check if the attribute is a relational CloudObject
@@ -297,6 +364,11 @@ public class CloudObject: CustomStringConvertible {
     // Get an integer attribute
     public func getInt(attribute: String) -> Int? {
         return document[attribute] as? Int
+    }
+    
+    // Get a double number attribute
+    public func getDouble(attribute: String) -> Double? {
+        return document[attribute] as? Double
     }
     
     // Get a decimal number
@@ -346,10 +418,9 @@ public class CloudObject: CustomStringConvertible {
     }
     
     
-    // MARK:- Cloud Operations on CloudObject
-    
-    
-    // Save the CloudObject on CLoudBoost.io
+    /// Save this object in a table.
+    ///
+    /// - Parameter callback: block where receiving results of the operation    
     public func save(callback: (CloudBoostResponse) -> Void ){
         let url = CloudApp.serverUrl + "/data/" + CloudApp.appID! + "/"
             + (self.document["_tableName"] as! String)
@@ -369,7 +440,10 @@ public class CloudObject: CustomStringConvertible {
     }
     
     
-    //Deleting all rows
+    /// Delete self object from his table
+    ///
+    /// - Parameter callback: block where receiving results of the operation
+    
     public func delete( callback: (CloudBoostResponse) -> Void ){
         let url = CloudApp.serverUrl + "/data/" + CloudApp.appID! + "/"
             + (self.document["_tableName"] as! String);
@@ -383,10 +457,12 @@ public class CloudObject: CustomStringConvertible {
         })
     }
     
+    /// Bulk save all object in a table.
+    /// - Note: The operation is made using a single api call.
+    ///
+    /// - Parameter array: an array of CloudObject to be saved
+    /// - Parameter callback: block where receiving results of the operation
     
-    
-    
-    // Save an array of CloudObject
     public static func saveAll(array: [CloudObject], callback: (CloudBoostResponse)->Void) {
         
         // Ready the response
@@ -421,7 +497,12 @@ public class CloudObject: CustomStringConvertible {
         }
     }
     
-    // Delete an array of CloudObject
+    /// Bulk delete all object in a table.
+    /// - Note: The operation is made using a single api call.
+    ///
+    /// - Parameter array: an array of CloudObject to be deleted
+    /// - Parameter callback: block where receiving results of the operation
+    
     public static func deleteAll(array: [CloudObject], callback: (CloudBoostResponse)->Void) {
         
         // Ready the response
@@ -450,6 +531,14 @@ public class CloudObject: CustomStringConvertible {
             })
         }
     }
+    
+    /// Start listening to events on an intire table
+    ///
+    /// - Parameter tableName: table to listen to events from
+    /// - Parameter eventType: one of created, deleted, updated
+    /// - Parameter objectClass: (optional) Class of the object that has to be retturned from each resulsts. It has to be a CloudObject subclass; if not specificied, CloudObject class will be user
+    /// - Parameter handler: block to receive update/create/delete notification
+    /// - Parameter callback: block where receiveing other notifications, as errors
     
     public static func on(tableName: String,
                           eventType: String,
@@ -504,6 +593,13 @@ public class CloudObject: CustomStringConvertible {
         }
     }
     
+    /// Start listening to events on an intire table
+    ///
+    /// - Parameter tableName: table to listen to events from
+    /// - Parameter eventType: one of created, deleted, updated
+    /// - Parameter objectClass: (optional) Class of the object that has to be retturned from each resulsts. It has to be a CloudObject subclass; if not specificied, CloudObject class will be user
+    /// - Parameter handler: block to receive update/create/delete notification
+    /// - Parameter callback: block where receiveing other notifications, as errors
     public static func on(tableName: String,
                           eventTypes: [String],
                           objectClass: CloudObject.Type = CloudObject.self,
@@ -561,14 +657,15 @@ public class CloudObject: CustomStringConvertible {
         
     }
     
-    /**
-     * start listening to events
-     * @param tableName table to listen to events from
-     * @param eventType one of created, deleted, updated
-     * @param cloudQuery filter to apply on the data
-     * @param handler
-     * @param callback
-     */
+    /// Start listening to events on an intire table or a specific query
+    ///
+    /// - Parameter tableName: table to listen to events from
+    /// - Parameter eventType: one of created, deleted, updated
+    /// - Parameter cloudQuery: (optional) CloudQeuery object to apply to the data
+    /// - Parameter objectClass: (optional) Class of the object that has to be retturned from each resulsts. It has to be a CloudObject subclass; if not specificied, CloudObject class will be user
+    /// - Parameter handler: block to receive update/create/delete notification
+    /// - Parameter callback: block where receiveing other notifications, as errors
+    
     public static func on(tableName: String,
                           eventType: String,
                           query: CloudQuery,
@@ -637,6 +734,11 @@ public class CloudObject: CustomStringConvertible {
         }
     }
     
+    /// Stop listening to events on an intire trable previously registered as listinere with method .on
+    ///
+    /// - Parameter tableName: table to stop listen from
+    /// - Parameter eventType: one of created, deleted, updated
+    /// - Parameter callback: block where receiveing the result of the operation
     
     public static func off(tableName: String,
                            eventType: String,
