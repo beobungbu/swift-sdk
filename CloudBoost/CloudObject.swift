@@ -291,7 +291,7 @@ public class CloudObject: CustomStringConvertible {
     /// - parameter attribute: the name of the remode attribute
     ///
     
-    public func     -> (Int, String?) {
+    public func removeValueFromAttribute(attribute: String) -> (Int, String?) {
         let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
         if(keywords.indexOf(attribute) != nil){
             //Not allowed to chage these values
