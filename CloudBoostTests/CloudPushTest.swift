@@ -92,7 +92,7 @@ class CloudPushTest: XCTestCase {
         let exp = expectationWithDescription("send message")
         
         let obj = CloudObject(tableName: "Device")
-        obj.set("deviceToken", value: "fOek_RfEqUw:APA91bGGWKZzgM0-s4Z-NK9t7cdDqUBsskidJ09bn_vTruycmRgk_zS2IYE591GMVP1SuaSc3m81spmw8lad23vtkMI8E8dZB-F9lTz44Ij1uw9Zy1m3405dscjnfnOHru0IpJQe3jef")
+        obj.set("deviceToken", value: "76f24c255aec434e20c2dc143860d5531fcf9f3ba5cc005e9999015bf4a16587")
         obj.set("deviceOS", value: "ios")
         obj.set("timezone", value: "india")
         obj.set("channels", value: ["pirates","hackers","stealers"])

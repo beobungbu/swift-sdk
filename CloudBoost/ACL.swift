@@ -282,6 +282,66 @@ public class ACL {
         
     }
     
+    public func setRoleWriteAccess(roleID: String, value: Bool){
+        var index: Int?
+        allowedWriteUser = getAllowedWriteUser()!
+        deniedWriteUser = getDeniedWriteUser()!
+        
+        if value {
+            index = allowedWriteUser.indexOf("all")
+            if index != nil {
+                allowedWriteUser.removeAtIndex(index!)
+            }
+            index = allowedWriteRole.indexOf(roleID)
+            if index == nil {
+                allowedWriteRole.append(roleID)
+            }
+        }else{
+            index = allowedWriteRole.indexOf(roleID)
+            if index > -1 {
+                allowedWriteRole.removeAtIndex(index!)
+            }
+            deniedWriteRole.append(roleID)
+        }
+        
+        allowWrite["role"] = allowedWriteRole
+        denyWrite["role"] = deniedWriteRole
+        write["deny"] = denyWrite
+        write["allow"] = allowWrite
+        
+    }
+    
+    public func setRoleReadAccess(roleID: String, value: Bool){
+        var index: Int?
+        allowedReadUser = getAllowedReadUser()!
+        deniedReadUser = getDeniedReadUser()!
+        
+        
+        if value {
+            index = allowedReadUser.indexOf("all")
+            if index != nil {
+                allowedReadUser.removeAtIndex(index!)
+            }
+            index = allowedReadRole.indexOf(roleID)
+            if index == nil {
+                allowedReadRole.append(roleID)
+            }
+        }else{
+            index = allowedReadRole.indexOf(roleID)
+            if index > -1 {
+                allowedReadRole.removeAtIndex(index!)
+            }
+            deniedReadRole.append(roleID)
+        }
+        
+        allowRead["role"] = allowedReadRole
+        denyRead["role"] = deniedReadRole
+        read["deny"] = denyRead
+        read["allow"] = allowRead
+        
+    }
+
+    
     
     
     
