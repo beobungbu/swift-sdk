@@ -26,13 +26,14 @@ public class CloudQuery{
     var skip = 0
     var limit = 10
     
-    public var objectClass: CloudObject.Type = CloudObject.self
+    public var objectClass: CloudObject.Type? = nil
     
     // constructor
     public init(tableName: String,
-        objectClass: CloudObject.Type = CloudObject.self) {
+        objectClass: CloudObject.Type? = nil) {
     
         self.tableName = tableName
+        self.objectClass = objectClass
         
         query["$include"] = _include
         query["$includeList"] = _includeList
@@ -626,7 +627,7 @@ public class CloudQuery{
                     
                     for document in documents {
                         
-                        let object = self.objectClass.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                        let object = CloudObject.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
                         
                         objectsArray.append(object)
                     }
@@ -639,7 +640,7 @@ public class CloudQuery{
                     callback(response: theResponse)
                 } else if let document = response.object as? NSMutableDictionary {
                     
-                    let object = self.objectClass.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                    let object = CloudObject.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
                     
                     let theResponse = CloudBoostResponse()
                     theResponse.success = response.success
@@ -682,7 +683,7 @@ public class CloudQuery{
                                                 
                                                 for document in documents {
                                                     
-                                                    let object = self.objectClass.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                                                    let object = CloudObject.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
                                                     
                                                     objectsArray.append(object)
                                                 }
@@ -695,7 +696,7 @@ public class CloudQuery{
                                                 callback(response: theResponse)
                                             } else if let document = response.object as? NSMutableDictionary {
                                                 
-                                                let object = self.objectClass.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                                                let object = CloudObject.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
                                                 
                                                 let theResponse = CloudBoostResponse()
                                                 theResponse.success = response.success
@@ -742,7 +743,7 @@ public class CloudQuery{
                                                 
                                                 for document in documents {
                                                     
-                                                    let object = self.objectClass.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                                                    let object = CloudObject.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
                                                     
                                                     objectsArray.append(object)
                                                 }
@@ -755,7 +756,7 @@ public class CloudQuery{
                                                 callback(response: theResponse)
                                             } else if let document = response.object as? NSMutableDictionary {
                                                 
-                                                let object = self.objectClass.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                                                let object = CloudObject.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
                                                 
                                                 let theResponse = CloudBoostResponse()
                                                 theResponse.success = response.success
@@ -804,7 +805,7 @@ public class CloudQuery{
                                                 
                                                 for document in documents {
                                                     
-                                                    let object = self.objectClass.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                                                    let object = CloudObject.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
                                                     
                                                     objectsArray.append(object)
                                                 }
@@ -817,7 +818,7 @@ public class CloudQuery{
                                                 callback(response: theResponse)
                                             } else if let document = response.object as? NSMutableDictionary {
                                                 
-                                                let object = self.objectClass.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                                                let object = CloudObject.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
                                                 
                                                 let theResponse = CloudBoostResponse()
                                                 theResponse.success = response.success
