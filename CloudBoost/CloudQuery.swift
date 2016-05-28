@@ -26,10 +26,14 @@ public class CloudQuery{
     var skip = 0
     var limit = 10
     
+    public var objectClass: CloudObject.Type? = nil
+    
     // constructor
-    public init(tableName: String){
-        
+    public init(tableName: String,
+        objectClass: CloudObject.Type? = nil) {
+    
         self.tableName = tableName
+        self.objectClass = objectClass
         
         query["$include"] = _include
         query["$includeList"] = _includeList
@@ -553,7 +557,7 @@ public class CloudQuery{
             _columnName = "_" + columnName
         }
         self.include.append(_columnName)
-        query["$includeList"] = self.include
+        query["$include"] = self.include
     }
 
     public func sortAscendingBy(columnName: String) {
@@ -598,7 +602,8 @@ public class CloudQuery{
         query[columnName] = [ "$geoWithin" : [ "$centerSphere": [ geoPoint.getCoordinates(), radius/3963.2] ] ]
     }
     
-    public func find(callbak: (response: CloudBoostResponse)->Void) throws {
+    public func find(callback: (response: CloudBoostResponse)->Void) throws {
+    
         let params = NSMutableDictionary()
         params["query"] = query
         params["select"] = select
@@ -609,14 +614,53 @@ public class CloudQuery{
         
         var url = CloudApp.getApiUrl() + "/data/" + CloudApp.getAppId()!
         url = url + "/" + tableName! + "/find"
-        CloudCommunications._request("POST", url: NSURL(string: url)!, params: params, callback: {
-            (response: CloudBoostResponse) in
-            callbak(response: response)
-        })
         
+        CloudCommunications._request("POST",
+                                     url: NSURL(string: url)!,
+                                     params: params, callback: { response in
+
+            if response.status == 200 {
+                
+                if let documents = response.object as? [NSDictionary] {
+                    
+                    var objectsArray = [CloudObject]()
+                    
+                    for document in documents {
+                        
+                        let object = CloudObject.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                        
+                        objectsArray.append(object)
+                    }
+                    
+                    let theResponse = CloudBoostResponse()
+                    theResponse.success = response.success
+                    theResponse.object = objectsArray
+                    theResponse.status = response.status
+                    
+                    callback(response: theResponse)
+                } else if let document = response.object as? NSMutableDictionary {
+                    
+                    let object = CloudObject.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                    
+                    let theResponse = CloudBoostResponse()
+                    theResponse.success = response.success
+                    theResponse.object = object
+                    theResponse.status = response.status
+                    
+                    callback(response: theResponse)
+                } else {
+                    
+                    callback(response: response)
+                }
+            } else {
+                
+                callback(response: response)
+            }
+        })
     }
     
-    public func findOne(callbak: (response: CloudBoostResponse)->Void) throws {
+    public func findOne(callback: (response: CloudBoostResponse)->Void) throws {
+        
         let params = NSMutableDictionary()
         params["query"] = query
         params["select"] = select
@@ -626,15 +670,56 @@ public class CloudQuery{
         
         var url = CloudApp.getApiUrl() + "/data/" + CloudApp.getAppId()!
         url = url + "/" + tableName! + "/findOne"
-        CloudCommunications._request("POST", url: NSURL(string: url)!, params: params, callback: {
-            (response: CloudBoostResponse) in
-            callbak(response: response)
+        
+        CloudCommunications._request("POST",
+                                     url: NSURL(string: url)!,
+                                     params: params, callback: { response in
+                                        
+                                        if response.status == 200 {
+                                            
+                                            if let documents = response.object as? [NSMutableDictionary] {
+                                                
+                                                var objectsArray = [CloudObject]()
+                                                
+                                                for document in documents {
+                                                    
+                                                    let object = CloudObject.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                                                    
+                                                    objectsArray.append(object)
+                                                }
+                                                
+                                                let theResponse = CloudBoostResponse()
+                                                theResponse.success = response.success
+                                                theResponse.object = objectsArray
+                                                theResponse.status = response.status
+                                                
+                                                callback(response: theResponse)
+                                            } else if let document = response.object as? NSMutableDictionary {
+                                                
+                                                let object = CloudObject.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                                                
+                                                let theResponse = CloudBoostResponse()
+                                                theResponse.success = response.success
+                                                theResponse.object = object
+                                                theResponse.status = response.status
+                                                
+                                                callback(response: theResponse)
+                                            } else {
+                                                
+                                                callback(response: response)
+                                            }
+                                        } else {
+                                            
+                                            callback(response: response)
+                                        }
         })
         
     }
     
-    public func findById(id: String, callbak: (response: CloudBoostResponse) -> Void ){
+    public func findById(id: String, callback: (response: CloudBoostResponse) -> Void ){
+        
         try! self.equalTo("id", obj: id)
+        
         let params = NSMutableDictionary()
         params["query"] = query
         params["select"] = select
@@ -645,13 +730,52 @@ public class CloudQuery{
         
         var url = CloudApp.getApiUrl() + "/data/" + CloudApp.getAppId()!
         url = url + "/" + tableName! + "/find"
-        CloudCommunications._request("POST", url: NSURL(string: url)!, params: params, callback: {
-            (response: CloudBoostResponse) in
-            callbak(response: response)
+        
+        CloudCommunications._request("POST",
+                                     url: NSURL(string: url)!,
+                                     params: params, callback: { response in
+                                        
+                                        if response.status == 200 {
+                                            
+                                            if let documents = response.object as? [NSMutableDictionary] {
+                                                
+                                                var objectsArray = [CloudObject]()
+                                                
+                                                for document in documents {
+                                                    
+                                                    let object = CloudObject.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                                                    
+                                                    objectsArray.append(object)
+                                                }
+                                                
+                                                let theResponse = CloudBoostResponse()
+                                                theResponse.success = response.success
+                                                theResponse.object = objectsArray
+                                                theResponse.status = response.status
+                                                
+                                                callback(response: theResponse)
+                                            } else if let document = response.object as? NSMutableDictionary {
+                                                
+                                                let object = CloudObject.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                                                
+                                                let theResponse = CloudBoostResponse()
+                                                theResponse.success = response.success
+                                                theResponse.object = object
+                                                theResponse.status = response.status
+                                                
+                                                callback(response: theResponse)
+                                            } else {
+                                                
+                                                callback(response: response)
+                                            }
+                                        } else {
+                                            
+                                            callback(response: response)
+                                        }
         })
     }
 
-    public func distinct(key: String, callbak: (response: CloudBoostResponse) -> Void ){
+    public func distinct(key: String, callback: (response: CloudBoostResponse) -> Void ){
         
         var _key = key
         if(key == "id") {
@@ -668,9 +792,48 @@ public class CloudQuery{
         
         var url = CloudApp.getApiUrl() + "/data/" + CloudApp.getAppId()!
         url = url + "/" + tableName! + "/distinct"
-        CloudCommunications._request("POST", url: NSURL(string: url)!, params: params, callback: {
-            (response: CloudBoostResponse) in
-            callbak(response: response)
+        
+        CloudCommunications._request("POST",
+                                     url: NSURL(string: url)!,
+                                     params: params, callback: { response in
+                                        
+                                        if response.status == 200 {
+                                            
+                                            if let documents = response.object as? [NSMutableDictionary] {
+                                                
+                                                var objectsArray = [CloudObject]()
+                                                
+                                                for document in documents {
+                                                    
+                                                    let object = CloudObject.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                                                    
+                                                    objectsArray.append(object)
+                                                }
+                                                
+                                                let theResponse = CloudBoostResponse()
+                                                theResponse.success = response.success
+                                                theResponse.object = objectsArray
+                                                theResponse.status = response.status
+                                                
+                                                callback(response: theResponse)
+                                            } else if let document = response.object as? NSMutableDictionary {
+                                                
+                                                let object = CloudObject.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                                                
+                                                let theResponse = CloudBoostResponse()
+                                                theResponse.success = response.success
+                                                theResponse.object = object
+                                                theResponse.status = response.status
+                                                
+                                                callback(response: theResponse)
+                                            } else {
+                                                
+                                                callback(response: response)
+                                            }
+                                        } else {
+                                            
+                                            callback(response: response)
+                                        }
         })
     }
     

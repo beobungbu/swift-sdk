@@ -16,10 +16,20 @@ it, simply add the following line to your Podfile:
 pod "CloudBoost"
 ```
 
+install by:
+```ruby
+pod install
+```
+
+close currently open project and open the project in .xcworkspace
+
+add CloudBoost to your project
+<img width="1512" alt="screen shot 2016-05-11 at 2 04 26 pm" src="https://cloud.githubusercontent.com/assets/10333542/15174904/78a1385a-1781-11e6-91b5-b5440ddd29a5.png">
+
 
 # Usage:
 
-Build the framework and add it to your app
+import CloudBoost in your swift file
 ```Swift
 import CloudBoost
 ```

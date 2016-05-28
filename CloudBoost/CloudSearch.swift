@@ -21,9 +21,30 @@ public class CloudSearch {
     var searchFilter: SearchFilter?
     var searchQuery: SearchQuery?
     
-    public init(tableName: String, searchQuery: SearchQuery?, searchFilter: SearchFilter?){
-        self.collectionName = tableName
+    ///
+    /// CloudObject subclass to be used to construct objects fetched with the `.search` method
+    /// Usage:
+    /// 1. Declare your own CloudObject subclass
+    /// 2. Initialize a CloudSearch passing your subclass type as a parameter or set the objectClass property
+    /// 3. Call the .search method
+    ///
+    public var objectClass: CloudObject.Type = CloudObject.self
+    
+    /// Instantiate a new QuerySearch object
+    ///
+    /// - parameters:
+    ///   - tableName: Name of the table on the backend
+    ///   - searchQuery: An SearchQuery object for the criteria of the search (optional)
+    ///   - searchFiler: An SearchFilter object with the filtering options of the search (optional)
+    ///   - objectClass: The type of object to be returned (must be a subclass of CloudObject); is optional and if omitted will be created CloudObject instances
+    ///
+    public init(tableName: String,
+                searchQuery: SearchQuery? = nil,
+                searchFilter: SearchFilter? = nil,
+                objectClass: CloudObject.Type = CloudObject.self) {
         
+        self.objectClass = objectClass
+
         if searchQuery != nil {
             self.bool["bool"] = searchQuery?.bool
             self.filtered["query"] = self.bool
@@ -52,61 +73,6 @@ public class CloudSearch {
         self.size = 10
         
     }
-    public init(tableName: String, searchQuery: SearchQuery?){
-        self.collectionName = tableName
-        
-        if searchQuery != nil {
-            self.bool["bool"] = searchQuery?.bool
-            self.filtered["query"] = self.bool
-        }else{
-            self.filtered["query"] = [:]
-        }
-        self.filtered["filter"] = [:]
-        
-        self.from = 0
-        self.size = 10
-        
-    }
-    public init(tableName: String, searchFilter: SearchFilter?){
-        self.collectionName = tableName
-        
-        self.filtered["query"] = [:]
-        
-        if searchFilter != nil {
-            self.bool["bool"] = searchFilter?.bool
-            self.filtered["filter"] = self.bool
-        }else{
-            self.filtered["filter"] = [:]
-        }
-        
-        self.from = 0
-        self.size = 10
-        
-    }
-    
-    
-    
-    public init(tableName: [String], searchQuery: SearchQuery?, searchFilter: SearchFilter?){
-        self.collectionArray = tableName
-        
-        if searchQuery != nil {
-            self.bool["bool"] = searchQuery?.bool
-            self.filtered["query"] = self.bool
-        }else{
-            self.filtered["query"] = [:]
-        }
-        
-        if searchFilter != nil {
-            self.bool["bool"] = searchFilter?.bool
-            self.filtered["filter"] = self.bool
-        }else{
-            self.filtered["filter"] = [:]
-        }
-        
-        self.from = 0
-        self.size = 10
-        
-    }
     
     func setSearchFilter(searchFilter: SearchFilter) {
         self.bool["bool"] = searchFilter.bool
@@ -117,7 +83,7 @@ public class CloudSearch {
         self.bool["bool"] = searchQuery.bool
         self.filtered["query"] = self.bool
     }
-
+    
     
     // MARK: Setters and getter
     
@@ -187,26 +153,33 @@ public class CloudSearch {
         CloudCommunications._request("POST", url: NSURL(string: url)!, params: params, callback: {
             (response: CloudBoostResponse) in
             if response.status == 200 {
-                if let doc = response.object as? [NSMutableDictionary] {
-                    var msgArr = [CloudObject]()
-                    for el in doc {
-                        let msg = CloudObject(tableName: el["_tableName"]as!String)
-                        msg.document = el
-                        msgArr.append(msg)
+                if let documents = response.object as? [NSMutableDictionary] {
+                    
+                    var objectsArray = [CloudObject]()
+                    
+                    for document in documents {
+
+                        let object = self.objectClass.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+
+                        objectsArray.append(object)
                     }
-                    let resp = CloudBoostResponse()
-                    resp.success = response.success
-                    resp.object = msgArr
-                    resp.status = response.status
-                    callback(resp)
-                } else if let doc = response.object as? NSMutableDictionary {
-                    let msg = CloudObject(tableName: doc["_tableName"]as!String)
-                    msg.document = doc
-                    let resp = CloudBoostResponse()
-                    resp.success = response.success
-                    resp.object = msg
-                    resp.status = response.status
-                    callback(resp)
+                    
+                    let theResponse = CloudBoostResponse()
+                    theResponse.success = response.success
+                    theResponse.object = objectsArray
+                    theResponse.status = response.status
+                    
+                    callback(theResponse)
+                } else if let document = response.object as? NSMutableDictionary {
+                    
+                    let object = self.objectClass.cloudObjectFromDocumentDictionary(document, documentType: self.objectClass)
+                    
+                    let theResponse = CloudBoostResponse()
+                    theResponse.success = response.success
+                    theResponse.object = object
+                    theResponse.status = response.status
+                    
+                    callback(theResponse)
                 } else {
                     callback(response)
                 }
@@ -216,7 +189,6 @@ public class CloudSearch {
         })
         
     }
-    
     
     private func prependUnderscore(col: String) -> String {
         var returnString = col
