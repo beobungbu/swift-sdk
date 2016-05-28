@@ -73,7 +73,13 @@ public class CloudObject: CustomStringConvertible {
     ///
     /// Relational objects are returned by recostructing the appropriate CloudObject subclass, depending on the originating query or serach request or by the mapping configuring throught the objectsMappgin property of CloudApp. See the CloudApp reference for further informtions on CloudObject sublclassing.
     
-    public func set(attribute: String, value: AnyObject) -> (Int, String?) {
+    public func set(attribute: String, value: AnyObject?) -> (Int, String?) {
+        
+        guard let value = value else {
+            
+            return removeValueFromAttribute(attribute)
+        }
+        
         let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
         if(keywords.indexOf(attribute) != nil){
             //Not allowed to chage these values
@@ -151,7 +157,13 @@ public class CloudObject: CustomStringConvertible {
     /// - parameter value: a String ojbect to be assigned to the property
     /// - returns: TDB
     ///
-    public func setString(attribute: String, value: String) -> (Int, String?){
+    public func setString(attribute: String, value: String?) -> (Int, String?) {
+        
+        guard let value = value else {
+            
+            return removeValueFromAttribute(attribute)
+        }
+        
         let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
         if(keywords.indexOf(attribute) != nil){
             //Not allowed to chage these values
@@ -172,7 +184,13 @@ public class CloudObject: CustomStringConvertible {
     /// - returns: TDB
     ///
     
-    public func setInt(attribute: String, value: Int) -> (Int, String?){
+    public func setInt(attribute: String, value: Int?) -> (Int, String?) {
+        
+        guard let value = value else {
+            
+            return removeValueFromAttribute(attribute)
+        }
+        
         let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
         if(keywords.indexOf(attribute) != nil){
             //Not allowed to chage these values
@@ -193,7 +211,13 @@ public class CloudObject: CustomStringConvertible {
     /// - returns: TDB
     ///
     
-    public func setDouble(attribute: String, value: Double) -> (Int, String?){
+    public func setDouble(attribute: String, value: Double?) -> (Int, String?){
+        
+        guard let value = value else {
+            
+            return removeValueFromAttribute(attribute)
+        }
+        
         let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
         if(keywords.indexOf(attribute) != nil){
             //Not allowed to chage these values
@@ -214,7 +238,13 @@ public class CloudObject: CustomStringConvertible {
     /// - returns: TDB
     ///
     
-    public func setDecimalNUmber(attribute: String, value: NSDecimalNumber) -> (Int, String?){
+    public func setDecimalNUmber(attribute: String, value: NSDecimalNumber?) -> (Int, String?) {
+        
+        guard let value = value else {
+            
+            return removeValueFromAttribute(attribute)
+        }
+
         let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
         if(keywords.indexOf(attribute) != nil){
             //Not allowed to chage these values
@@ -235,7 +265,13 @@ public class CloudObject: CustomStringConvertible {
     /// - returns: TDB
     ///    
     
-    public func setDate(attribute: String, value: NSDate) -> (Int, String?) {
+    public func setDate(attribute: String, value: NSDate?) -> (Int, String?) {
+        
+        guard let value = value else {
+            
+            return removeValueFromAttribute(attribute)
+        }
+        
         let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
         if(keywords.indexOf(attribute) != nil){
             //Not allowed to chage these values
@@ -250,6 +286,26 @@ public class CloudObject: CustomStringConvertible {
         return(1,nil)
     }
     
+    /// Remove the value assigned to a given property
+    ///
+    /// - parameter attribute: the name of the remode attribute
+    ///
+    
+    public func removeValueFromAttribute(attribute: String) -> (Int, String?) {
+        let keywords = ["_tableName", "_type","operator","_id","createdAt","updatedAt"]
+        if(keywords.indexOf(attribute) != nil){
+            //Not allowed to chage these values
+            return(-1,"Not allowed to change these values")
+        }
+        
+        document.removeObjectForKey(attribute)
+        
+        _modifiedColumns.append(attribute)
+        document["_modifiedColumns"] = _modifiedColumns
+        document["_isModified"] = true
+        
+        return (1, nil)
+    }
     
     // Should this object appear in searches
     public func setIsSearchable(value: Bool){
