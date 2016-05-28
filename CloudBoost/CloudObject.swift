@@ -139,6 +139,9 @@ public class CloudObject: CustomStringConvertible {
             _modifiedColumns.append(attribute)
             document["_modifiedColumns"] = _modifiedColumns
         }
+        
+        document["_isModified"] = true
+        
         return(1,nil)
     }
     
@@ -157,6 +160,8 @@ public class CloudObject: CustomStringConvertible {
         document[attribute] = value
         _modifiedColumns.append(attribute)
         document["_modifiedColumns"] = _modifiedColumns
+        document["_isModified"] = true
+
         return(1,nil)
     }
     
@@ -176,6 +181,8 @@ public class CloudObject: CustomStringConvertible {
         document[attribute] = value
         _modifiedColumns.append(attribute)
         document["_modifiedColumns"] = _modifiedColumns
+        document["_isModified"] = true
+
         return(1,nil)
     }
     
@@ -195,6 +202,8 @@ public class CloudObject: CustomStringConvertible {
         document[attribute] = value
         _modifiedColumns.append(attribute)
         document["_modifiedColumns"] = _modifiedColumns
+        document["_isModified"] = true
+
         return(1,nil)
     }
     
@@ -214,6 +223,8 @@ public class CloudObject: CustomStringConvertible {
         document[attribute] = value.doubleValue
         _modifiedColumns.append(attribute)
         document["_modifiedColumns"] = _modifiedColumns
+        document["_isModified"] = true
+
         return(1,nil)
     }
     
@@ -234,6 +245,8 @@ public class CloudObject: CustomStringConvertible {
         document[attribute] = CloudBoostDateFormatter.getISOFormatter().stringFromDate(value)
         _modifiedColumns.append(attribute)
         document["_modifiedColumns"] = _modifiedColumns
+        document["_isModified"] = true
+
         return(1,nil)
     }
     
@@ -440,7 +453,7 @@ public class CloudObject: CustomStringConvertible {
     }
     
     
-    /// Delete self object from his table
+    /// Delete self object from his settable
     ///
     /// - Parameter callback: block where receiving results of the operation
     
