@@ -223,7 +223,7 @@ public class CloudUser: CloudObject {
      * @param callbackObject
      * @throws CloudBoostError
      */
-    public func changePassword(oldPassword: String, newPassword: String, callback: (reponse: CloudBoostResponse)->Void) {
+    public func changePassword(oldPassword: String, newPassword: String, callback: (response: CloudBoostResponse)->Void) {
         let data = NSMutableDictionary()
         data["key"] = CloudApp.getAppKey()
         data["oldPassword"] = oldPassword
@@ -240,7 +240,7 @@ public class CloudUser: CloudObject {
                     self.document = doc
                 }
             }
-            callback(reponse: response)
+            callback(response: response)
         })
     }
     
