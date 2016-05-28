@@ -100,6 +100,49 @@
 		22FFC8B21C97A3E10028EA61 /* CloudApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8B11C97A3E10028EA61 /* CloudApp.swift */; };
 		22FFC8C71C984FE10028EA61 /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8C61C984FE10028EA61 /* ACL.swift */; };
 		22FFC8C91C9852410028EA61 /* CloudTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8C81C9852410028EA61 /* CloudTable.swift */; };
+		AA034CB71CEF9B8B004A3820 /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8C61C984FE10028EA61 /* ACL.swift */; };
+		AA034CB81CEF9B8B004A3820 /* CloudTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8C81C9852410028EA61 /* CloudTable.swift */; };
+		AA034CB91CEF9B8B004A3820 /* CloudGeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C2A5C1CAAAC6000D05F27 /* CloudGeoPoint.swift */; };
+		AA034CBA1CEF9B8B004A3820 /* SocketPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DAA81CCD331C00022ACC /* SocketPacket.swift */; };
+		AA034CBB1CEF9B8B004A3820 /* SocketEngineWebsocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DAA41CCD331C00022ACC /* SocketEngineWebsocket.swift */; };
+		AA034CBC1CEF9B8B004A3820 /* CloudQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E02D271CC52CE0003C06FF /* CloudQueue.swift */; };
+		AA034CBD1CEF9B8B004A3820 /* CloudNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2296EC2D1CCD185A00C4197D /* CloudNotification.swift */; };
+		AA034CBE1CEF9B8B004A3820 /* SearchQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E02D2F1CC7ECA4003C06FF /* SearchQuery.swift */; };
+		AA034CBF1CEF9B8B004A3820 /* SocketAckEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DA9C1CCD331C00022ACC /* SocketAckEmitter.swift */; };
+		AA034CC01CEF9B8B004A3820 /* CloudCommunications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F774231C9C5E6600BDEFCB /* CloudCommunications.swift */; };
+		AA034CC11CEF9B8B004A3820 /* CloudCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E02D231CC4CE4A003C06FF /* CloudCache.swift */; };
+		AA034CC21CEF9B8B004A3820 /* CloudUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C2A581CA80CDB00D05F27 /* CloudUser.swift */; };
+		AA034CC31CEF9B8B004A3820 /* SocketStringReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DAAA1CCD331C00022ACC /* SocketStringReader.swift */; };
+		AA034CC41CEF9B8B004A3820 /* SocketIOClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DA9A1CCD331C00022ACC /* SocketIOClient.swift */; };
+		AA034CC51CEF9B8B004A3820 /* CloudQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2249AC511CAB9F790088AFBF /* CloudQuery.swift */; };
+		AA034CC61CEF9B8B004A3820 /* CloudRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224C2A561CA80B3100D05F27 /* CloudRole.swift */; };
+		AA034CC71CEF9B8B004A3820 /* SocketLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DAA71CCD331C00022ACC /* SocketLogger.swift */; };
+		AA034CC81CEF9B8B004A3820 /* SocketEngineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DAA11CCD331C00022ACC /* SocketEngineClient.swift */; };
+		AA034CC91CEF9B8B004A3820 /* SocketEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DA9B1CCD331C00022ACC /* SocketEngine.swift */; };
+		AA034CCA1CEF9B8B004A3820 /* SocketAckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DA9D1CCD331C00022ACC /* SocketAckManager.swift */; };
+		AA034CCB1CEF9B8B004A3820 /* CloudSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E02D2D1CC7EB95003C06FF /* CloudSearch.swift */; };
+		AA034CCC1CEF9B8B004A3820 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2260557D1CA5014700F0357C /* Column.swift */; };
+		AA034CCD1CEF9B8B004A3820 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DAAC1CCD331C00022ACC /* WebSocket.swift */; };
+		AA034CCE1CEF9B8B004A3820 /* CloudObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F774211C9C1FD100BDEFCB /* CloudObject.swift */; };
+		AA034CCF1CEF9B8B004A3820 /* SearchFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E02D311CC7ECEC003C06FF /* SearchFilter.swift */; };
+		AA034CD01CEF9B8B004A3820 /* CloudPush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222D78931CE6F28800682D17 /* CloudPush.swift */; };
+		AA034CD11CEF9B8B004A3820 /* CloudFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227506651CAD549C00F430A2 /* CloudFile.swift */; };
+		AA034CD21CEF9B8B004A3820 /* SocketClientSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DA9F1CCD331C00022ACC /* SocketClientSpec.swift */; };
+		AA034CD31CEF9B8B004A3820 /* SocketEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DA991CCD331C00022ACC /* SocketEventHandler.swift */; };
+		AA034CD41CEF9B8B004A3820 /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DAAB1CCD331C00022ACC /* SwiftRegex.swift */; };
+		AA034CD51CEF9B8B004A3820 /* SocketEngineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DA9E1CCD331C00022ACC /* SocketEngineSpec.swift */; };
+		AA034CD61CEF9B8B004A3820 /* CloudSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2296EC2B1CCD16D700C4197D /* CloudSocket.swift */; };
+		AA034CD71CEF9B8B004A3820 /* SocketAnyEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DA981CCD331C00022ACC /* SocketAnyEvent.swift */; };
+		AA034CD81CEF9B8B004A3820 /* SocketIOClientOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DAA01CCD331C00022ACC /* SocketIOClientOption.swift */; };
+		AA034CD91CEF9B8B004A3820 /* CloudApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FFC8B11C97A3E10028EA61 /* CloudApp.swift */; };
+		AA034CDA1CEF9B8B004A3820 /* SocketIOClientStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DAA51CCD331C00022ACC /* SocketIOClientStatus.swift */; };
+		AA034CDB1CEF9B8B004A3820 /* SocketEnginePacketType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DAA21CCD331C00022ACC /* SocketEnginePacketType.swift */; };
+		AA034CDC1CEF9B8B004A3820 /* CloudBoostUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F774251C9C788700BDEFCB /* CloudBoostUtilities.swift */; };
+		AA034CDD1CEF9B8B004A3820 /* SocketTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DAA61CCD331C00022ACC /* SocketTypes.swift */; };
+		AA034CDE1CEF9B8B004A3820 /* QueueMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E02D291CC53206003C06FF /* QueueMessage.swift */; };
+		AA034CDF1CEF9B8B004A3820 /* SocketParsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DAA91CCD331C00022ACC /* SocketParsable.swift */; };
+		AA034CE01CEF9B8B004A3820 /* SocketEnginePollable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2288DAA31CCD331C00022ACC /* SocketEnginePollable.swift */; };
+		AA034CE31CEF9B8B004A3820 /* CloudBoost.h in Headers */ = {isa = PBXBuildFile; fileRef = 22FFC81C1C9733D10028EA61 /* CloudBoost.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -178,6 +221,7 @@
 		2A3630991AF7E66A127F4361 /* libPods-CloudBoost.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CloudBoost.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B8F29407AD08011FCF757DA /* Pods-CloudBoost.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudBoost.release.xcconfig"; path = "Pods/Target Support Files/Pods-CloudBoost/Pods-CloudBoost.release.xcconfig"; sourceTree = "<group>"; };
 		A12A60847BBFAF7614AB9AAE /* Pods-CloudBoost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudBoost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CloudBoost/Pods-CloudBoost.debug.xcconfig"; sourceTree = "<group>"; };
+		AA034CE91CEF9B8B004A3820 /* CloudBoost.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CloudBoost.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDA7C915C64EE249132F9460 /* Pods-CloudBoostTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudBoostTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CloudBoostTests/Pods-CloudBoostTests.release.xcconfig"; sourceTree = "<group>"; };
 		F4BA088F773532376F36BE7C /* Pods-CloudBoostTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudBoostTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CloudBoostTests/Pods-CloudBoostTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -195,6 +239,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				22FFC8241C9733D10028EA61 /* CloudBoost.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA034CE11CEF9B8B004A3820 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +296,7 @@
 			children = (
 				22FFC8191C9733D10028EA61 /* CloudBoost.framework */,
 				22FFC8231C9733D10028EA61 /* CloudBoostTests.xctest */,
+				AA034CE91CEF9B8B004A3820 /* CloudBoost.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -252,30 +304,30 @@
 		22FFC81B1C9733D10028EA61 /* CloudBoost */ = {
 			isa = PBXGroup;
 			children = (
-				226808DA1CCD378D0078CF6B /* SocketIO */,
-				22FFC81C1C9733D10028EA61 /* CloudBoost.h */,
-				22FFC81E1C9733D10028EA61 /* Info.plist */,
-				22FFC8B11C97A3E10028EA61 /* CloudApp.swift */,
 				22FFC8C61C984FE10028EA61 /* ACL.swift */,
-				22FFC8C81C9852410028EA61 /* CloudTable.swift */,
-				22F774211C9C1FD100BDEFCB /* CloudObject.swift */,
-				22F774231C9C5E6600BDEFCB /* CloudCommunications.swift */,
+				22FFC8B11C97A3E10028EA61 /* CloudApp.swift */,
+				22FFC81C1C9733D10028EA61 /* CloudBoost.h */,
 				22F774251C9C788700BDEFCB /* CloudBoostUtilities.swift */,
-				2260557D1CA5014700F0357C /* Column.swift */,
-				224C2A561CA80B3100D05F27 /* CloudRole.swift */,
-				224C2A581CA80CDB00D05F27 /* CloudUser.swift */,
-				224C2A5C1CAAAC6000D05F27 /* CloudGeoPoint.swift */,
 				22E02D231CC4CE4A003C06FF /* CloudCache.swift */,
-				2249AC511CAB9F790088AFBF /* CloudQuery.swift */,
+				22F774231C9C5E6600BDEFCB /* CloudCommunications.swift */,
 				227506651CAD549C00F430A2 /* CloudFile.swift */,
-				22E02D271CC52CE0003C06FF /* CloudQueue.swift */,
-				22E02D291CC53206003C06FF /* QueueMessage.swift */,
-				22E02D2D1CC7EB95003C06FF /* CloudSearch.swift */,
-				22E02D2F1CC7ECA4003C06FF /* SearchQuery.swift */,
-				22E02D311CC7ECEC003C06FF /* SearchFilter.swift */,
-				2296EC2B1CCD16D700C4197D /* CloudSocket.swift */,
+				224C2A5C1CAAAC6000D05F27 /* CloudGeoPoint.swift */,
 				2296EC2D1CCD185A00C4197D /* CloudNotification.swift */,
+				22F774211C9C1FD100BDEFCB /* CloudObject.swift */,
 				222D78931CE6F28800682D17 /* CloudPush.swift */,
+				2249AC511CAB9F790088AFBF /* CloudQuery.swift */,
+				22E02D271CC52CE0003C06FF /* CloudQueue.swift */,
+				224C2A561CA80B3100D05F27 /* CloudRole.swift */,
+				22E02D2D1CC7EB95003C06FF /* CloudSearch.swift */,
+				2296EC2B1CCD16D700C4197D /* CloudSocket.swift */,
+				22FFC8C81C9852410028EA61 /* CloudTable.swift */,
+				224C2A581CA80CDB00D05F27 /* CloudUser.swift */,
+				2260557D1CA5014700F0357C /* Column.swift */,
+				22FFC81E1C9733D10028EA61 /* Info.plist */,
+				22E02D291CC53206003C06FF /* QueueMessage.swift */,
+				22E02D311CC7ECEC003C06FF /* SearchFilter.swift */,
+				22E02D2F1CC7ECA4003C06FF /* SearchQuery.swift */,
+				226808DA1CCD378D0078CF6B /* SocketIO */,
 			);
 			path = CloudBoost;
 			sourceTree = "<group>";
@@ -333,6 +385,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA034CE21CEF9B8B004A3820 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA034CE31CEF9B8B004A3820 /* CloudBoost.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -377,6 +437,24 @@
 			productReference = 22FFC8231C9733D10028EA61 /* CloudBoostTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		AA034CB41CEF9B8B004A3820 /* CloudBoost-embedded */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA034CE61CEF9B8B004A3820 /* Build configuration list for PBXNativeTarget "CloudBoost-embedded" */;
+			buildPhases = (
+				AA034CB61CEF9B8B004A3820 /* Sources */,
+				AA034CE11CEF9B8B004A3820 /* Frameworks */,
+				AA034CE21CEF9B8B004A3820 /* Headers */,
+				AA034CE41CEF9B8B004A3820 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CloudBoost-embedded";
+			productName = CloudBoost;
+			productReference = AA034CE91CEF9B8B004A3820 /* CloudBoost.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -389,7 +467,7 @@
 				TargetAttributes = {
 					22FFC8181C9733D10028EA61 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = PUNL286Z26;
+						DevelopmentTeam = ARUG6B6X5B;
 					};
 					22FFC8221C9733D10028EA61 = {
 						CreatedOnToolsVersion = 7.2;
@@ -398,6 +476,9 @@
 					22FFC8BD1C97B9D50028EA61 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = PUNL286Z26;
+					};
+					AA034CB41CEF9B8B004A3820 = {
+						DevelopmentTeam = ARUG6B6X5B;
 					};
 				};
 			};
@@ -416,6 +497,7 @@
 				22FFC8181C9733D10028EA61 /* CloudBoost */,
 				22FFC8221C9733D10028EA61 /* CloudBoostTests */,
 				22FFC8BD1C97B9D50028EA61 /* CloudBoost-Universal */,
+				AA034CB41CEF9B8B004A3820 /* CloudBoost-embedded */,
 			);
 		};
 /* End PBXProject section */
@@ -429,6 +511,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		22FFC8211C9733D10028EA61 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA034CE41CEF9B8B004A3820 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -621,6 +710,55 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA034CB61CEF9B8B004A3820 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA034CB71CEF9B8B004A3820 /* ACL.swift in Sources */,
+				AA034CB81CEF9B8B004A3820 /* CloudTable.swift in Sources */,
+				AA034CB91CEF9B8B004A3820 /* CloudGeoPoint.swift in Sources */,
+				AA034CBA1CEF9B8B004A3820 /* SocketPacket.swift in Sources */,
+				AA034CBB1CEF9B8B004A3820 /* SocketEngineWebsocket.swift in Sources */,
+				AA034CBC1CEF9B8B004A3820 /* CloudQueue.swift in Sources */,
+				AA034CBD1CEF9B8B004A3820 /* CloudNotification.swift in Sources */,
+				AA034CBE1CEF9B8B004A3820 /* SearchQuery.swift in Sources */,
+				AA034CBF1CEF9B8B004A3820 /* SocketAckEmitter.swift in Sources */,
+				AA034CC01CEF9B8B004A3820 /* CloudCommunications.swift in Sources */,
+				AA034CC11CEF9B8B004A3820 /* CloudCache.swift in Sources */,
+				AA034CC21CEF9B8B004A3820 /* CloudUser.swift in Sources */,
+				AA034CC31CEF9B8B004A3820 /* SocketStringReader.swift in Sources */,
+				AA034CC41CEF9B8B004A3820 /* SocketIOClient.swift in Sources */,
+				AA034CC51CEF9B8B004A3820 /* CloudQuery.swift in Sources */,
+				AA034CC61CEF9B8B004A3820 /* CloudRole.swift in Sources */,
+				AA034CC71CEF9B8B004A3820 /* SocketLogger.swift in Sources */,
+				AA034CC81CEF9B8B004A3820 /* SocketEngineClient.swift in Sources */,
+				AA034CC91CEF9B8B004A3820 /* SocketEngine.swift in Sources */,
+				AA034CCA1CEF9B8B004A3820 /* SocketAckManager.swift in Sources */,
+				AA034CCB1CEF9B8B004A3820 /* CloudSearch.swift in Sources */,
+				AA034CCC1CEF9B8B004A3820 /* Column.swift in Sources */,
+				AA034CCD1CEF9B8B004A3820 /* WebSocket.swift in Sources */,
+				AA034CCE1CEF9B8B004A3820 /* CloudObject.swift in Sources */,
+				AA034CCF1CEF9B8B004A3820 /* SearchFilter.swift in Sources */,
+				AA034CD01CEF9B8B004A3820 /* CloudPush.swift in Sources */,
+				AA034CD11CEF9B8B004A3820 /* CloudFile.swift in Sources */,
+				AA034CD21CEF9B8B004A3820 /* SocketClientSpec.swift in Sources */,
+				AA034CD31CEF9B8B004A3820 /* SocketEventHandler.swift in Sources */,
+				AA034CD41CEF9B8B004A3820 /* SwiftRegex.swift in Sources */,
+				AA034CD51CEF9B8B004A3820 /* SocketEngineSpec.swift in Sources */,
+				AA034CD61CEF9B8B004A3820 /* CloudSocket.swift in Sources */,
+				AA034CD71CEF9B8B004A3820 /* SocketAnyEvent.swift in Sources */,
+				AA034CD81CEF9B8B004A3820 /* SocketIOClientOption.swift in Sources */,
+				AA034CD91CEF9B8B004A3820 /* CloudApp.swift in Sources */,
+				AA034CDA1CEF9B8B004A3820 /* SocketIOClientStatus.swift in Sources */,
+				AA034CDB1CEF9B8B004A3820 /* SocketEnginePacketType.swift in Sources */,
+				AA034CDC1CEF9B8B004A3820 /* CloudBoostUtilities.swift in Sources */,
+				AA034CDD1CEF9B8B004A3820 /* SocketTypes.swift in Sources */,
+				AA034CDE1CEF9B8B004A3820 /* QueueMessage.swift in Sources */,
+				AA034CDF1CEF9B8B004A3820 /* SocketParsable.swift in Sources */,
+				AA034CE01CEF9B8B004A3820 /* SocketEnginePollable.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -728,6 +866,7 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -740,6 +879,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.CloudBoost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -752,6 +892,7 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -764,6 +905,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.CloudBoost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -804,6 +946,53 @@
 			};
 			name = Release;
 		};
+		AA034CE71CEF9B8B004A3820 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A12A60847BBFAF7614AB9AAE /* Pods-CloudBoost.debug.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "CloudBoost copy2-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.CloudBoost;
+				PRODUCT_NAME = CloudBoost;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AA034CE81CEF9B8B004A3820 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4B8F29407AD08011FCF757DA /* Pods-CloudBoost.release.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "CloudBoost copy2-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.CloudBoost;
+				PRODUCT_NAME = CloudBoost;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -839,6 +1028,15 @@
 			buildConfigurations = (
 				22FFC8BF1C97B9D50028EA61 /* Debug */,
 				22FFC8C01C97B9D50028EA61 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA034CE61CEF9B8B004A3820 /* Build configuration list for PBXNativeTarget "CloudBoost-embedded" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA034CE71CEF9B8B004A3820 /* Debug */,
+				AA034CE81CEF9B8B004A3820 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

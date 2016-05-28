@@ -29,7 +29,10 @@ public class CloudUser: CloudObject {
         self.document = doc
     }
     
-    
+    required public init(tableName: String) {
+        super.init(tableName: "User")
+    }
+
     // MARK: Setters
     
     public func setEmail(email: String) {
@@ -133,7 +136,7 @@ public class CloudUser: CloudObject {
         if(document["password"] == nil){
             throw CloudBoostError.PasswordNotSet
         }
-
+        
         // Setting the payload
         let data = NSMutableDictionary()
         data["document"] = document
@@ -186,7 +189,7 @@ public class CloudUser: CloudObject {
             // return callback
             callback(response: response)
         })
-
+        
     }
     
     /**
@@ -220,7 +223,7 @@ public class CloudUser: CloudObject {
      * @param callbackObject
      * @throws CloudBoostError
      */
-    public func changePassword(oldPassword: String, newPassword: String, callback: (reponse: CloudBoostResponse)->Void) {
+    public func changePassword(oldPassword: String, newPassword: String, callback: (response: CloudBoostResponse)->Void) {
         let data = NSMutableDictionary()
         data["key"] = CloudApp.getAppKey()
         data["oldPassword"] = oldPassword
@@ -237,7 +240,7 @@ public class CloudUser: CloudObject {
                     self.document = doc
                 }
             }
-            callback(reponse: response)
+            callback(response: response)
         })
     }
     
@@ -287,7 +290,7 @@ public class CloudUser: CloudObject {
             response in
             callback(response: response)
         })
-
+        
     }
     
     public static func getCurrentUser() -> CloudUser? {

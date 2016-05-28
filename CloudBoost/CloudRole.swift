@@ -21,7 +21,11 @@ public class CloudRole: CloudObject {
         document["_modifiedColumns"] = _modifiedColumns
         
     }
-
+    
+    required public init(tableName: String) {
+        super.init(tableName: "Role")
+    }
+    
     
     // MARK:- Getter
     
@@ -73,6 +77,6 @@ public class CloudRole: CloudObject {
         })
     }
     
-
+    
     
 }
