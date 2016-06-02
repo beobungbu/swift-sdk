@@ -437,7 +437,7 @@ class CloudObjectTest: XCTestCase {
         obj.save({
             (response: CloudBoostResponse) in
             let query = CloudQuery(tableName: "Student")
-            query.findById(obj.getId()!, callbak: {
+            query.findById(obj.getId()!, callback: {
                 (response2: CloudBoostResponse) in
                 XCTAssert(response2.success)
                 response2.log()
@@ -650,7 +650,7 @@ class CloudObjectTest: XCTestCase {
         obj.save({
             (response: CloudBoostResponse) in
             response.log()
-            CloudQuery(tableName: "Student").findById(obj.getId()!, callbak: {
+            CloudQuery(tableName: "Student").findById(obj.getId()!, callback: {
                 (response: CloudBoostResponse) in
                 if let doc = response.object as? NSMutableDictionary {
                     let version = doc["_version"] as? Int
@@ -912,6 +912,23 @@ class CloudObjectTest: XCTestCase {
                         })
                     })
                 }
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // fetch test
+    func testFetch(){
+        let exp = expectationWithDescription("test fetch")
+        let obj = CloudObject(tableName: "Student")
+        obj.set("name", value: "RT bathula")
+        
+        obj.save({resp in
+            if resp.success {
+                obj.fetch({ resp in
+                    resp.log()
+                    exp.fulfill()
+                })
+            }
         })
         waitForExpectationsWithTimeout(30, handler: nil)
     }

@@ -44,6 +44,7 @@ public class CloudSearch {
                 objectClass: CloudObject.Type = CloudObject.self) {
         
         self.objectClass = objectClass
+        self.collectionName = tableName
 
         if searchQuery != nil {
             self.bool["bool"] = searchQuery?.bool
@@ -63,16 +64,43 @@ public class CloudSearch {
         
     }
     
-    public init(tableName: String){
-        self.collectionName = tableName
-
-        self.filtered["query"] = [:]
-        self.filtered["filter"] = [:]
+    public init(tableName: [String],
+                searchQuery: SearchQuery? = nil,
+                searchFilter: SearchFilter? = nil,
+                objectClass: CloudObject.Type = CloudObject.self) {
+        
+        self.objectClass = objectClass
+        self.collectionArray = tableName
+        
+        if searchQuery != nil {
+            self.bool["bool"] = searchQuery?.bool
+            self.filtered["query"] = self.bool
+        }else{
+            self.filtered["query"] = [:]
+        }
+        if searchFilter != nil {
+            self.bool["bool"] = searchFilter?.bool
+            self.filtered["filter"] = self.bool
+        }else{
+            self.filtered["filter"] = [:]
+        }
         
         self.from = 0
         self.size = 10
         
     }
+
+    
+//    public init(tableName: String){
+//        self.collectionName = tableName
+//
+//        self.filtered["query"] = [:]
+//        self.filtered["filter"] = [:]
+//        
+//        self.from = 0
+//        self.size = 10
+//        
+//    }
     
     func setSearchFilter(searchFilter: SearchFilter) {
         self.bool["bool"] = searchFilter.bool

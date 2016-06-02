@@ -52,7 +52,7 @@ class CloudRoleTest: XCTestCase {
                 return
             }
             let query = CloudQuery(tableName: "Role")
-            query.findById(res["_id"]as!String, callbak: {
+            query.findById(res["_id"]as!String, callback: {
                 (response: CloudBoostResponse) in
                 response.log()
                 XCTAssert(response.success)

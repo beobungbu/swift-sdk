@@ -48,7 +48,7 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
         request.HTTPBody = payload
         
         //Calling Service to send data and receive response
-        let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+        let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in            
             if((error) != nil){
                 cloudBoostResponse.message = "Error occured while reaching out to server"
                 cloudBoostResponse.object = error

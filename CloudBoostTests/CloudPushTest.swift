@@ -13,9 +13,9 @@ class CloudPushTest: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        let app = CloudApp.init(appID: "zbzgfbmhvnzf", appKey: "d9c4cdef-7586-4fa2-822b-cb815424d2c8")
+        let app = CloudApp.init(appID: "gzujzwtotool", appKey: "aee1e347-1d86-44e7-a21e-40dfb125b5b4")
         app.setIsLogging(true)
-        app.setMasterKey("2df6d3e7-a695-4ab0-b18a-d37a90af4dc9")
+        app.setMasterKey("4d90e204-0350-4757-968f-61e33740ffe8")
     }
     
     override func tearDown() {
@@ -87,9 +87,9 @@ class CloudPushTest: XCTestCase {
         
     }
     
-    // Should send message with data,query and callback
-    func testSendMessage(){
-        let exp = expectationWithDescription("send message")
+    // Should save a device with deviceToken
+    func testSaveDevice(){
+        let exp = expectationWithDescription("save device")
         
         let obj = CloudObject(tableName: "Device")
         obj.set("deviceToken", value: "76f24c255aec434e20c2dc143860d5531fcf9f3ba5cc005e9999015bf4a16587")
@@ -97,16 +97,10 @@ class CloudPushTest: XCTestCase {
         obj.set("timezone", value: "india")
         obj.set("channels", value: ["pirates","hackers","stealers"])
         obj.set("metadata", value: ["appname":"hdhfhfhfhf"])
-        
+
         obj.save({ response in
             if response.success {
-                let query = CloudQuery(tableName: "Device")
-                try! query.containedIn("channels", data: ["hackers"])
-                
-                try! CloudPush.send(["title":"RT Bathula","message":"check this"], query: query, callback: { response in
-                    response.log()
-                    exp.fulfill()
-                })
+                exp.fulfill()
             }else{
                 XCTAssert(false)
                 exp.fulfill()
@@ -117,28 +111,26 @@ class CloudPushTest: XCTestCase {
         
     }
     
+    // Should send message with data,query and callback
+    func testSendMessage(){
+        let exp = expectationWithDescription("send message")
+        let query = CloudQuery(tableName: "Device")
+        try! query.containedIn("channels", data: ["hackers"])
+        
+        try! CloudPush.send(["title":"Randhir Singh","message":"check this"], query: query, callback: { response in
+            response.log()
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(50, handler: nil)
+    }
+    
     // Should send message with data and callback
     func testSendMessage2(){
         let exp = expectationWithDescription("send message")
         
-        let obj = CloudObject(tableName: "Device")
-        obj.set("deviceToken", value: "datasdsdszafua")
-        obj.set("deviceOS", value: "ios")
-        obj.set("timezone", value: "india")
-        obj.set("channels", value: ["pirates","hackers","stealers"])
-        obj.set("metadata", value: ["appname":"hdhfhfhfhf"])
-        
-        obj.save({ response in
-            if response.success {
-                
-                try! CloudPush.send(["title":"RT Bathula","message":"check this"], query: nil, callback: { response in
-                    response.log()
-                    exp.fulfill()
-                })
-            }else{
-                XCTAssert(false)
-                exp.fulfill()
-            }
+        try! CloudPush.send(["title":"RT Bathula","message":"check this"], query: nil, callback: { response in
+            response.log()
+            exp.fulfill()
         })
         
         waitForExpectationsWithTimeout(50, handler: nil)

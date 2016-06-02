@@ -177,6 +177,7 @@ class CloudSearchTest: XCTestCase {
         let exp = expectationWithDescription("Shoudl search for a given value")
         
         let search = CloudSearch(tableName: "StudentSearch")
+        
         search.searchFilter = SearchFilter()
         search.searchFilter?.equalTo("age", data: 19)
         
