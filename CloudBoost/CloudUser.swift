@@ -130,9 +130,6 @@ public class CloudUser: CloudObject {
         if(document["username"] == nil){
             throw CloudBoostError.UsernameNotSet
         }
-        if(document["email"] == nil){
-            throw CloudBoostError.EmailNotSet
-        }
         if(document["password"] == nil){
             throw CloudBoostError.PasswordNotSet
         }
@@ -162,7 +159,7 @@ public class CloudUser: CloudObject {
      * @param callbackObject
      * @throws CloudBoostError
      */
-    func logout(callback: (response: CloudBoostResponse)->Void) throws{
+    public func logout(callback: (response: CloudBoostResponse)->Void) throws{
         if(CloudApp.appID == nil){
             throw CloudBoostError.AppIdNotSet
         }
