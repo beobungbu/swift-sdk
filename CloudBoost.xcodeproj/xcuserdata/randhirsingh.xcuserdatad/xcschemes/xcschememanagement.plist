@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
+		<key>CloudBoost-embedded.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>CloudBoost.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -28,6 +33,11 @@
 			<true/>
 		</dict>
 		<key>22FFC8BD1C97B9D50028EA61</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AA034CB41CEF9B8B004A3820</key>
 		<dict>
 			<key>primary</key>
 			<true/>

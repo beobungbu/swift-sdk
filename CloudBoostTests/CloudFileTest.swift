@@ -152,7 +152,7 @@ class CloudFileTest: XCTestCase {
                     return
                 }
                 let query = CloudQuery(tableName: "FileTest")
-                query.findById(doc["_id"]as!String, callbak: {
+                query.findById(doc["_id"]as!String, callback: {
                     response in
                     response.log()
                     XCTAssert(response.success)

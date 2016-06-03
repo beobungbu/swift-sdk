@@ -188,7 +188,7 @@ public class CloudQuery{
      * @return CloudQuery good for chaining requests
      * @throws CLoubBoostError
      */
-    public func equalTo(columnName: String, obj: AnyObject) throws -> CloudQuery {
+    public func equalTo(columnName: String, obj: AnyObject?) throws -> CloudQuery {
         var _columnName = columnName
         if(columnName == "id"){
             _columnName = "_id"
@@ -717,7 +717,7 @@ public class CloudQuery{
     }
     
     public func findById(id: String, callback: (response: CloudBoostResponse) -> Void ){
-        
+        print("equatinf \(id)")
         try! self.equalTo("id", obj: id)
         
         let params = NSMutableDictionary()

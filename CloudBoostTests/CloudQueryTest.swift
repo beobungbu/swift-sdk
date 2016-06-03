@@ -140,7 +140,7 @@ class CloudQueryTest: XCTestCase {
             }
             // Continue with query
             let query = CloudQuery(tableName: "User")
-            query.findById(doc["_id"] as! String, callbak: {
+            query.findById(doc["_id"] as! String, callback: {
                 (response: CloudBoostResponse) in
                 guard let res = response.object as? [NSMutableDictionary] else {
                     XCTAssert(false)
@@ -359,7 +359,7 @@ class CloudQueryTest: XCTestCase {
             query.selectColumn("name")
             try! query.equalTo("marks", obj: 107)
             try! query.equalTo("id", obj: (response.object as! NSMutableDictionary)["_id"] as! String)
-            query.distinct("id",callbak: {
+            query.distinct("id",callback: {
                 (response: CloudBoostResponse) in
                 response.log()
                 guard let resArray = response.object as? [NSDictionary] else{
@@ -849,7 +849,7 @@ class CloudQueryTest: XCTestCase {
         query.limit = 100
         // uncomment this to make failcounts zero,
         // query.exists("marks")
-        query.distinct("marks", callbak: {
+        query.distinct("marks", callback: {
             response in
             guard let objArr = response.object as? [NSDictionary] else{
                 XCTAssert(false)

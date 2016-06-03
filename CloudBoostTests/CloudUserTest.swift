@@ -184,7 +184,7 @@ class CloudUserTest: XCTestCase {
         try! user.signup({
             response in
             let query = CloudQuery(tableName: "User")
-            query.findById(user.getId()!, callbak: {
+            query.findById(user.getId()!, callback: {
                 resp in
                 XCTAssert(resp.success)
                 resp.log()

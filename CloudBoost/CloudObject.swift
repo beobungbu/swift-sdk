@@ -333,6 +333,23 @@ public class CloudObject: CustomStringConvertible {
         return nil
     }
     
+    /// Set the unique ID
+    ///
+    /// can set the ID to fetch the object later, 
+    /// only possible if the object does not have an existing ID
+    public func setId(id: String) -> Bool {
+        if let id = document["_id"] as? String {
+            if(id  == ""){
+                document["_id"] = id
+                return true
+            }else{
+                return false
+            }
+        }
+        document["_id"] = id
+        return true
+    }
+    
     /// Obtains the ACL object assigned to this cloud object
     /// - note: See ACL section for more on ACL
     ///
@@ -506,6 +523,29 @@ public class CloudObject: CustomStringConvertible {
                 }
                 callback(response)
         })
+    }
+    
+    /// Fetch the object
+    ///
+    /// - Parameter callback: block where receiving results of the operation
+    public func fetch(callback: (CloudBoostResponse) -> Void ){
+        guard let id = self.getId() else {
+            let resp = CloudBoostResponse()
+            resp.message = "Object does not have an ID, cannot fetch"
+            callback(resp)
+            return
+        }
+        print("id : \(id)")
+        let query = CloudQuery(tableName: self.get("_tableName")as!String)
+        
+        query.findById(id, callback: { resp in
+            if let obj = resp.object as? [CloudObject] {                
+                self.document = obj[0].document
+                print("Object updated")
+            }
+            callback(resp)
+        })
+        
     }
     
     

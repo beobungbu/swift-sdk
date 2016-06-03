@@ -293,6 +293,17 @@ public class CloudUser: CloudObject {
         
     }
     
+    public func isInRole(role: CloudRole) -> Bool {
+        if let roles = self.document.get("roles") as? [String] {
+            if let rID = role.get("_id") as? String {
+                if roles.contains(rID) {
+                   return true
+                }
+            }
+        }
+        return false
+    }
+    
     public static func getCurrentUser() -> CloudUser? {
         let def = NSUserDefaults.standardUserDefaults()
         if let userDat = def.objectForKey("cb_current_user") as? NSData{

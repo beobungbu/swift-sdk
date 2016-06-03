@@ -38,7 +38,7 @@ public class CloudPush {
         let url = CloudApp.getApiUrl() + "/push/" + CloudApp.getAppId()! + "/send"
         
         CloudCommunications._request("POST", url: NSURL(string: url)!, params: params, callback: {response in
-            
+            print("Response !!")
             callback(response)
         })
         
