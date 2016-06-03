@@ -921,6 +921,7 @@ class CloudObjectTest: XCTestCase {
         let exp = expectationWithDescription("test fetch")
         let obj = CloudObject(tableName: "Student")
         obj.set("name", value: "RT bathula")
+                
         
         obj.save({resp in
             if resp.success {

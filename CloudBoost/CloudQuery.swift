@@ -149,7 +149,25 @@ public class CloudQuery{
     }
     
     /**
+     * CloudQuery Search, caseSensitive and diacriticSensitive defaults to false
      *
+     * @param search
+     * @param language
+     * @param caseSensitive
+     * @param diacriticSensitive
+     */
+    public func search(search: String, language: String? = "en", caseSensitive: Bool? = nil, diacriticSensitive: Bool? = nil) {
+        let textFields = NSMutableDictionary()
+        
+        textFields["$search"] = search
+        textFields["$language"] = language
+        textFields["$caseSensitive"] = caseSensitive
+        textFields["$diacriticSensitive"] = diacriticSensitive
+        
+        self.query["$text"] = textFields
+    }
+    
+    /**
      * CloudQuery Or
      *
      *
@@ -602,7 +620,7 @@ public class CloudQuery{
         query[columnName] = [ "$geoWithin" : [ "$centerSphere": [ geoPoint.getCoordinates(), radius/3963.2] ] ]
     }
     
-    public func find(callback: (response: CloudBoostResponse)->Void) throws {
+    public func find(callback: (response: CloudBoostResponse)->Void) {
     
         let params = NSMutableDictionary()
         params["query"] = query

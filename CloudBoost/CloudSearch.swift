@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class CloudSearch {
+@available(*,deprecated=0.2) public class CloudSearch {
     var collectionName: String?
     var collectionArray = [String]()
     var query = NSMutableDictionary()
