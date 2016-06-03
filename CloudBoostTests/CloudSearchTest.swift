@@ -13,9 +13,9 @@ class CloudSearchTest: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        let app = CloudApp.init(appID: "xckzjbmtsbfb", appKey: "345f3324-c73c-4b15-94b5-9e89356c1b4e")
+        let app = CloudApp.init(appID: "zbzgfbmhvnzf", appKey: "d9c4cdef-7586-4fa2-822b-cb815424d2c8")
         app.setIsLogging(true)
-        app.setMasterKey("f5cc5cb3-ba0d-446d-9e51-e09be23c540d")
+        app.setMasterKey("2df6d3e7-a695-4ab0-b18a-d37a90af4dc9")
     }
     
     override func tearDown() {
@@ -23,6 +23,9 @@ class CloudSearchTest: XCTestCase {
         super.tearDown()
     }
 
+    // DEPRECATED SINCE V0.2
+    /// SCROLL DOWN FOR THE NEW CloudQuery+Search tests
+    
     // should get data from server for near function
     func testGetNear(){
         let exp = expectationWithDescription("should get data from server for near function")
@@ -590,6 +593,136 @@ class CloudSearchTest: XCTestCase {
         obj.save({
             response in
             XCTAssert(response.success)
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+
+    
+    /// MARK
+    /// NEW un-deprecated tests
+    
+    /// Saving data for tests
+    func testSaveData(){
+        
+    }
+    
+    // Basic search
+    func testBasicSearch(){
+        let exp = expectationWithDescription("basic search")
+        let query = CloudQuery(tableName: "Table")
+        query.search("dog")
+        query.find({ resp in
+            if let results = resp.object as? [CloudObject] {
+                print(results)
+                //returns CloudObjects of fields having string 'dog'
+            }else{
+                resp.log()
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Phrases search
+    func testPhraseSearch(){
+        let exp = expectationWithDescription("phrases search")
+        let query = CloudQuery(tableName: "Table")
+        query.search("three flowers honeybee")
+        query.find({ resp in
+            if let results = resp.object as? [CloudObject] {
+                print(results)
+                // returns CloudObjects of fields having keywords either of  tree OR flowers OR honeybees keywords
+            }else{
+                resp.log()
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Exact phrases search
+    func testExactPhraseSearch(){
+        let exp = expectationWithDescription("exact phrase search")
+        let query = CloudQuery(tableName: "Table")
+        query.search("\"three flowers\"")
+        query.find({ resp in
+            if let results = resp.object as? [CloudObject] {
+                print(results)
+                // returns CloudObjects of fields having exact phrase "tree flowers"
+            }else{
+                resp.log()
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Negation search
+    func testNegation(){
+        let exp = expectationWithDescription("negation search")
+        let query = CloudQuery(tableName: "Table")
+        query.search("three flowers -honeybee")
+        query.find({ resp in
+            if let results = resp.object as? [CloudObject] {
+                print(results)
+                // returns CloudObjects of fields having keyword "three" and "flowers"  but not "honeybee"
+            }else{
+                resp.log()
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Case sensitive search
+    func testCaseSensitive(){
+        let exp = expectationWithDescription("case sensitive search")
+        let query = CloudQuery(tableName: "Table")
+        query.search("Dog", caseSensitive: true)
+        query.find({ resp in
+            if let results = resp.object as? [CloudObject] {
+                print(results)
+                // returns appropriate result matching case sensitive words
+            }else{
+                resp.log()
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // Diacritic Sensitive
+    // è will not be equal to e
+    func testDiacriticSensitive(){
+        let exp = expectationWithDescription("diacritic sensitive search")
+        let query = CloudQuery(tableName: "Table")
+        query.search("dôg", diacriticSensitive: true)
+        query.find({ resp in
+            if let results = resp.object as? [CloudObject] {
+                print(results)
+                // returns []
+            }else{
+                resp.log()
+            }
+            exp.fulfill()
+        })
+        waitForExpectationsWithTimeout(30, handler: nil)
+    }
+    
+    // language
+    func testLanguage(){
+        let exp = expectationWithDescription("language specific search")
+        let query = CloudQuery(tableName: "Table")
+        query.search("algunas", language: "es")
+        query.find({ resp in
+            if let results = resp.object as? [CloudObject] {
+                print(results)
+                // returns []
+            }else{
+                resp.log()
+            }
             exp.fulfill()
         })
         waitForExpectationsWithTimeout(30, handler: nil)
