@@ -127,9 +127,6 @@ public class CloudQueue{
     public func setDocument(document: NSMutableDictionary) {
         self.document = document
     }
-
-    
-    
     
     public func refreshMessageTimeout(msg: QueueMessage, callback: (CloudBoostResponse)->Void){
         let data = NSMutableDictionary()

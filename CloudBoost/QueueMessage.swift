@@ -100,6 +100,13 @@ public class QueueMessage {
         return nil
     }
     
+    public func getCustomMessage() -> NSDictionary? {
+        if let dictionary = document["message"] as? NSDictionary {
+            return dictionary
+        }
+        return nil
+    }
+    
     public func setACL(acl: ACL) {
         addElement("ACL", val: acl.getACL())
     }
