@@ -290,14 +290,31 @@ public class CloudUser: CloudObject {
         
     }
     
+    /// Check if the current user belongs to a Role
+    ///
+    /// - parameter role: The role to check against
+    /// - returns: true if this user belongs to the Role
+    ///
     public func isInRole(role: CloudRole) -> Bool {
+        
         if let roles = self.document.get("roles") as? [String] {
-            if let rID = role.get("_id") as? String {
-                if roles.contains(rID) {
-                   return true
-                }
+            if let rID = role.get("_id") as? String where roles.contains(rID) {
+                return true
             }
         }
+        
+        if let roles = self.document.get("roles") as? [NSDictionary] {
+            if (roles.contains { _role in return (_role["_id"] as! String) == role.getId()!}) {
+                return true
+            }
+        }
+
+        if let roles = self.document.get("roles") as? [CloudRole] {
+            if (roles.contains { _role in return _role.getId()! == role.getId()!}) {
+                return true
+            }
+        }
+        
         return false
     }
     
