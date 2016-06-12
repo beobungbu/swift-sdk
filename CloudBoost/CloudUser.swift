@@ -318,12 +318,14 @@ public class CloudUser: CloudObject {
         return false
     }
     
-    public static func getCurrentUser() -> CloudUser? {
+    public static func getCurrentUser<T where T:CloudObject>() -> T? {
         let def = NSUserDefaults.standardUserDefaults()
         if let userDat = def.objectForKey("cb_current_user") as? NSData{
             if let doc = NSKeyedUnarchiver.unarchiveObjectWithData(userDat) as? NSMutableDictionary {
-                let user = CloudUser.init(doc: doc)
-                return user
+
+                let user = CloudUser.cloudObjectFromDocumentDictionary(doc, documentType: T.self)
+
+                return user as? T
             }
             return nil
         }
