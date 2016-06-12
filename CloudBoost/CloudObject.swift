@@ -539,8 +539,9 @@ public class CloudObject: NSObject {
         let query = CloudQuery(tableName: self.get("_tableName")as!String)
         
         query.findById(id, callback: { resp in
-            if let obj = resp.object as? [CloudObject] {                
-                self.document = obj[0].document
+            
+            if let obj = resp.object?.firstObject as? CloudObject {
+                self.document = obj.document
                 print("Object updated")
             }
             callback(resp)
