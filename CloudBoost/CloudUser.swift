@@ -177,12 +177,13 @@ public class CloudUser: CloudObject {
         let url = CloudApp.getApiUrl() + "/user/" + CloudApp.getAppId()! + "/logout"
         CloudCommunications._request("POST", url: NSURL(string: url)!, params: data, callback: {
             (response: CloudBoostResponse) in
-            // save the response body into the current user
-            if response.success {
-                if let doc = response.object as? NSMutableDictionary {
-                    self.document = doc
-                }
+
+            if response.success || response.status == 400 {
+                // Cleanup current user
+                let def = NSUserDefaults.standardUserDefaults()
+                def.removeObjectForKey("cb_current_user")
             }
+            
             // return callback
             callback(response: response)
         })
