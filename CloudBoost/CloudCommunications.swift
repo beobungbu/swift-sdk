@@ -12,10 +12,13 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
     
     private var progressCallback: ((progressCallback: CloudBoostProgressResponse) -> Void)?
     private var response = CloudBoostProgressResponse()
+    private var progressQueue: NSOperationQueue?
     
     public override init(){}
     
     public static func _request( method: String, url: NSURL, params: NSMutableDictionary, callback: (response: CloudBoostResponse) -> Void ){
+        
+        let queue = NSOperationQueue.currentQueue()
         
         var _method = method
         
@@ -52,13 +55,22 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
             if((error) != nil){
                 cloudBoostResponse.message = "Error occured while reaching out to server"
                 cloudBoostResponse.object = error
-                callback(response: cloudBoostResponse)
+                
+                queue?.addOperationWithBlock {
+                    callback(response: cloudBoostResponse)
+                }
             } else if(response == nil){
                 cloudBoostResponse.message = "Nil response"
-                callback(response: cloudBoostResponse)
+
+                queue?.addOperationWithBlock {
+                    callback(response: cloudBoostResponse)
+                }
             } else if(data == nil){
                 cloudBoostResponse.message = "No data received"
-                callback(response: cloudBoostResponse)
+
+                queue?.addOperationWithBlock {
+                    callback(response: cloudBoostResponse)
+                }
             } else {
                 
                 //Checking the response
@@ -88,10 +100,14 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
                     let serialisedData = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)
                     if let jsonObjectReult = serialisedData as? NSMutableDictionary {
                         cloudBoostResponse.object = jsonObjectReult
-                        callback(response: cloudBoostResponse)
+                        queue?.addOperationWithBlock {
+                            callback(response: cloudBoostResponse)
+                        }
                     }else if let  jsonArrayResult = serialisedData as? [NSDictionary] {
                         cloudBoostResponse.object = jsonArrayResult
-                        callback(response: cloudBoostResponse)
+                        queue?.addOperationWithBlock {
+                            callback(response: cloudBoostResponse)
+                        }
                     }else{
                         if let intVal = Int((NSString(data: data!, encoding: NSUTF8StringEncoding) as? String)!)  {
                             cloudBoostResponse.object = intVal
@@ -99,7 +115,9 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
                         if(isLogging){
                             print("Could not convert the response to NSMutalbeDictionary")
                         }
-                        callback(response: cloudBoostResponse)
+                        queue?.addOperationWithBlock {
+                            callback(response: cloudBoostResponse)
+                        }
                     }
                     
                 }catch let parseError {
@@ -111,7 +129,9 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
                     if(isLogging){
                         print(parseError)
                     }
-                    callback(response: cloudBoostResponse)
+                    queue?.addOperationWithBlock {
+                        callback(response: cloudBoostResponse)
+                    }
                 }
             }
         })
@@ -123,6 +143,8 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
     
     // Experimental function
     public func _requestFile( method: String, url: NSURL, params: NSMutableDictionary, data: NSData?, uploadCallback: (progressResponse: CloudBoostProgressResponse) -> Void ){
+        
+        progressQueue = NSOperationQueue.currentQueue()
         
         // set the callback function
         progressCallback = uploadCallback
@@ -162,7 +184,9 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
     public func URLSession(session: NSURLSession, task: NSURLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
         print("did send")
         response.progress = Double(totalBytesSent)/Double(totalBytesExpectedToSend)
-        progressCallback!(progressCallback: response)
+        self.progressQueue?.addOperationWithBlock {
+            self.progressCallback!(progressCallback: self.response)
+        }
     }
     
     public func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
@@ -174,7 +198,9 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
                 completionHandler(NSURLSessionResponseDisposition.Allow)
             } else {
                 self.response.message = "Upload failed, status code = \(statusCode)"
-                progressCallback!(progressCallback: self.response)
+                self.progressQueue?.addOperationWithBlock {
+                    self.progressCallback!(progressCallback: self.response)
+                }
             }
         }
     }
@@ -188,7 +214,9 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
         } catch {
             response.message = "Error in parsing resceived response"
         }
-        progressCallback!(progressCallback: self.response)
+        self.progressQueue?.addOperationWithBlock {
+            self.progressCallback!(progressCallback: self.response)
+        }
     }
 
 
