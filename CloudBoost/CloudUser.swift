@@ -152,6 +152,31 @@ public class CloudUser: CloudObject {
         })
     }
     
+    public class func authenticateWithProvider(provider: String,
+                                               accessToken: String,
+                                               accessSecret: String,
+                                               callback: (response: CloudBoostResponse)->()) throws {
+        
+        if(CloudApp.appID == nil){
+            throw CloudBoostError.AppIdNotSet
+        }
+        
+        let data: NSMutableDictionary = [
+            "key": CloudApp.appKey!,
+            "provider": provider.lowercaseString,
+            "accessToken": accessToken,
+            "accessSecret": accessSecret
+        ]
+
+        let url = CloudApp.getApiUrl() + "/user/" + CloudApp.getAppId()! + "/loginwithprovider"
+        
+        CloudCommunications._request("POST", url: NSURL(string: url)!, params: data, callback: {
+            (response: CloudBoostResponse) in
+          
+            callback(response: response)
+        })
+    }
+    
     /**
      *
      * Log out
@@ -179,9 +204,8 @@ public class CloudUser: CloudObject {
             (response: CloudBoostResponse) in
 
             if response.success || response.status == 400 {
-                // Cleanup current user
-                let def = NSUserDefaults.standardUserDefaults()
-                def.removeObjectForKey("cb_current_user")
+                
+                CloudUser.removeCurrentUser()
             }
             
             // return callback
@@ -340,5 +364,10 @@ public class CloudUser: CloudObject {
         
     }
     
+    public class func removeCurrentUser() {
+        
+        let def = NSUserDefaults.standardUserDefaults()
+        def.removeObjectForKey("cb_current_user")
+    }
     
 }
