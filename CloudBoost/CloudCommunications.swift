@@ -18,7 +18,7 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
     
     public static func _request( method: String, url: NSURL, params: NSMutableDictionary, callback: (response: CloudBoostResponse) -> Void ){
         
-        let queue = NSOperationQueue.currentQueue()
+        let queue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
         
         var _method = method
         
@@ -56,19 +56,19 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
                 cloudBoostResponse.message = "Error occured while reaching out to server"
                 cloudBoostResponse.object = error
                 
-                queue?.addOperationWithBlock {
+                queue.addOperationWithBlock {
                     callback(response: cloudBoostResponse)
                 }
             } else if(response == nil){
                 cloudBoostResponse.message = "Nil response"
 
-                queue?.addOperationWithBlock {
+                queue.addOperationWithBlock {
                     callback(response: cloudBoostResponse)
                 }
             } else if(data == nil){
                 cloudBoostResponse.message = "No data received"
 
-                queue?.addOperationWithBlock {
+                queue.addOperationWithBlock {
                     callback(response: cloudBoostResponse)
                 }
             } else {
@@ -100,12 +100,12 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
                     let serialisedData = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)
                     if let jsonObjectReult = serialisedData as? NSMutableDictionary {
                         cloudBoostResponse.object = jsonObjectReult
-                        queue?.addOperationWithBlock {
+                        queue.addOperationWithBlock {
                             callback(response: cloudBoostResponse)
                         }
                     }else if let  jsonArrayResult = serialisedData as? [NSDictionary] {
                         cloudBoostResponse.object = jsonArrayResult
-                        queue?.addOperationWithBlock {
+                        queue.addOperationWithBlock {
                             callback(response: cloudBoostResponse)
                         }
                     }else{
@@ -115,7 +115,7 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
                         if(isLogging){
                             print("Could not convert the response to NSMutalbeDictionary")
                         }
-                        queue?.addOperationWithBlock {
+                        queue.addOperationWithBlock {
                             callback(response: cloudBoostResponse)
                         }
                     }
@@ -129,7 +129,7 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
                     if(isLogging){
                         print(parseError)
                     }
-                    queue?.addOperationWithBlock {
+                    queue.addOperationWithBlock {
                         callback(response: cloudBoostResponse)
                     }
                 }
@@ -144,7 +144,7 @@ public class CloudCommunications: NSObject, NSURLSessionDelegate, NSURLSessionTa
     // Experimental function
     public func _requestFile( method: String, url: NSURL, params: NSMutableDictionary, data: NSData?, uploadCallback: (progressResponse: CloudBoostProgressResponse) -> Void ){
         
-        progressQueue = NSOperationQueue.currentQueue()
+        progressQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
         
         // set the callback function
         progressCallback = uploadCallback
