@@ -10,7 +10,7 @@ import Foundation
 
 /// Base class of all the object fetched and saved to CloudBoost. CloudObject can be subclass, the the framework take care of the rest, utilizing the appropriate class based on various definitition found throught the SDK.
 
-public class CloudObject: CustomStringConvertible {
+public class CloudObject: NSObject {
     
     var document = NSMutableDictionary()
 
@@ -47,7 +47,7 @@ public class CloudObject: CustomStringConvertible {
         self.document = NSMutableDictionary(dictionary: dictionary as [NSObject : AnyObject], copyItems: true)
     }
     
-    public var description: String {
+    override public var description: String {
         
         return document.description
     }
@@ -539,8 +539,9 @@ public class CloudObject: CustomStringConvertible {
         let query = CloudQuery(tableName: self.get("_tableName")as!String)
         
         query.findById(id, callback: { resp in
-            if let obj = resp.object as? [CloudObject] {                
-                self.document = obj[0].document
+            
+            if let obj = resp.object?.firstObject as? CloudObject {
+                self.document = obj.document
                 print("Object updated")
             }
             callback(resp)

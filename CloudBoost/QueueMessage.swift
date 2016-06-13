@@ -12,6 +12,7 @@ public class QueueMessage {
     private var acl = ACL()
     private var timeout = 1800
     private var message: String?
+    private var customMessage: NSDictionary?
     private var document = NSMutableDictionary()
     private var _modifiedColumns = [String]()
     private var type = "queue-message"
@@ -77,14 +78,31 @@ public class QueueMessage {
         addElement("message", val: message)
     }
     
+    public func pushCustomMessage(message: NSDictionary) {
+        self.customMessage = message
+        addElement("message", val: message)
+    }
+    
     public func setMessage(message: String) {
         self.message = message
+        addElement("message", val: message)
+    }
+    
+    public func setCustomMessage(message: NSDictionary) {
+        self.customMessage = message
         addElement("message", val: message)
     }
     
     public func getMessage() -> String? {
         if let str = document["message"] as? String {
             return str
+        }
+        return nil
+    }
+    
+    public func getCustomMessage() -> NSDictionary? {
+        if let dictionary = document["message"] as? NSDictionary {
+            return dictionary
         }
         return nil
     }

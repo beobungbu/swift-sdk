@@ -236,7 +236,7 @@ public class CloudFile {
         }else{
             try! query.equalTo("id", obj: getId()!)
             query.setLimit(1)
-            try! query.find({ res in
+            query.find({ res in
                 if res.success {
                     if let obj = res.object as? [NSMutableDictionary] {
                         self.document = obj[0]
@@ -246,9 +246,6 @@ public class CloudFile {
                         res.message = "Invalid response received"
                         callback(res)
                     }
-                }else{
-                    res.message = "Failed to fetch"
-                    callback(res)
                 }
             })
         }

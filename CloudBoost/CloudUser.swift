@@ -130,9 +130,6 @@ public class CloudUser: CloudObject {
         if(document["username"] == nil){
             throw CloudBoostError.UsernameNotSet
         }
-        if(document["email"] == nil){
-            throw CloudBoostError.EmailNotSet
-        }
         if(document["password"] == nil){
             throw CloudBoostError.PasswordNotSet
         }
@@ -155,6 +152,49 @@ public class CloudUser: CloudObject {
         })
     }
     
+    /// Authenticate user against a social provider
+    ///
+    /// - parameter provider: name of the provider
+    /// - parameter accessToken: the access token for the specific provider
+    /// - parameter accessSecret: the access secret key for the specific provider
+    /// - parameter callback: the response block for this call
+    ///
+    /// - returns: if response.success is true, response.object will contain a valid CloudUser
+    ///
+    public class func authenticateWithProvider(provider: String,
+                                               accessToken: String,
+                                               accessSecret: String,
+                                               callback: (response: CloudBoostResponse)->()) throws {
+        
+        if(CloudApp.appID == nil){
+            throw CloudBoostError.AppIdNotSet
+        }
+        
+        let data: NSMutableDictionary = [
+            "key": CloudApp.appKey!,
+            "provider": provider.lowercaseString,
+            "accessToken": accessToken,
+            "accessSecret": accessSecret
+        ]
+
+        let url = CloudApp.getApiUrl() + "/user/" + CloudApp.getAppId()! + "/loginwithprovider"
+        
+        CloudCommunications._request("POST", url: NSURL(string: url)!, params: data, callback: {
+            (response: CloudBoostResponse) in
+          
+            if let doc = response.object as? NSDictionary {
+                
+                if let user = CloudUser.cloudObjectFromDocumentDictionary(doc, documentType: self) as? CloudUser {
+                    
+                    response.object = user                
+                    user.setAsCurrentUser()
+                }
+            }
+            
+            callback(response: response)
+        })
+    }
+    
     /**
      *
      * Log out
@@ -162,15 +202,9 @@ public class CloudUser: CloudObject {
      * @param callbackObject
      * @throws CloudBoostError
      */
-    func logout(callback: (response: CloudBoostResponse)->Void) throws{
+    public func logout(callback: (response: CloudBoostResponse)->Void) throws{
         if(CloudApp.appID == nil){
             throw CloudBoostError.AppIdNotSet
-        }
-        if(document["username"] == nil){
-            throw CloudBoostError.UsernameNotSet
-        }
-        if(document["password"] == nil){
-            throw CloudBoostError.PasswordNotSet
         }
         
         // Setting the payload
@@ -180,12 +214,12 @@ public class CloudUser: CloudObject {
         let url = CloudApp.getApiUrl() + "/user/" + CloudApp.getAppId()! + "/logout"
         CloudCommunications._request("POST", url: NSURL(string: url)!, params: data, callback: {
             (response: CloudBoostResponse) in
-            // save the response body into the current user
-            if response.success {
-                if let doc = response.object as? NSMutableDictionary {
-                    self.document = doc
-                }
+
+            if response.success || response.status == 400 {
+                
+                CloudUser.removeCurrentUser()
             }
+            
             // return callback
             callback(response: response)
         })
@@ -293,23 +327,42 @@ public class CloudUser: CloudObject {
         
     }
     
+    /// Check if the current user belongs to a Role
+    ///
+    /// - parameter role: The role to check against
+    /// - returns: true if this user belongs to the Role
+    ///
     public func isInRole(role: CloudRole) -> Bool {
+        
         if let roles = self.document.get("roles") as? [String] {
-            if let rID = role.get("_id") as? String {
-                if roles.contains(rID) {
-                   return true
-                }
+            if let rID = role.get("_id") as? String where roles.contains(rID) {
+                return true
             }
         }
+        
+        if let roles = self.document.get("roles") as? [NSDictionary] {
+            if (roles.contains { _role in return (_role["_id"] as! String) == role.getId()!}) {
+                return true
+            }
+        }
+
+        if let roles = self.document.get("roles") as? [CloudRole] {
+            if (roles.contains { _role in return _role.getId()! == role.getId()!}) {
+                return true
+            }
+        }
+        
         return false
     }
     
-    public static func getCurrentUser() -> CloudUser? {
+    public static func getCurrentUser<T where T:CloudObject>() -> T? {
         let def = NSUserDefaults.standardUserDefaults()
         if let userDat = def.objectForKey("cb_current_user") as? NSData{
             if let doc = NSKeyedUnarchiver.unarchiveObjectWithData(userDat) as? NSMutableDictionary {
-                let user = CloudUser.init(doc: doc)
-                return user
+
+                let user = CloudUser.cloudObjectFromDocumentDictionary(doc, documentType: T.self)
+
+                return user as? T
             }
             return nil
         }
@@ -323,5 +376,10 @@ public class CloudUser: CloudObject {
         
     }
     
+    public class func removeCurrentUser() {
+        
+        let def = NSUserDefaults.standardUserDefaults()
+        def.removeObjectForKey("cb_current_user")
+    }
     
 }

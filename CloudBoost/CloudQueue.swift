@@ -127,9 +127,6 @@ public class CloudQueue{
     public func setDocument(document: NSMutableDictionary) {
         self.document = document
     }
-
-    
-    
     
     public func refreshMessageTimeout(msg: QueueMessage, callback: (CloudBoostResponse)->Void){
         let data = NSMutableDictionary()
@@ -430,14 +427,20 @@ public class CloudQueue{
     
     public func addMessage(message: AnyObject, callback: (CloudBoostResponse) -> Void){
         self.messages = []
+        
+        // Array of QueueMessages
         if let mess = message as? [QueueMessage] {
             for el in mess {
                 messages.append(el)
             }
         }
+        
+        // Single QueueMessage
         if let mess = message as? QueueMessage {
             messages.append(mess)
         }
+        
+        // Array of string messages
         if let mess = message as? [String] {
             for el in mess {
                 let queueMess = QueueMessage()
@@ -445,9 +448,27 @@ public class CloudQueue{
                 messages.append(queueMess)
             }
         }
+        
+        // Single string message
         if let mess = message as? String {
             let queueMess = QueueMessage()
             queueMess.push(mess)
+            messages.append(queueMess)
+        }
+
+        // Array of custom messages (dictionaries)
+        if let mess = message as? [NSDictionary] {
+            for el in mess {
+                let queueMess = QueueMessage()
+                queueMess.pushCustomMessage(el)
+                messages.append(queueMess)
+            }
+        }
+
+        // Single custom message (dictionary)
+        if let mess = message as? NSDictionary {
+            let queueMess = QueueMessage()
+            queueMess.pushCustomMessage(mess)
             messages.append(queueMess)
         }
         

@@ -892,30 +892,27 @@ public class CloudQuery{
         } else if totalItemsInPage > 0 {
             self.setLimit(totalItemsInPage)
         }
-        do {
-            try self.find({
-                response in
-                if response.success {
-                    self.setLimit(99999999)
-                    self.setSkip(0)
-                    let list = response.object as? [NSDictionary]
-                    self.count({
-                        response in
-                        if response.success {
-                            if let count = response.object as? Int {
-                               callback(objectsList: list, count: count, totalPages: Int(ceil(Double(count)/Double(self.limit))) )
-                            }
-                        }else {
-                            callback(objectsList: list, count: nil, totalPages: nil)
+
+        self.find({
+            response in
+            if response.success {
+                self.setLimit(99999999)
+                self.setSkip(0)
+                let list = response.object as? [NSDictionary]
+                self.count({
+                    response in
+                    if response.success {
+                        if let count = response.object as? Int {
+                            callback(objectsList: list, count: count, totalPages: Int(ceil(Double(count)/Double(self.limit))) )
                         }
-                    })
-                } else {
-                    callback(objectsList: nil,count: nil,totalPages: nil)
-                }
-            })
-        } catch {
-            callback(objectsList: nil,count: nil,totalPages: nil)
-        }
+                    }else {
+                        callback(objectsList: list, count: nil, totalPages: nil)
+                    }
+                })
+            } else {
+                callback(objectsList: nil,count: nil,totalPages: nil)
+            }
+        })
     }
     
     public static func validateQuery(co: CloudObject, query: NSMutableDictionary) -> Bool {
