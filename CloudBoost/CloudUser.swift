@@ -188,12 +188,6 @@ public class CloudUser: CloudObject {
         if(CloudApp.appID == nil){
             throw CloudBoostError.AppIdNotSet
         }
-        if(document["username"] == nil){
-            throw CloudBoostError.UsernameNotSet
-        }
-        if(document["password"] == nil){
-            throw CloudBoostError.PasswordNotSet
-        }
         
         // Setting the payload
         let data = NSMutableDictionary()
