@@ -152,6 +152,15 @@ public class CloudUser: CloudObject {
         })
     }
     
+    /// Authenticate user against a social provider
+    ///
+    /// - parameter provider: name of the provider
+    /// - parameter accessToken: the access token for the specific provider
+    /// - parameter accessSecret: the access secret key for the specific provider
+    /// - parameter callback: the response block for this call
+    ///
+    /// - returns: if response.success is true, response.object will contain a valid CloudUser
+    ///
     public class func authenticateWithProvider(provider: String,
                                                accessToken: String,
                                                accessSecret: String,
