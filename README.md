@@ -7,6 +7,9 @@
 [![Contact](https://img.shields.io/badge/contact-%40randhir051-blue.svg)](http://twitter.com/randhir051)
 
 
+**IMPORTANT:** Swift SDK is now community supported. You're most welcome to contribute to this SDK and implement new features and fix bugs. We still review code and accept PR's. Swift SDK questions on StackOverflow will be answered by the community and not by us, so please expect couple of days for your questions to be answered. [Read full announcement here](https://blog.cloudboost.io/why-we-discontinued-our-android-and-ios-sdk-c15b434c8d2b#.itjdvbs2t).
+
+
 ## Installation
 
 CloudBoost is available through [CocoaPods](http://cocoapods.org). To install
